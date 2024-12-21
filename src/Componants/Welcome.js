@@ -1,8 +1,16 @@
 import React from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-function WelcomePage() {
+function WelcomePage() { 
+ const [userInfo, setUserInfo] = useState({name:"", mobile_number:""}) 
+
+
+ const onClick=(e)=>{ 
+  setUserInfo({...userInfo,[e.target.name]:e.target.value})
+
+ }
   return (
     <div
       className="container-fluid vh-100 d-flex flex-column justify-content-center align-items-center text-center"
@@ -60,10 +68,50 @@ function WelcomePage() {
         whileTap={{ scale: 0.95 }}
         transition={{ duration: 0.5, delay: 0.4 }}
       >
-        <button className="btn btn-success btn-lg px-5 mt-4 fw-bold shadow-lg">
+        <button className="btn btn-success btn-lg px-5 mt-4 fw-bold shadow-lg " type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">
           Let’s Start
         </button>
       </motion.div>
+
+
+      {/* Form Section  */}
+      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Basic info</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        
+      <form class="row g-3 needs-validation" novalidate>
+  <div class="col-md-12 position-relative">
+    <label for="validationTooltip01" class="form-label">Your Name</label>
+    <input type="text" class="form-control" id="validationTooltip01" placeholder="Prasad Metkar"  onChange={onClick} required/>
+    <div class="valid-tooltip">
+      Looks good!
+    </div>
+  </div>
+  <div class="col-md-12 position-relative">
+    <label for="validationTooltip02" class="form-label">Mobile Number</label>
+    <input type="number" class="form-control" id="validationTooltip02" onChange={onClick} placeholder="9307173845" required />
+    <div class="valid-tooltip">
+      Looks good!
+    </div>
+  </div>
+  </form>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+     
+
+
 
       {/* Image Section */}
       <motion.div
@@ -115,6 +163,7 @@ function WelcomePage() {
           repeatType: "reverse",
         }}
       ></motion.div>
+      
     </div>
   );
 }
