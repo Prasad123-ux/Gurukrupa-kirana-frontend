@@ -41,12 +41,13 @@ const MyOrders = () => {
   ];
 
   return (
-    <div
+    <div 
       style={{
         fontFamily: "'Poppins', sans-serif",
         backgroundColor: "#f9fafb",
         padding: "20px",
-        minHeight: "100vh",
+        minHeight: "100vh", 
+        paddingTop:"100px"
       }}
     >
       <div className="container">

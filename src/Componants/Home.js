@@ -2,6 +2,8 @@ import React from "react";
 import { motion } from "framer-motion";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
+// import Navbar from "./Navbar";
+import "../Styles/Home.css"
 
 // Dummy Data
 const categories = ["🍎", "🥦", "🥛", "🍿", "🥤", "🍞", "🍖", "🍪"];
@@ -41,17 +43,23 @@ const productCardVariants = {
 
 function HomePage() {
   return (
-    <div style={{ fontFamily: "'Poppins', sans-serif", backgroundColor: "#f4f4f4", minHeight: "100vh" }}>
+    <div style={{ fontFamily: "'Poppins', sans-serif", backgroundColor: "#f4f4f4", minHeight: "100vh",}} className="home"> 
+    {/* <Navbar/> */}
       {/* Small Navbar for Categories */}
       <div
         style={{
           height: "60px",
           backgroundColor: "#fff",
           display: "flex",
+          position:"fixed",
+          zIndex:"1000",
+          top:"75px",
+          width:"100%",
+          padding:"10px",
           alignItems: "center",
           overflowX: "auto",
           whiteSpace: "nowrap",
-          padding: "0 10px",
+          // padding: "0 10px",
           boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)",
         }}
       >
@@ -79,10 +87,13 @@ function HomePage() {
 
       {/* Carousel Section */}
       <motion.div
-        className="container mt-3"
+        className="container"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
+        style={{
+          marginTop:"100px"
+        }}
       >
         <div id="carouselExampleIndicators" className="carousel slide" data-bs-ride="carousel">
           <div className="carousel-indicators">

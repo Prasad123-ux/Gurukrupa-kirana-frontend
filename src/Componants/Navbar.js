@@ -1,10 +1,19 @@
 import React from "react";
 import { motion } from "framer-motion";
 // import "bootstrap/dist/css/bootstrap.min.css";
-import { FaUserCircle } from "react-icons/fa";
+import { FaUserCircle } from "react-icons/fa"; 
+import { Link } from "react-router-dom";
+import "../Styles/Navbar.css"
 
-function Navbar() {
-  return (
+function Navbar() { 
+
+  return ( 
+                 
+                              
+       
+
+
+
     <motion.nav
       className="navbar navbar-expand-lg navbar-light bg-light shadow-sm"
       initial={{ y: -100, opacity: 0 }}
@@ -59,9 +68,9 @@ function Navbar() {
               whileTap={{ scale: 0.95 }}
               transition={{ duration: 0.3 }}
             >
-              <a className="nav-link text-dark fw-bold mx-2" href="#about">
+              <Link className="nav-link text-dark fw-bold mx-2" to="/about">
                 About
-              </a>
+              </Link>
             </motion.li>
             <motion.li
               className="nav-item"
@@ -69,9 +78,29 @@ function Navbar() {
               whileTap={{ scale: 0.95 }}
               transition={{ duration: 0.3 }}
             >
-              <a className="nav-link text-dark fw-bold mx-2" href="#products">
+              <Link className="nav-link text-dark fw-bold mx-2" to="/myCart">
+                My Cart
+              </Link>
+            </motion.li>
+            <motion.li
+              className="nav-item"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+              transition={{ duration: 0.3 }}
+            >
+              <Link className="nav-link text-dark fw-bold mx-2" to="/orderCompletion">
+                orderCompletion
+              </Link>
+            </motion.li>
+            <motion.li
+              className="nav-item"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+              transition={{ duration: 0.3 }}
+            >
+              <Link className="nav-link text-dark fw-bold mx-2" to="/home">
                 Products
-              </a>
+              </Link>
             </motion.li>
             <motion.li
               className="nav-item"
@@ -79,9 +108,19 @@ function Navbar() {
               whileTap={{ scale: 0.95 }}
               transition={{ duration: 0.3 }}
             >
-              <a className="nav-link text-dark fw-bold mx-2" href="#contact">
+              <Link className="nav-link text-dark fw-bold mx-2" to="/myOrders">
+                myOrders
+              </Link>
+            </motion.li>
+            <motion.li
+              className="nav-item"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+              transition={{ duration: 0.3 }}
+            >
+              <Link className="nav-link text-dark fw-bold mx-2" to="/contact">
                 Contact
-              </a>
+              </Link>
             </motion.li>
             <motion.li
               className="nav-item"
@@ -89,11 +128,12 @@ function Navbar() {
               whileTap={{ scale: 0.95 }}
               transition={{ duration: 0.3 }}
             >
-              <FaUserCircle
+             <Link to="/userProfile" ><FaUserCircle
                 size={30}
                 className="text-dark mx-2"
                 title="User Profile"
               />
+              </Link>
             </motion.li>
           </ul>
         </div>

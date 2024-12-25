@@ -84,6 +84,7 @@ const OrderCompletion = () => {
         backgroundColor: "#f3f4f6",
         padding: "20px",
         minHeight: "100vh",
+        paddingTop:"100px"
       }}
     >
       {!orderPlaced ? (

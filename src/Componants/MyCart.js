@@ -80,6 +80,7 @@ const MyCart = ({ navigateToOrder }) => {
         backgroundColor: "#f9fafb",
         padding: "20px",
         minHeight: "100vh",
+        paddingTop:"120px"
       }}
     >
       <h3 className="text-center fw-bold mb-4">My Cart</h3>

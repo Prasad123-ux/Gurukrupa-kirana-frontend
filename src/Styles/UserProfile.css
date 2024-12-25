@@ -1,0 +1,76 @@
+.user-profile-section {
+    font-family: "Poppins", sans-serif;
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    padding-top: 100px;
+  }
+  
+  .profile-card {
+    background: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 1.5rem;
+    width: 100%;
+    max-width: 500px;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .profile-image {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 4px solid #007bff;
+  }
+  
+  .profile-details {
+    margin-top: 2rem;
+  }
+  
+  .profile-field {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    background: #f8f9fa;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .profile-field:hover {
+    background: #e9ecef;
+    transition: background 0.3s ease-in-out;
+  }
+  
+  .btn {
+    font-size: 0.9rem;
+  }
+  
+  @media (max-width: 768px) {
+    .profile-card {
+      padding: 1rem;
+    }
+  
+    .profile-field {
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 1rem;
+    }
+  
+    .profile-image {
+      width: 100px;
+      height: 100px;
+    }
+  
+    .btn {
+      width: 100%;
+      margin-top: 0.5rem;
+    }
+  }
+  

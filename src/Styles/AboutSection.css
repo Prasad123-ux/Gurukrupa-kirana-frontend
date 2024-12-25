@@ -1,0 +1,103 @@
+.about-section {
+    background: linear-gradient(135deg, #e2e8f0, #f8fafc);
+    padding: 4rem 1.5rem;
+    font-family: "Poppins", sans-serif; 
+    padding-top: 100px;
+  }
+  
+  .about-header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+  
+  .about-header h2 {
+    font-size: 2.5rem;
+    color: #007bff;
+    margin-bottom: 0.5rem;
+  }
+  
+  .about-header p {
+    font-size: 1rem;
+    color: #555;
+  }
+  
+  .about-content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+  }
+  
+  .about-text,
+  .about-images {
+    flex: 1;
+    min-width: 300px;
+  }
+  
+  .about-text h3 {
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 1rem;
+  }
+  
+  .about-text p,
+  .about-text ul {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 1rem;
+  }
+  
+  .about-text ul {
+    list-style: disc;
+    padding-left: 20px;
+  }
+  
+  .about-images {
+    text-align: center;
+  }
+  
+  .image-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+  }
+  
+  .image-gallery img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+  }
+  
+  .image-gallery img:hover {
+    transform: scale(1.1);
+  }
+  
+  .about-extra {
+    margin-top: 3rem;
+    text-align: center;
+  }
+  
+  .about-extra h3 {
+    font-size: 1.8rem;
+    color: #333;
+    margin-bottom: 1rem;
+  }
+  
+  .about-extra p {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 1rem;
+  }
+  
+  @media (max-width: 768px) {
+    .about-content {
+      flex-direction: column;
+    }
+  
+    .about-text,
+    .about-images {
+      text-align: center;
+    }
+  }
+  

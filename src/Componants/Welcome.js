@@ -1,7 +1,9 @@
 import React from "react";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import "bootstrap/dist/css/bootstrap.min.css";
+import { Link } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css"; 
+import "../Styles/welcome.css"
 
 function WelcomePage() { 
  const [userInfo, setUserInfo] = useState({name:"", mobile_number:""}) 
@@ -13,9 +15,9 @@ function WelcomePage() {
  }
   return (
     <div
-      className="container-fluid vh-100 d-flex flex-column justify-content-center align-items-center text-center"
+      className="container-fluid welcome vh-100 d-flex flex-column justify-content-center align-items-center text-center"
       style={{
-        background: 'linear-gradient(to bottom, #f7f9fc, #e9ecef)',
+        background: ' linear-gradient(to bottom, #f7f9fc, #e9ecef)',
         backgroundSize: "cover",
         fontFamily: "'Poppins', sans-serif",
         overflow: "hidden",
@@ -68,9 +70,8 @@ function WelcomePage() {
         whileTap={{ scale: 0.95 }}
         transition={{ duration: 0.5, delay: 0.4 }}
       >
-        <button className="btn btn-success btn-lg px-5 mt-4 fw-bold shadow-lg " type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">
-          Let’s Start
-        </button>
+        {/* <button className="btn btn-success btn-lg px-5 mt-4 fw-bold shadow-lg " type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">  Let’s Start </button> */}
+       <Link to="/home"> <button className="btn btn-success btn-lg px-5 mt-4 fw-bold shadow-lg " type="button"> Let's Start</button></Link>
       </motion.div>
 
 
@@ -104,7 +105,7 @@ function WelcomePage() {
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Save changes</button>
+        <Link to="/home"><button type="button" class="btn btn-primary" data-bs-dismiss="modal">Save changes</button></Link>
       </div>
     </div>
   </div>
