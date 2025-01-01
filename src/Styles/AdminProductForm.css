@@ -1,0 +1,27 @@
+.admin-product-form-container {
+    max-width: 600px;
+    margin: 30px auto;
+    background: #ffffff;
+  }
+  
+  .form-control {
+    border-radius: 5px;
+    border: 1px solid #ced4da;
+    transition: box-shadow 0.3s ease-in-out;
+  }
+  
+  .form-control:focus {
+    box-shadow: 0 0 5px rgba(40, 167, 69, 0.7);
+    border-color: #28a745;
+  }
+  
+  .btn-success {
+    background-color: #28a745;
+    border: none;
+    transition: background-color 0.3s ease-in-out;
+  }
+  
+  .btn-success:hover {
+    background-color: #218838;
+  }
+  

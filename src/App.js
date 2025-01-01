@@ -14,6 +14,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import UserProfile from './Componants/UserProfile'
 import ContactSection from './Componants/ContactSection'
 import AboutSection from './Componants/AboutSection'
+import AdminProductForm from './Componants/AdminProductForm'
 
 
 export default function App() {
@@ -34,7 +35,9 @@ export default function App() {
       <Route exact path="/adminDashboard" element={<Dashboard/>}/> 
       <Route exact path="/userProfile" element={<UserProfile/>}/> 
       <Route exact path="/contact" element={<ContactSection/>}/> 
-      <Route exact path="/about" element={<AboutSection/>}/> 
+      <Route exact path="/about" element={<AboutSection/>}/>  
+      <Route exact path="/adminProductForm" element={<AdminProductForm/>}/> 
+
 
 
 

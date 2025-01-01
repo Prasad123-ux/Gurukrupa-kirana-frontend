@@ -72,6 +72,8 @@ function Navbar() {
               { path: "/myOrders", label: "My Orders" },
               { path: "/contact", label: "Contact" },
               { path: "/adminDashboard", label: "admin" },
+              { path: "/adminProductForm", label: "Add Product" },
+
             ].map((item, index) => (
               <motion.li
                 className="nav-item"
