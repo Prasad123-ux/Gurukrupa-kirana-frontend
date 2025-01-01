@@ -88,11 +88,13 @@ function AdminProductForm() {
                  
         if (!response.ok) {
             const errorText = await response.text();
+            alert("there is some problem while uploading data")
             throw new Error(`Request failed with status ${response.status}: ${errorText}`);
         }
 
         const data = await response.json();
         console.log("Product data:", data);
+        alert("Product data submitted successfully")
     } catch (err) {
         console.error("Error:", err);
     }
