@@ -5,8 +5,6 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "../Styles/Home.css"; 
 import { FaRupeeSign } from "react-icons/fa"; 
 import { useNavigate } from "react-router-dom";
-import dukan from "C:/Users/metka/OneDrive/Desktop/Gurukrupa Store/frontend/src/Assets/Dukan.jpg" 
-import{ Dukan1 }from "../Assets/Dukan1.jpg" 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Link } from "react-router-dom";
