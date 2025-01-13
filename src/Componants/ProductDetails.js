@@ -22,8 +22,6 @@ function ProductDetails() {
 
    const notifySuccess = (message) => toast.success(message);
     const notifyError = (message) => toast.error(message);
-    const notifyInfo = () => toast.info('This is an info message!');
-    const notifyWarning = () => toast.warning('This is a warning message!');
 
 
 
@@ -61,7 +59,7 @@ function ProductDetails() {
       getProductDetail(); 
       console.log(product)
     }
-  }, [id]); // Ensure id is a dependency 
+  }, [id, product]); // Ensure id is a dependency 
 
 
   
@@ -229,35 +227,7 @@ const addToCart=async()=>{
   :<div className="text-center">oops..! Try again . We don't have information about product </div>  }
       </motion.div>
 
-      {/* Offers Section */}
-      {/* <motion.div
-        className="container mt-5"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1 }}
-      >
-        <h4 className="fw-bold text-center mb-4">Available Offers</h4>
-        <div className="row">
-          {product.offers.map((offer, index) => (
-            <motion.div
-              key={index}
-              className="col-12 col-md-6 mb-3"
-              whileHover={{ scale: 1.05 }}
-              style={{
-                borderRadius: "12px",
-                backgroundColor: "#fff",
-                padding: "20px",
-                boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
-              }}
-            >
-              <h6 className="fw-bold">
-                Buy {offer.quantity} or more:
-                <span className="text-success ms-2">{offer.discount} Off</span>
-              </h6>
-            </motion.div>
-          ))}
-        </div>
-      </motion.div> */}
+    
 
       {/* About Section */}
       <motion.div

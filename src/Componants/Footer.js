@@ -1,11 +1,8 @@
 import React from "react";
 import { motion } from "framer-motion";
-// import "bootstrap/dist/css/bootstrap.min.css";
 import { FaFacebook, FaInstagram, FaTwitter, FaYoutube, FaLinkedin } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
-// import groceryCategory from "./grocery-category.jpg"; // Replace with your image
-// import groceryLogo from "./grocery-logo.png"; // Replace with your image
 
 function Footer() {
   const navigate= useNavigate()

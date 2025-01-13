@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { FaTrashAlt, FaPlus, FaMinus, FaCheckCircle } from "react-icons/fa";
+import { FaTrashAlt,  FaCheckCircle } from "react-icons/fa";
 import "bootstrap/dist/css/bootstrap.min.css"; 
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify'; 
@@ -63,7 +63,7 @@ useEffect(()=>{
   } 
 
 handleMyCartData()
-},[token])
+},[token, cartItems])
 
 
 
@@ -77,7 +77,7 @@ const handleDeleteItem=async(id)=>{
     if(!response.ok){
       const errorText = await response.text();
       
-        // throw new Error(`Request failed with status ${response.status}: ${errorText}`); 
+         throw new Error(`Request failed with status ${response.status}: ${errorText}`); 
         
     }else{
       const data = await response.json()
@@ -246,25 +246,7 @@ const calculateTotal = () =>
                 </p>
                 <p className="fw-bold text-primary mb-2">₹{item.price*item.quantity}</p>
                 <p className="fw-bold">{itemQuantity===0 ? item.quantity:itemQuantity } {item.unit}</p>
-                {/* <div className="d-flex justify-content-between align-items-center">
-                  <motion.button 
-                  
-                    className="btn btn-outline-secondary btn-sm"
-                    onClick={() => handleQuantityChange(item.quantity, -1)}
-                    whileHover={{ scale: 1.1 }} 
-                    disabled={itemQuantity <= 1 } // 
-                  >
-                    <FaMinus />
-                  </motion.button>
-                  <span className="fw-bold">{itemQuantity===0 ? item.quantity:itemQuantity } {item.unit}</span>
-                  <motion.button
-                    className="btn btn-outline-secondary btn-sm"
-                    onClick={() => handleQuantityChange(item.quantity, 1)}
-                    whileHover={{ scale: 1.1 }}
-                  >
-                    <FaPlus />
-                  </motion.button>
-                </div> */}
+              
                 <motion.button
                   className="btn btn-danger btn-sm mt-3 w-100"
                   onClick={() => handleDeleteItem(item.id)}

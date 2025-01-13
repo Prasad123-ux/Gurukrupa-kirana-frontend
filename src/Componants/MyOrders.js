@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { FaTruck, FaCreditCard, FaHome } from "react-icons/fa";
+import { FaTruck, FaCreditCard } from "react-icons/fa";
 import "bootstrap/dist/css/bootstrap.min.css";
 // import { array } from "../../../Backend/src/Controllers/AddImages"; 
 import { ToastContainer, toast } from 'react-toastify'; 
 import Loader from "./Loader"; 
-import { Link } from "react-router-dom";
 
 
 const MyOrders = () => {
@@ -14,9 +13,7 @@ const MyOrders = () => {
   const [loading, setLoading]= useState(true) 
   const [error, setError]= useState()
 
-        const notifySuccess = (message) => toast.success(message);
-        const notifyError = (message) => toast.error(message);
-        const notifyInfo = (message) => toast.info(message);
+       
         const notifyWarning = (message) => toast.warning(message);
 
 

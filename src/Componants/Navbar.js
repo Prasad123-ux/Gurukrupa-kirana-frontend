@@ -6,6 +6,7 @@ import "../Styles/Navbar.css";
 
 function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  
 
   // Function to toggle the menu
   const toggleMenu = () => {

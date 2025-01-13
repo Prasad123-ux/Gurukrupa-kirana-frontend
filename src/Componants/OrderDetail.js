@@ -15,10 +15,7 @@ export default function OrderDetail() {
     const [error, setError]= useState() 
     const [info, setInfo]= useState([])
 
- const notifySuccess = (message) => toast.success(message);
   const notifyError = (message) => toast.error(message);
-  const notifyInfo = () => toast.info('This is an info message!');
-  const notifyWarning = () => toast.warning('This is a warning message!'); 
 
 
 

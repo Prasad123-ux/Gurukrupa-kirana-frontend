@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { FaUserEdit, FaCamera, FaMapMarkerAlt } from "react-icons/fa";
+import { FaUserEdit, FaMapMarkerAlt } from "react-icons/fa";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../Styles/UserProfile.css"; 
 import { ToastContainer, toast } from 'react-toastify';
@@ -20,8 +20,7 @@ const UserProfile = () => {
 
   const notifySuccess = () => toast.success('This is a success message!');
     const notifyError = (message) => toast.error(message);
-    const notifyInfo = () => toast.info('This is an info message!');
-    const notifyWarning = () => toast.warning('This is a warning message!');
+   
 
 
   const handleFileChange = (e) => {
@@ -68,19 +67,7 @@ const UserProfile = () => {
 
 
 
-  // const handleEdit = async (field) => {
-  //   const updatedValue = prompt(`Enter your new ${field}:`, profile[field]);
-  //   if (updatedValue) {
-  //     const updatedProfile = { ...profile, [field]: updatedValue };
-  //     setProfile(updatedProfile); 
-      
-
-  //     // Send update request to backend
-      
-  //   }
-  // };
-
-
+  
 
 
   const handleProfileImageUpload = async (e) => {
@@ -145,7 +132,7 @@ const UserProfile = () => {
     <div className="user-profile-section"> 
     <ToastContainer/>
 
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">

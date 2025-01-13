@@ -52,10 +52,7 @@ const Dashboard1 = () => {
 
 
 
-    // add here data in incomedata and salesData state 
-    // { date: "2024-01-01", income: 2000 },{ date: "2024-01-01", income: 5000 } find data and daily income and add in it  
-    // { date: "2024-01-01", sales: 50 },{ date: "2024-01-01", sales: 50 },{ date: "2024-01-01", sales: 50 }, find date and sales and add in it 
-
+   
   }, [token]);
 
 

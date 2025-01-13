@@ -58,6 +58,7 @@ function CategoryWiseData() {
         console.log(data)
         setProducts(data.data || []);
       } catch (err) {
+        notifyError(err.message)
         setError(err.message);
       } finally {
         setLoading(false);
@@ -79,7 +80,8 @@ function CategoryWiseData() {
       style={{ fontFamily: "'Poppins', sans-serif", backgroundColor: "#f4f4f4", minHeight: "100vh" }}
       className="home"
     >
-      {/* Small Navbar for Categories */}
+      {/* Small Navbar for Categories */} 
+      <ToastContainer/>
     
 
       {/* Carousel Section */}

@@ -65,6 +65,8 @@ function WelcomePage() {
 
   }catch(err){       
      notifyError(err.message)
+  }finally{
+    setLoading(false)
   }
  }
   return (

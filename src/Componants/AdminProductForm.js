@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-// import "../Styles/AdminForm.css"; // Add your CSS for additional styling
 import "../Styles/AdminProductForm.css" 
 import { ToastContainer, toast } from 'react-toastify';
 import Loader from "./Loader";
@@ -22,10 +21,7 @@ function AdminProductForm() {
 
   const notifySuccess = (message) => toast.success(message);
   const notifyError = (message) => toast.error(message);
-  const notifyInfo = (message) => toast.info(message);
-  const notifyWarning = (message) => toast.warning(message); 
-
-
+ 
 
 
   const units = [
@@ -123,83 +119,6 @@ function AdminProductForm() {
 
 
   
-//  const handleSubmit = async (e) => {
-//     e.preventDefault();
-    
-//     // Prepare the final unit based on the form data
-//     const finalUnit = formData.unit === "other" ? formData.customUnit : formData.unit;
-    
-//     // Create a new FormData object
-//     const formDataPayload = new FormData();
-
-//     // Append form data to FormData object
-//     formDataPayload.append('productName', formData.productName);
-//     formDataPayload.append('category', formData.category);
-//     formDataPayload.append('price', formData.price);
-//     formDataPayload.append('stock', formData.stock);
-//     formDataPayload.append('unit', finalUnit);
-//     formDataPayload.append('description', formData.description);
-    
-//     // Append the file (image) to FormData
-//     if (formData.photo) {
-//         formDataPayload.append('photo', formData.photo);
-//     }
-
-//     try {
-//         const response = await fetch("https://gurukrupa-kirana-backend.onrender.com/api/admin/addProductData", {
-//             method: "POST",
-//             body: formDataPayload,  // Send FormData object as the body
-//         });
-
-//         if (!response.ok) {
-//             const errorText = await response.text();
-//             throw new Error(`Request failed with status ${response.status}: ${errorText}`);
-//         }
-
-//         const data = await response.json();
-//         console.log(data);
-
-//     } catch (err) {
-//         console.error("Error:", err);
-//     }
-
-//     console.log("Product Data Submitted:", { ...formData, unit: finalUnit });
-// };
-
-
-
-
-
-//   const handleSubmit = async (e) => {
-//     e.preventDefault();
-//     const finalUnit = formData.unit === "other" ? formData.customUnit : formData.unit;  
-//     const payload={...formData,unit:finalUnit} 
-//     console.log("form working")
-
-//       console.log(payload)
-
-//     try{
-//        const response=  await fetch("https://gurukrupa-kirana-backend.onrender.com/api/admin/addProductData",{  
-//             method:"POST",
-//             headers:{"Content-type":"application/json"},
-//             body:JSON.stringify(payload)
-//         })
-//         if(!response.ok){
-//             const errorText=await response.text()
-//             throw new Error(`Request failed with status ${response.status}: ${errorText}`)
-//         }
-// const data = await response.json()
-// console.log(data)
-        
-//     }catch(err){
-//         console.error(err)
-
-//     }
-
-
-
-//     console.log("Product Data Submitted:", { ...formData, unit: finalUnit });
-//   };
 
   return ( 
     <>
