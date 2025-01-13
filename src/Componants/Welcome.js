@@ -8,13 +8,15 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import "../Styles/welcome.css" 
 import { useNavigate } from "react-router-dom"; 
+import Loader from "./Loader";
 // import { useToast } from "@chakra-ui/react"; 
 
 function WelcomePage() {  
   const [userInfo, setUserInfo] = useState({name:"", mobile_number:""})  
-  const [loading,setLoading]= useState(true)
+  const [loading,setLoading]= useState(false)
 
-  const [tokenData,setTokenData]= useState(null)  
+  const [tokenData,setTokenData]= useState(null)   
+  
   const navigate=useNavigate()
   // const toast= useToast();
 
@@ -43,6 +45,7 @@ function WelcomePage() {
 
 
  const handleFormSubmit=async(e)=>{  
+   setLoading(true)
   e.preventDefault()
   console.log(userInfo)
   try{ 
@@ -52,26 +55,31 @@ function WelcomePage() {
     body: JSON.stringify({userInfo:userInfo})
   })
   if(!response.ok){
+    setLoading(false)
     const errorText = await response.text();
     // notifyError("failed to proceed, Please try again")
     throw new Error(`Request failed with status ${response.status}: ${errorText}`);
   }
-  
+  else{
+   
   const data = await response.json() 
   localStorage.setItem("TOKEN", data.token)  
-  
+  setLoading(false)
   navigate("/home")
   notifySuccess(data.message)
+  }
 
   }catch(err){       
      notifyError(err.message)
   }finally{
-    setLoading(false)
+   
   }
  }
   return (
+    <>
     
-  
+
+
      <div
       className="container-fluid welcome vh-100 d-flex flex-column justify-content-center align-items-center text-center"
       style={{
@@ -140,7 +148,7 @@ function WelcomePage() {
   <div className="modal-dialog">
     <div className="modal-content">
       <div className="modal-header">
-        <h5 className="modal-title" id="exampleModalLabel">Basic info</h5>
+        <h5 className="modal-title" id="exampleModalLabel">Please Fill your contact Information</h5>
         <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div className="modal-body">
@@ -148,7 +156,7 @@ function WelcomePage() {
       <form className="row g-3 needs-validation"  onSubmit={handleFormSubmit}  noValidate>
   <div className="col-md-12 position-relative">
     <label htmlFor="validationTooltip01" className="form-label">Your Name</label>
-    <input type="text" className="form-control" id="validationTooltip01" value={userInfo.name} name="name" placeholder="Prasad Metkar"   onChange={onChange} required/>
+    <input type="text" className="form-control" id="validationTooltip01" value={userInfo.name} name="name" placeholder="Enter Your Name"   onChange={onChange} required/>
     <div className="valid-tooltip">
       Looks good!
     </div>
@@ -177,6 +185,8 @@ function WelcomePage() {
 
 
       {/* Image Section */}
+      {
+loading ?<div><Loader/></div>:
       <motion.div
         className="mt-5"
         initial={{ opacity: 0, y: 50 }}
@@ -192,7 +202,7 @@ function WelcomePage() {
           }}
         />
       </motion.div>
-
+}
       {/* Floating Elements for Style */}
       <motion.div
         className="position-absolute top-0 start-0"
@@ -229,6 +239,8 @@ function WelcomePage() {
       <ToastContainer autoClose={7000}/>
       
     </div>
+  
+  </>
       
   
   );

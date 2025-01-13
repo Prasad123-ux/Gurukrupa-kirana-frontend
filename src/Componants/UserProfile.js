@@ -108,7 +108,7 @@ const UserProfile = () => {
       notifySuccess("User Data updated Successfully")
     } catch (error) {
       notifyError("Failed to upload profile Data. Please try again.")
-      // setError(error.message)
+       setError(error.message)
     
     }finally{
       setLoading(false)
