@@ -4,7 +4,8 @@ import { FaTruck, FaCreditCard } from "react-icons/fa";
 import "bootstrap/dist/css/bootstrap.min.css";
 // import { array } from "../../../Backend/src/Controllers/AddImages"; 
 import { ToastContainer, toast } from 'react-toastify'; 
-import Loader from "./Loader"; 
+import Loader from "./Loader";  
+import { Link } from "react-router-dom";
 
 
 const MyOrders = () => {
@@ -177,7 +178,12 @@ const MyOrders = () => {
                 </motion.div>
               )
 
-           }):"Order Not found"}
+           }):<div className="text-center"> 
+           <h6 className="text-center fw-bold mb-4">Your My Order Section is empty! 🛒, Please Place Order...!</h6>
+        
+           <Link to="/home" className="text-center">Explore Products</Link>
+          
+          </div>}
             </div> 
       
 

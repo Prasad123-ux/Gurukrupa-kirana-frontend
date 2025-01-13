@@ -20,7 +20,7 @@ function ProductDetails() {
   const [error, setError]= useState(null)
 
 
-   const notifySuccess = (message) => toast.success(message);
+    const notifySuccess = (message) => toast.success(message);
     const notifyError = (message) => toast.error(message);
 
 
@@ -41,9 +41,9 @@ function ProductDetails() {
 
       const data = await response.json();
       setProduct(data.data);
-      notifySuccess(data.message)
+      // notifySuccess(data.message)
     } catch (err) {
-       notifyError(err.message)
+       notifyError("Internal Server Error")
       // console.error(err);
     }
     finally{
@@ -59,7 +59,7 @@ function ProductDetails() {
       getProductDetail(); 
       console.log(product)
     }
-  }, [id, product]); // Ensure id is a dependency 
+  }, [id]); // Ensure id is a dependency 
 
 
   
@@ -101,23 +101,23 @@ const addToCart=async()=>{
   })
   if(!response.ok){
     
-  toast.error("Product Not added in cart. Please try again")
+  
     const errorText = await response.text();
-    toast.error("Product Not added in cart. Please try again once again")
+  
     
-    // throw new Error(`Request failed with status ${response.status}: ${errorText}`); 
+     throw new Error(`Request failed with status ${response.status}: ${errorText}`); 
 
     
 
   }else{
-    toast.info("Product Added in cart Successfully")
-    // navigate("/myCart") 
-
-
-  }
+    const data = await response.json()
+    notifySuccess(data.message)
+    
+}
 }catch(err){
+  notifyError(err.message)
 
-  toast.error("Product Not added in cart. Please try again")
+  
 
 
 }finally{
