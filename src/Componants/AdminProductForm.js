@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 // import "../Styles/AdminForm.css"; // Add your CSS for additional styling
-import "../Styles/AdminProductForm.css"
+import "../Styles/AdminProductForm.css" 
+import { ToastContainer, toast } from 'react-toastify';
+import Loader from "./Loader";
+
 
 function AdminProductForm() {
   const [formData, setFormData] = useState({
@@ -14,6 +17,16 @@ function AdminProductForm() {
     description: "",
     photo: null,
   });
+  const [loading, setLoading]= useState(false) 
+  const [error, setError]= useState()
+
+  const notifySuccess = (message) => toast.success(message);
+  const notifyError = (message) => toast.error(message);
+  const notifyInfo = (message) => toast.info(message);
+  const notifyWarning = (message) => toast.warning(message); 
+
+
+
 
   const units = [
     "kg", "number", "piece", "box", "week", "month", "year",
@@ -48,7 +61,7 @@ function AdminProductForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+      setLoading(true)
     const finalUnit = formData.unit === "other" ? formData.customUnit : formData.unit;
     const payload = { ...formData, unit: finalUnit };
 
@@ -78,7 +91,9 @@ function AdminProductForm() {
     });
 
     try {
-        const response = await fetch("https://gurukrupa-kirana-backend.onrender.com/api/admin/addProductData", {
+        // const response = await fetch("https://gurukrupa-kirana-backend.onrender.com/api/admin/addProductData",
+         const response= await fetch("https://gurukrupa-kirana-backend.onrender.com/api/admin/addProductData",
+         {
             method: "POST",
             // headers:{"Content-type":"application/json"},  
             body: formDataToSend
@@ -88,15 +103,17 @@ function AdminProductForm() {
                  
         if (!response.ok) {
             const errorText = await response.text();
-            alert("there is some problem while uploading data")
+            // alert("there is some problem while uploading data")
             throw new Error(`Request failed with status ${response.status}: ${errorText}`);
         }
 
         const data = await response.json();
-        console.log("Product data:", data);
-        alert("Product data submitted successfully")
+        notifySuccess(data.message)
+        
     } catch (err) {
-        console.error("Error:", err);
+        notifyError(err.message)
+    }finally{
+      setLoading(false)
     }
 };
 
@@ -129,7 +146,7 @@ function AdminProductForm() {
 //     }
 
 //     try {
-//         const response = await fetch("http://localhost:7000/api/admin/addProductData", {
+//         const response = await fetch("https://gurukrupa-kirana-backend.onrender.com/api/admin/addProductData", {
 //             method: "POST",
 //             body: formDataPayload,  // Send FormData object as the body
 //         });
@@ -162,7 +179,7 @@ function AdminProductForm() {
 //       console.log(payload)
 
 //     try{
-//        const response=  await fetch("http://localhost:7000/api/admin/addProductData",{  
+//        const response=  await fetch("https://gurukrupa-kirana-backend.onrender.com/api/admin/addProductData",{  
 //             method:"POST",
 //             headers:{"Content-type":"application/json"},
 //             body:JSON.stringify(payload)
@@ -185,6 +202,13 @@ function AdminProductForm() {
 //   };
 
   return ( 
+    <>
+    <ToastContainer/>
+     {loading ? (
+              <div className="text-center"><Loader/></div>
+            ) : error ? (
+              <div className="text-danger text-center">{error}</div>
+            ) :
     <div style={{paddingTop:"100px"}}>
     <motion.div
       className="admin-product-form-container"
@@ -404,6 +428,8 @@ function AdminProductForm() {
       </motion.form>
     </motion.div>
     </div>
+}
+    </>
   );
 }
 

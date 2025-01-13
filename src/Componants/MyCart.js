@@ -1,77 +1,161 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { FaTrashAlt, FaPlus, FaMinus, FaCheckCircle } from "react-icons/fa";
-import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/css/bootstrap.min.css"; 
+import { Link, useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify'; 
+import Loader from "./Loader";
+
+
 
 const MyCart = ({ navigateToOrder }) => {
-  const [cartItems, setCartItems] = useState([
-    {
-      id: 1,
-      name: "Fresh Apples",
-      price: 150,
-      quantity: 2,
-      image: "https://via.placeholder.com/150/FF0000/FFFFFF?text=Apple",
-      description: "Fresh organic apples directly from the farm.",
-      selected: true,
-    },
-    {
-      id: 2,
-      name: "Bananas",
-      price: 60,
-      quantity: 1,
-      image: "https://via.placeholder.com/150/FFFF00/000000?text=Banana",
-      description: "Ripe bananas packed with nutrients.",
-      selected: false,
-    },
-    {
-      id: 3,
-      name: "Oranges",
-      price: 120,
-      quantity: 3,
-      image: "https://via.placeholder.com/150/FFA500/FFFFFF?text=Orange",
-      description: "Juicy oranges sourced locally.",
-      selected: true,
-    },
-  ]);
+  const token = localStorage.getItem("TOKEN")
+  const [cartItems, setCartItems] = useState([]);  
+  const [itemQuantity,setItemQuantity]= useState(0)  
+  const [selectedItems, setSelectedItems] = useState([]);
+  const navigate=useNavigate() 
+  const [loading,setLoading]= useState(true) 
+  const [error, setError]= useState()
 
-  const handleSelectItem = (id) => {
-    setCartItems((prev) =>
-      prev.map((item) =>
-        item.id === id ? { ...item, selected: !item.selected } : item
-      )
-    );
-  };
 
-  const handleQuantityChange = (id, change) => {
-    setCartItems((prev) =>
-      prev.map((item) =>
-        item.id === id
-          ? {
-              ...item,
-              quantity: Math.max(item.quantity + change, 1),
-            }
-          : item
-      )
-    );
-  };
 
-  const handleDeleteItem = (id) => {
-    setCartItems((prev) => prev.filter((item) => item.id !== id));
-  };
+      const notifySuccess = (message) => toast.success(message);
+      const notifyError = (message) => toast.error(message);
+      const notifyInfo = (message) => toast.info(message);
+      const notifyWarning = (message) => toast.warning(message);
+  
+
+useEffect(()=>{   
+  console.log(cartItems)
+  
+
+  const handleMyCartData=async()=>{
+    try{
+      const response= await fetch("https://gurukrupa-kirana-backend.onrender.com/api/user/getCartData", {
+        method:"POST",
+        headers:{"Content-type":"application/json"},
+        body:JSON.stringify({token:token})
+      })
+      if(!response.ok){
+        const errorText = await response.text();
+      
+        throw new Error(`Request failed with status ${response.status}: ${errorText}`); 
+        
+
+      }  
+
+      const data = await response.json()  
+      
+      setCartItems(data.data) 
+   
+
+
+
+    }catch(err){ 
+      notifyError(err.message)
+      setError(err.message)
+      // setError("Internal Server Error")
+
+    }finally{
+      setLoading(false)
+
+    }
+  } 
+
+handleMyCartData()
+},[token])
+
+
+
+const handleDeleteItem=async(id)=>{ 
+  try{
+    const response= await fetch("https://gurukrupa-kirana-backend.onrender.com/api/user/deleteCartItem", {
+      method:"POST",
+      headers:{"Content-type":"application/json"},
+      body:JSON.stringify({id, token:token})
+    })
+    if(!response.ok){
+      const errorText = await response.text();
+      
+        // throw new Error(`Request failed with status ${response.status}: ${errorText}`); 
+        
+    }else{
+      const data = await response.json()
+      notifySuccess(data.message)
+      deleteCart(id)
+    }
+
+  }catch(err){ 
+    notifyError("Not deleted..! Please try again") 
+
+
+  }
+
+}
+ 
+
+
+
+
+
+const deleteCart = (id) => {
+  setCartItems((item) =>(item && item.length>=0? item.filter((item) => item.id !== id):"")); 
+
+};
+
+
+ const handleSelectItem = (id) => {
+//   // Update the selectedItems state
+   setSelectedItems((prev) => {
+    
+     const isSelected = prev.some((item) => item._id === id);
+  
+     if (isSelected) {
+      notifyInfo("item dis-selected")
+     
+//       // Remove the item from selectedItems
+       return prev.filter((item) => item._id !== id);
+     } else {
+      notifyInfo("item selected")
+//       // Find the item in cartItems and add it to selectedItems
+       const selectedItem = cartItems.products.find((item) => item._id === id);
+  if (selectedItem) {
+         return [...prev, { ...selectedItem, selected: true }];
+       }
+       return prev; // Return the current state if no item is found
+     }
+   });
+ };
+
+
+
+ 
+
+
+
+  
 
   const handleBilling = () => {
-    const selectedItems = cartItems.filter((item) => item.selected);
-    if (selectedItems.length === 0) {
-      alert("Please select at least one item for billing!");
+    if (selectedItems.length === 0) { 
+      
+      // alert("Please select at least one item for billing!");  
+      notifyWarning("Please select at least one item for billing!")
+
       return;
     }
-    navigateToOrder(selectedItems);
+    navigate("/orderCompletion", { state: { selectedItems } });
   };
 
-  const calculateTotal = () =>
-    cartItems
-      .filter((item) => item.selected)
-      .reduce((total, item) => total + item.price * item.quantity, 0);
+
+
+const calculateTotal = () =>
+    
+       selectedItems && selectedItems.length>=1 ? selectedItems.reduce((total, item) => total + item.price * item.quantity, 0):" 0" 
+
+
+  
+
+  
 
   return (
     <div
@@ -82,12 +166,28 @@ const MyCart = ({ navigateToOrder }) => {
         minHeight: "100vh",
         paddingTop:"120px"
       }}
-    >
+    >      
+    <ToastContainer/>
+
+
       <h3 className="text-center fw-bold mb-4">My Cart</h3>
-      <div className="row gy-3">
-        {cartItems.map((item) => (
+      <div className="row gy-3"> 
+
+
+
+
+         
+          {loading ? (
+                  <div className="text-center"><Loader/></div>
+                ) : error ? (
+                  <div className="text-danger text-center">{error}</div>
+                ) :
+        
+        cartItems.products && cartItems.products.length>=1 ?  cartItems.products.map((item, index) => ( 
+
+
           <motion.div
-            key={item.id}
+            key={item._id}
             className="col-6 col-md-4"
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -107,7 +207,7 @@ const MyCart = ({ navigateToOrder }) => {
                 alt={item.name}
                 className="card-img-top"
                 style={{
-                  height: "100px",
+                  height: "200px",
                   objectFit: "cover",
                 }}
                 whileHover={{ scale: 1.2 }}
@@ -118,11 +218,11 @@ const MyCart = ({ navigateToOrder }) => {
                     className="fw-bold text-dark mb-1"
                     whileHover={{ scale: 1.05, color: "#007bff" }}
                   >
-                    {item.name}
+                    {item.name}/{item.category}
                   </motion.h6>
                   <motion.div
-                    onClick={() => handleSelectItem(item.id)}
-                    className="btn btn-sm"
+                    onClick={() => handleSelectItem(item._id)}
+                    className={`btn ${selectedItems.some((i) => i._id === item._id) ? "bg-success" : "btn-success"}`}
                     style={{
                       backgroundColor: item.selected ? "#28a745" : "#ccc",
                       color: "#fff",
@@ -144,24 +244,27 @@ const MyCart = ({ navigateToOrder }) => {
                 >
                   {item.description}
                 </p>
-                <p className="fw-bold text-primary mb-2">₹{item.price}</p>
-                <div className="d-flex justify-content-between align-items-center">
-                  <motion.button
+                <p className="fw-bold text-primary mb-2">₹{item.price*item.quantity}</p>
+                <p className="fw-bold">{itemQuantity===0 ? item.quantity:itemQuantity } {item.unit}</p>
+                {/* <div className="d-flex justify-content-between align-items-center">
+                  <motion.button 
+                  
                     className="btn btn-outline-secondary btn-sm"
-                    onClick={() => handleQuantityChange(item.id, -1)}
-                    whileHover={{ scale: 1.1 }}
+                    onClick={() => handleQuantityChange(item.quantity, -1)}
+                    whileHover={{ scale: 1.1 }} 
+                    disabled={itemQuantity <= 1 } // 
                   >
                     <FaMinus />
                   </motion.button>
-                  <span className="fw-bold">{item.quantity}</span>
+                  <span className="fw-bold">{itemQuantity===0 ? item.quantity:itemQuantity } {item.unit}</span>
                   <motion.button
                     className="btn btn-outline-secondary btn-sm"
-                    onClick={() => handleQuantityChange(item.id, 1)}
+                    onClick={() => handleQuantityChange(item.quantity, 1)}
                     whileHover={{ scale: 1.1 }}
                   >
                     <FaPlus />
                   </motion.button>
-                </div>
+                </div> */}
                 <motion.button
                   className="btn btn-danger btn-sm mt-3 w-100"
                   onClick={() => handleDeleteItem(item.id)}
@@ -173,15 +276,43 @@ const MyCart = ({ navigateToOrder }) => {
               </div>
             </div>
           </motion.div>
-        ))}
+        )): <h6 className="text-center fw-bold mb-4">No items Found...!</h6>
+        
+        
+        
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       </div>
+
+      { cartItems.products && cartItems.products.length>=1 ?  
       <div
         className="p-3 shadow-sm bg-light rounded"
         style={{ position: "sticky", bottom: "0", zIndex: "1000" }}
       >
         <h5 className="fw-bold">
-          Total: ₹{calculateTotal()} ({cartItems.filter((item) => item.selected).length}{" "}
-          items)
+          Total: ₹{calculateTotal()} ({ selectedItems.length}{" "})
+          items
         </h5>
         <motion.button
           className="btn btn-success w-100"
@@ -192,8 +323,14 @@ const MyCart = ({ navigateToOrder }) => {
           Proceed to Billing
         </motion.button>
       </div>
+:<div className="text-center"> 
+   <h6 className="text-center fw-bold mb-4">Your cart is empty! 🛒 Add items to your cart and start shopping your favorites.</h6>
+
+   <Link to="/home" className="text-center">Explore Products</Link>
+  
+  </div>}
     </div>
   );
 };
 
-export default MyCart;
+export default MyCart

@@ -15,6 +15,9 @@ import UserProfile from './Componants/UserProfile'
 import ContactSection from './Componants/ContactSection'
 import AboutSection from './Componants/AboutSection'
 import AdminProductForm from './Componants/AdminProductForm'
+import CategoryWiseData from './Componants/CategoryWiseData'
+import Loader from './Componants/Loader'
+import OrderDetail from './Componants/OrderDetail'
 
 
 export default function App() {
@@ -31,14 +34,18 @@ export default function App() {
       <Route exact path="/myCart" element={<MyCart/>}/> 
       <Route exact path="/myOrders" element={<MyOrders/>}/> 
       <Route exact path="/orderCompletion" element={<OrderCompletion/>}/>  
-      <Route exact path="/ProductDetails" element={<ProductDetails/>}/> 
+      <Route exact path="/ProductDetails/:id" element={<ProductDetails/>}/> 
       <Route exact path="/adminDashboard" element={<Dashboard/>}/> 
       <Route exact path="/userProfile" element={<UserProfile/>}/> 
       <Route exact path="/contact" element={<ContactSection/>}/> 
       <Route exact path="/about" element={<AboutSection/>}/>  
       <Route exact path="/adminProductForm" element={<AdminProductForm/>}/> 
+      <Route exact path="/categoryData/:category" element={<CategoryWiseData/>}/>  
+      <Route exact path="/getOrderDetail/:id/:innerID" element={<OrderDetail/>}/>  
+      <Route exact path="/loader" element={<Loader/>}/>
+ 
 
-
+ 
 
 
 

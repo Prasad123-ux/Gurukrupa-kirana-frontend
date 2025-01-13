@@ -1,36 +1,19 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
-// import Navbar from "./Navbar";
-import "../Styles/Home.css"
+import "../Styles/Home.css"; 
+import { FaRupeeSign } from "react-icons/fa"; 
+import { useNavigate } from "react-router-dom";
+import dukan from "C:/Users/metka/OneDrive/Desktop/Gurukrupa Store/frontend/src/Assets/Dukan.jpg" 
+import{ Dukan1 }from "../Assets/Dukan1.jpg" 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { Link } from "react-router-dom";
+import Loader from "./Loader";
 
-// Dummy Data
-const categories = ["🍎", "🥦", "🥛", "🍿", "🥤", "🍞", "🍖", "🍪"];
-const products = [
-  { id: 1, name: "Fresh Apples", price: "$5.99", category: "Fruits", image: "https://via.placeholder.com/80/FF0000/FFFFFF?text=Apple" },
-  { id: 2, name: "Organic Milk", price: "$3.49", category: "Dairy", image: "https://via.placeholder.com/80/00FF00/FFFFFF?text=Milk" },
-  { id: 3, name: "Whole Wheat Bread", price: "$2.99", category: "Bakery", image: "https://via.placeholder.com/80/0000FF/FFFFFF?text=Bread" },
-  { id: 3, name: "Whole Wheat Bread", price: "$2.99", category: "Bakery", image: "https://via.placeholder.com/80/0000FF/FFFFFF?text=Bread" },
-  { id: 3, name: "Whole Wheat Bread", price: "$2.99", category: "Bakery", image: "https://via.placeholder.com/80/0000FF/FFFFFF?text=Bread" },
+const categories = ["Biscuits", "Soaps", "Shampoo", "Washing Powder", "ToothPaste", "Tea Powder", "Masala", "Hair Oil"];
 
-  { id: 3, name: "Whole Wheat Bread", price: "$2.99", category: "Bakery", image: "https://via.placeholder.com/80/0000FF/FFFFFF?text=Bread" },
-  { id: 3, name: "Whole Wheat Bread", price: "$2.99", category: "Bakery", image: "https://via.placeholder.com/80/0000FF/FFFFFF?text=Bread" },
-
-  { id: 3, name: "Whole Wheat Bread", price: "$2.99", category: "Bakery", image: "https://via.placeholder.com/80/0000FF/FFFFFF?text=Bread" },
-
-  { id: 3, name: "Whole Wheat Bread", price: "$2.99", category: "Bakery", image: "https://via.placeholder.com/80/0000FF/FFFFFF?text=Bread" },
-
-  { id: 3, name: "Whole Wheat Bread", price: "$2.99", category: "Bakery", image: "https://via.placeholder.com/80/0000FF/FFFFFF?text=Bread" },
-
-  { id: 3, name: "Whole Wheat Bread", price: "$2.99", category: "Bakery", image: "https://via.placeholder.com/80/0000FF/FFFFFF?text=Bread" },
-
-
-
-
-];
-
-// Animations
 const productCardVariants = {
   hidden: { opacity: 0, scale: 0.9 },
   visible: (i) => ({
@@ -42,35 +25,96 @@ const productCardVariants = {
 };
 
 function HomePage() {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null); 
+  const navigate= useNavigate()
+
+
+  const notifySuccess = (message) => toast.success(message);
+  const notifyError = (message) => toast.error(message);
+  const notifyInfo = () => toast.info('This is an info message!');
+  const notifyWarning = () => toast.warning('This is a warning message!');
+
+
+
+
+  useEffect(() => {
+    const getProductData = async () => {
+    
+      try {
+        const response = await fetch("https://gurukrupa-kirana-backend.onrender.com/api/user/getProductData", {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+        });
+
+        if (!response.ok) {
+          const errorText = await response.text();
+          throw new Error(`Request failed with status ${response.status}: ${errorText}`);
+        }
+
+        const data = await response.json(); 
+        // toast.success("data fetched successfully")
+        
+        console.log(data)
+        setProducts(data.data || []);
+        //  notifySuccess("Proceed with products")
+      } catch (err) {
+    
+        notifyError(err.message )
+      } finally {
+        setLoading(false);
+        // toast.error('Internal Server Error')
+      }
+    };
+
+    getProductData();
+  }, []); 
+
+
+  const handleDetail=(id)=>{ 
+    console.log(id)
+    navigate(`/ProductDetails/${id}`)
+
+  }
+
+  const handleCategoryData=(category)=>{ 
+    navigate(`/categoryData/${category}`)
+
+  }
+
   return (
-    <div style={{ fontFamily: "'Poppins', sans-serif", backgroundColor: "#f4f4f4", minHeight: "100vh",}} className="home"> 
-    {/* <Navbar/> */}
+    <div
+      style={{ fontFamily: "'Poppins', sans-serif", backgroundColor: "#f4f4f4", minHeight: "100vh" }}
+      className="home"
+    >
       {/* Small Navbar for Categories */}
-      <div
+      <div className=""
         style={{
           height: "60px",
           backgroundColor: "#fff",
           display: "flex",
-          position:"fixed",
-          zIndex:"1000",
-          top:"75px",
-          width:"100%",
-          padding:"10px",
+          position: "fixed",
+          zIndex: "1000",
+          top: "75px",
+          width: "100%",
+          padding: "10px",
           alignItems: "center",
           overflowX: "auto",
           whiteSpace: "nowrap",
-          // padding: "0 10px",
-          boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)",
+          boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)",  
+        
+          // fontSize:"0.1rem"
         }}
       >
-        {categories.map((icon, index) => (
-          <motion.div
+        {categories.map((name, index) => (
+          <motion.button
             key={index}
             whileHover={{ scale: 1.3 }}
             className="d-inline-block mx-3"
             style={{
-              width: "40px",
-              height: "40px",
+              width: "100%",
+              height: "100%",
               borderRadius: "50%",
               backgroundColor: "#f8f9fa",
               display: "flex",
@@ -78,10 +122,16 @@ function HomePage() {
               justifyContent: "center",
               boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
               cursor: "pointer",
+              padding: "10px",  
+              // fontSize
+
+
             }}
+            onClick={()=>{handleCategoryData(name)}}
+
           >
-            <span style={{ fontSize: "20px" }}>{icon}</span>
-          </motion.div>
+            <span style={{ fontSize: "10px" }}>{name}</span>
+          </motion.button>
         ))}
       </div>
 
@@ -91,9 +141,7 @@ function HomePage() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
-        style={{
-          marginTop:"100px"
-        }}
+        style={{ marginTop: "100px" }}
       >
         <div id="carouselExampleIndicators" className="carousel slide" data-bs-ride="carousel">
           <div className="carousel-indicators">
@@ -110,16 +158,20 @@ function HomePage() {
           <div className="carousel-inner">
             <div className="carousel-item active">
               <img
-                src="https://via.placeholder.com/800x300/FF5733/FFFFFF?text=Welcome+to+Grocery+Store"
+                src="https://res-console.cloudinary.com/det3aoore/thumbnails/v1/image/upload/v1736097976/V2hhdHNBcHBfSW1hZ2VfMjAyNS0wMS0wNV9hdF8yMi4yNi4yMl9jZTZiYzVhY19mYXJ6anQ=/preview"
                 className="d-block w-100"
-                alt="Slide 1"
+                alt="Welcome to Gurukrupa kirana"
+                style={{height:"500px"}}
+                
               />
             </div>
             <div className="carousel-item">
               <img
-                src="https://via.placeholder.com/800x300/33FF57/FFFFFF?text=Fresh+Groceries+Everyday"
-                className="d-block w-100"
-                alt="Slide 2"
+              src="https://res-console.cloudinary.com/det3aoore/thumbnails/v1/image/upload/v1736171107/V2hhdHNBcHBfSW1hZ2VfMjAyNS0wMS0wNl9hdF8xOC41Ni41N18zNWI1OTBjY194amV0ZW4=/preview"
+
+                className="d-block  w-100"
+                alt="Fresh Groceries Everyday"
+                style={{height:"500px"}}
               />
             </div>
           </div>
@@ -129,43 +181,59 @@ function HomePage() {
       {/* Product Cards Section */}
       <motion.div className="container mt-4">
         <h5 className="fw-bold text-center mb-4">Explore Our Products</h5>
-        <div className="row g-3">
-          {products.map((product, i) => (
-            <motion.div
-              key={product.id}
-              className="col-6 col-md-4 col-lg-3"
-              custom={i}
-              initial="hidden"
-              animate="visible"
-              variants={productCardVariants}
-              whileHover="hover"
-            >
-              <div
-                className="card border-0 shadow-sm p-2"
-                style={{
-                  borderRadius: "12px",
-                  textAlign: "center",
-                  fontSize: "12px",
-                  height: "200px",
-                  backgroundColor: "#fff",
-                  boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
-                }}
+         {/* <button className="btn btn" onClick={notifySuccess}> SUCCESS</button> */}
+         <ToastContainer autoClose={7000}/>
+          
+        {/* </button> */}
+        {loading ? (
+          <div className="text-center"><Loader/></div>
+        ) : error ? (
+          <div className="text-danger text-center">{error}</div>
+        ) : products.length > 0 ? (
+          <div className="row g-3">
+            {products.map((product, i) => (
+              <motion.div
+                key={product.id}
+                className="col-6 col-md-4 col-lg-3"
+                custom={i}
+                initial="hidden"
+                animate="visible"
+                variants={productCardVariants}
+                whileHover="hover"
               >
-                <img
-                  src={product.image}
-                  className="card-img-top mx-auto"
-                  style={{ maxWidth: "80px", maxHeight: "80px" }}
-                  alt={product.name}
-                />
-                <div className="card-body">
-                  <h6 className="fw-bold text-truncate">{product.name}</h6>
-                  <p className="text-muted mb-1">{product.category}</p>
-                  <p className="text-success fw-bold">{product.price}</p>
+                <div
+                  className="card border-0 shadow-sm p-2"
+                  onClick={()=>{handleDetail(product._id);}}
+                  style={{
+                    borderRadius: "12px",
+                    textAlign: "center",
+                    fontSize: "12px",
+                    height: "200px",
+                    backgroundColor: "#fff",
+                    boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+                  }}
+                >
+                  <img
+                    src={product.productLink[0]}
+                    className="card-img-top mx-auto"
+                    style={{ maxWidth: "100%", maxHeight: "100px" }}
+                    alt={product.name || "Product"}
+                  />
+                  <div className="card-body">
+                    <h6 className="fw-bold text-truncate">{product.productName}</h6>
+                    <p className="text-muted mb-1">{product.productCategory}</p>
+                    <p className="text-success fw-bold fs-6"> <FaRupeeSign /> {product.productPrice} / {product.productUnit}</p>
+                  </div>
+               
                 </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
+              </motion.div>
+              
+            ))}
+          </div>
+        ) : (
+          <div className="text-center"><span>No products Available ?  </span>
+          <Link to="/contact">Contact us </Link> </div>
+        )}
       </motion.div>
     </div>
   );

@@ -27,21 +27,21 @@ const ContactSection = () => {
           <div className="contact-card">
             <FaPhoneAlt className="icon phone-icon" />
             <p>
-              <strong>Mobile:</strong> <a href="tel:+918530855101">+91 8530855101</a>
+              <strong>Mobile:</strong> <a href="tel:+918530855101">+91 8530825101</a>
             </p>
           </div>
 
           <div className="contact-card">
             <FaEnvelope className="icon email-icon" />
             <p>
-              <strong>Email:</strong> <a href="mailto:gurukrupakirana333@gmail.com">gurukrupakirana333@gmail.com</a>
+              <strong>Email:</strong> <a href="mailto:prasadmetkar333@gmail.com">gurukrupakirana333@gmail.com</a>
             </p>
           </div>
 
           <div className="contact-card">
             <FaMapMarkerAlt className="icon address-icon" />
             <p>
-              <strong>Address:</strong> Gurukrupa Kirana Store, Main Road, Mumbai, India
+              <strong>Address:</strong> Gurukrupa Kirana Store, Near Bus Stop, Sawargaon, Maharashtra
             </p>
           </div>
         </motion.div>
@@ -54,20 +54,20 @@ const ContactSection = () => {
         >
           <h4>Follow Us</h4>
           <div className="social-icons">
-            <a href="https://wa.me/918530855101" target="_blank" rel="noopener noreferrer">
+            <a href="https://wa.me/918530825101" target="_blank" rel="noopener noreferrer">
               <FaWhatsapp className="social-icon whatsapp-icon" />
             </a>
-            <a href="https://www.facebook.com/your-page" target="_blank" rel="noopener noreferrer">
+            <a href="/" target="_blank" rel="noopener noreferrer">
               <FaFacebook className="social-icon facebook-icon" />
             </a>
-            <a href="https://www.instagram.com/your-profile" target="_blank" rel="noopener noreferrer">
+            <a href="/" target="_blank" rel="noopener noreferrer">
               <FaInstagram className="social-icon instagram-icon" />
             </a>
           </div>
           <motion.a
             href={whatsappGroupLink}
             target="_blank"
-            rel="noopener noreferrer"
+            rel="https://chat.whatsapp.com/D7szB6CX7uu9m1iCHSG5tJ"
             className="btn btn-success whatsapp-group-btn"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}

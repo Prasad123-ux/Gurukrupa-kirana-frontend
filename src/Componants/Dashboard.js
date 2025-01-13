@@ -1,71 +1,65 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { FaChartLine, FaUsers, FaBox, FaFileDownload } from "react-icons/fa";
 import { LineChart, Line, BarChart, Bar, Tooltip, ResponsiveContainer } from "recharts";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { useNavigate } from "react-router-dom";
 
 const Dashboard1 = () => {
-  const orders = [
-    {
-      orderId: "ORD001",
-      date: "20th Dec 2024",
-      customer: "John Doe",
-      address: "123, Green Street, Mumbai",
-      status: "Delivered",
-      total: 1299,
-    },
-    {
-      orderId: "ORD002",
-      date: "21st Dec 2024",
-      customer: "Alice Brown",
-      address: "45, Blue Avenue, Pune",
-      status: "Pending",
-      total: 2499,
-    },
-  ];
+  const token = localStorage.getItem("TOKEN");
+  const [orders, setOrders] = useState([]);
+  const [incomeData, setIncomeData] = useState([]);
+  const [salesData, setSalesData] = useState([]);
+  const navigate=useNavigate()
 
-  const incomeData = [
-    { month: "Jan", income: 10000 },
-    { month: "Feb", income: 15000 },
-    { month: "Mar", income: 20000 },
-    { month: "Apr", income: 18000 },
-  ];
 
-  const salesData = [
-    { product: "Vegetables", sales: 4000 ,date:"12 dec 2024"},
-    { product: "Fruits", sales: 3000 },
-    { product: "Dairy", sales: 5000 },
-    { product: "Vegetables", sales: 4000 },
+  const getOrderDetail=(id, innerID)=>{ 
+    navigate(`/getOrderDetail/${id}/${innerID}`)
 
-    { product: "Vegetables", sales: 4000 },
-    { product: "Vegetables", sales: 4000 },
-    { product: "Vegetables", sales: 4000 },
-    { product: "Vegetables", sales: 4000 },
-    { product: "Vegetables", sales: 4000 },
-    { product: "Vegetables", sales: 4000 },
-    { product: "Vegetables", sales: 4000 },
-    { product: "Vegetables", sales: 4000 },
-    { product: "Vegetables", sales: 4000 },
-    { product: "Vegetables", sales: 4000 },
-    { product: "Vegetables", sales: 4000 },
-    { product: "Vegetables", sales: 4000 },
-    { product: "Vegetables", sales: 4000 },
-    { product: "Vegetables", sales: 4000 },
-    { product: "Vegetables", sales: 4000 },
 
-  ];
-  const userData = [
-    { name: "John Doe", email: "john@example.com", phone: "+91 9876543210", orders: 10 },
-    { name: "Alice Brown", email: "alice@example.com", phone: "+91 9123456789", orders: 5 },
-  ];
-
-  const totalOrders = orders.length;
-  const totalIncome = orders.reduce((acc, order) => acc + order.total, 0);
+  }
+ 
 
   const downloadReceipt = (orderId) => {
     alert(`Receipt for Order ID: ${orderId} downloaded.`);
     // Implement the logic for downloading the receipt as a PDF.
   };
+
+  useEffect(() => { 
+
+
+    
+    const getTotalOrder = async () => {
+      try {
+        const response = await fetch("https://gurukrupa-kirana-backend.onrender.com/api/admin/getTotalOrder", {
+          method: "POST",
+          headers: { "Content-type": "application/json" },
+          body: JSON.stringify({ token }),
+        });
+        if (!response.ok) {
+          const errorText = await response.text();
+          throw new Error(`Request failed with status ${response.status}: ${errorText}`);
+        } else {
+          const data = await response.json();
+          setOrders(data.data);
+        }
+      } catch (err) {
+        console.error("Error fetching orders:", err);
+      }
+    };
+
+    getTotalOrder(); 
+
+
+
+    // add here data in incomedata and salesData state 
+    // { date: "2024-01-01", income: 2000 },{ date: "2024-01-01", income: 5000 } find data and daily income and add in it  
+    // { date: "2024-01-01", sales: 50 },{ date: "2024-01-01", sales: 50 },{ date: "2024-01-01", sales: 50 }, find date and sales and add in it 
+
+  }, [token]);
+
+
+  
 
   return (
     <div style={{ fontFamily: "'Poppins', sans-serif", backgroundColor: "#f9fafb", minHeight: "100vh" }}>
@@ -100,35 +94,34 @@ const Dashboard1 = () => {
                 </BarChart>
               </ResponsiveContainer>
             </div>
-          </motion.div> 
+          </motion.div>
 
+          {/* User Management Section */}
           <motion.div className="col-12" whileHover={{ scale: 1.03 }}>
-                      <div className="card shadow-sm p-4">
-                        <h5 className="fw-bold">
-                          User Management <FaUsers className="ms-2 text-info" />
-                        </h5>
-                        <table className="table table-hover">
-                          <thead>
-                            <tr>
-                              <th>Name</th>
-                              <th>Email</th>
-                              <th>Phone</th>
-                              <th>Orders</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {userData.map((user, index) => (
-                              <tr key={index}>
-                                <td>{user.name}</td>
-                                <td>{user.email}</td>
-                                <td>{user.phone}</td>
-                                <td>{user.orders}</td>
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
-                      </div>
-                    </motion.div>
+            <div className="card shadow-sm p-4">
+              <h5 className="fw-bold">
+                User Management <FaUsers className="ms-2 text-info" />
+              </h5>
+              <table className="table table-hover">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Phone</th>
+                    <th>Orders</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {orders.map((user, index) => (
+                    <tr key={index}>
+                      <td>{user.userName}</td>
+                      <td>{user.mobileNumber}</td>
+                      <td>{user.orders.length}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </motion.div>
 
           {/* Orders Section */}
           <motion.div className="col-12" whileHover={{ scale: 1.03 }}>
@@ -149,45 +142,57 @@ const Dashboard1 = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {orders.map((order) => (
-                    <tr key={order.orderId}>
-                      <td>{order.orderId}</td>
-                      <td>{order.date}</td>
-                      <td>{order.customer}</td>
-                      <td>{order.address}</td>
-                      <td>{order.status}</td>
-                      <td>₹{order.total}</td>
-                      <td>
-                        <button
-                          className="btn btn-sm btn-danger"
-                          onClick={() => downloadReceipt(order.orderId)}
-                        >
-                          <FaFileDownload className="me-1" /> Download Receipt
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
+                  {orders.map((innerOrder) =>
+                    innerOrder.orders.map((item, index) => (
+                      <tr onClick={()=>{getOrderDetail(item._id, innerOrder._id)}}  key={index}>
+                        <td>{item._id}</td>
+                        <td>{new Date(item.placedAt).toLocaleDateString()}</td>
+                        <td>{innerOrder.userName}</td>
+                        <td>{innerOrder.address}</td>
+                        <td>{item.progress[item.progress.length-1]?.status || "N/A"}</td>
+                        <td>₹{item.total}</td>
+                        <td>
+                          <button
+                            className="btn btn-sm btn-danger"
+                            onClick={() => downloadReceipt(item._id)}
+                          >
+                            <FaFileDownload className="me-1" /> Download Receipt
+                          </button>
+                        </td>
+                      </tr>
+                    ))
+                  )}
                 </tbody>
               </table>
             </div>
-          </motion.div>
 
-          {/* Overall Summary Section */}
-          <motion.div className="col-12" whileHover={{ scale: 1.03 }}>
-            <div className="card shadow-sm p-4 text-center">
-              <h5 className="fw-bold">Overall Summary</h5>
-              <div className="row">
-                <div className="col-6">
-                  <h6>Total Orders</h6>
-                  <p className="text-primary fs-4 fw-bold">{totalOrders}</p>
-                </div>
-                <div className="col-6">
-                  <h6>Total Income</h6>
-                  <p className="text-success fs-4 fw-bold">₹{totalIncome}</p>
-                </div>
-              </div>
-            </div>
+
+               {/* Overall Summary Section */}
+         
+            
+
           </motion.div>
+          <motion.div className="col-12" whileHover={{ scale: 1.03 }}>
+  <div className="card shadow-sm p-4 text-center">
+    <h5 className="fw-bold">Overall Summary</h5>
+    <div className="row">
+      <div className="col-6">
+        <h6>Total Orders</h6>
+        <p className="text-primary fs-4 fw-bold">
+          {orders.reduce((totalCount, innerOrder) => totalCount + innerOrder.orders.length, 0)}
+        </p>
+      </div>
+      <div className="col-6">
+        <h6>Total Income</h6>
+        <p className="text-success fs-4 fw-bold">
+          ₹{orders.reduce((totalIncome, innerOrder) => 
+            totalIncome + innerOrder.orders.reduce((orderTotal, item) => orderTotal + item.total, 0), 0)}
+        </p>
+      </div>
+    </div>
+  </div>
+</motion.div>
+        
         </div>
       </div>
     </div>

@@ -1,81 +1,207 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import jsPDF from "jspdf";
 import { FaCreditCard, FaMoneyBillAlt, FaWallet, FaMobileAlt } from "react-icons/fa";
-import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/css/bootstrap.min.css"; 
+import { useLocation } from "react-router-dom"; 
+import { ToastContainer, toast } from 'react-toastify';
+
+
+
+
+
 
 const OrderCompletion = () => {
   const [address, setAddress] = useState("");
   const [deliveryOption, setDeliveryOption] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("");
   const [orderPlaced, setOrderPlaced] = useState(false);
+  const [userName,setUserName]= useState()
+  const [mobileNumber,setMobileNumber]= useState() 
+  const token= localStorage.getItem("TOKEN") 
+  const [total, setTotal]= useState(0) 
+  const [loading, setLoading]= useState(true) 
+  const [error, setError]= useState()
+ 
+  const location = useLocation();
+  const { selectedItems } = location.state || {}; 
+  // Mock user and cart data 
 
-  // Mock user and cart data
-  const user = {
-    name: "John Doe",
-    mobile: "9876543210",
+
+
+ const notifySuccess = (message) => toast.success(message);
+  const notifyError = (message) => toast.error(message);
+  const notifyInfo = () => toast.info('This is an info message!');
+  const notifyWarning = (message) => toast.warning(message);
+
+useEffect(()=>{
+  console.log(selectedItems)
+  const totalPrice= selectedItems && selectedItems.length>=0 ? selectedItems.reduce((total, item)=>total+(item.price*item.quantity),0) :""
+if (deliveryOption==="home"  ){
+ setTotal(totalPrice+20)
+}else{
+  setTotal(totalPrice)
+}
+},[selectedItems,deliveryOption,total])
+
+  useEffect(()=>{ 
+
+
+
+    const getUserData=async()=>{ 
+      try{
+const response = await fetch("https://gurukrupa-kirana-backend.onrender.com/api/user/getUserData" , { 
+  method:"POST", 
+  headers:{"Content-type":"application/json"},
+  body:JSON.stringify({token})
+
+})
+if(!response){
+  
+  const errorText = await response.text();
+  
+  throw new Error(`Request failed with status ${response.status}: ${errorText}`); 
+  
+}else{
+  const data= await response.json()  
+  console.log(data)
+  setUserName(data.data.name)
+  setMobileNumber(data.data.mobile_number)
+  setAddress(data.address) 
+ console.log(userName)
+}
+}catch(err){ 
+        notifyError(err.message)
+        setError("Internal Server Error")
+
+ }finally{
+  setLoading(false)
+ }
+
+
+    }
+
+    getUserData()
+  },[token,userName]) 
+
+
+
+
+
+
+  const handleSaveOrder=async ()=>{
+    if (!address || !paymentMethod || !deliveryOption) {
+      notifyWarning("Please Fill all the details")
+      return;
+    }
+    
+    try{
+      const response=await fetch("https://gurukrupa-kirana-backend.onrender.com/api/user/saveMyOrder", {
+        method:'POST',
+        headers:{"Content-type":"application/json"},
+        body:JSON.stringify({ userName:userName, mobileNumber:mobileNumber,address: address,deliveryOption: deliveryOption, paymentMethod:paymentMethod, total:total, id: selectedItems[0]._id, items:selectedItems})
+      })
+      if(!response.ok){
+         const errorText = await response.text();
+  alert("there is some problem")
+  throw new Error(`Request failed with status ${response.status}: ${errorText}`); 
+  
+      }else{
+        const data =await response.json()
+        console.log(data)
+        setOrderPlaced(true);
+        notifySuccess("Order Placed Successfully")
+        
+      }
+
+    }catch(err){
+      notifyError(err.message)
+
+    }finally{
+    setLoading(false)
+
+    }
+
+  }
+
+
+
+  const generateReceipt = () => { 
+
+
+
+
+
+    
+
+
+    const doc = new jsPDF();
+  
+    // Set font and size
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(14);
+  
+    // Title
+    doc.text("Gurukrupa Kirana Sawargaon", 80,10)
+    // doc.text("Order Receipt", 10, 20);
+  
+    // User Info
+    doc.text(`User Name: ${userName}`, 10, 20);
+    doc.text(`Mobile: ${mobileNumber}`, 10, 30);
+  
+    // Cart Items Header
+    doc.text("Cart Items:", 10, 40);
+  
+    // Cart Items
+    const pageHeight = doc.internal.pageSize.height;
+    let currentY = 50; // Initial position for items
+    const lineHeight = 10;
+  
+    selectedItems.forEach((item, index) => {
+      if (currentY > pageHeight - 20) {
+        doc.addPage(); // Add new page
+        currentY = 10; // Reset Y for new page
+      }
+      const itemText = `${index + 1}. ${item.name}  = ${item.price}*${item.quantity} = ₹${item.price}`;
+      doc.text(itemText, 10, currentY); // Render text
+      currentY += lineHeight; // Move Y down
+    });
+  
+    
+    // Total Price
+    currentY += 10; // Add extra spacing
+    doc.text(`Total Price: ₹${calculateTotal()}`, 10, currentY);
+  
+    // Footer
+    currentY += 20;
+    const footerText = "Thank you for shopping with us! Gurukrupa Kirana will be with you always.";
+    const wrappedFooter = doc.splitTextToSize(footerText, 180);
+    doc.text(wrappedFooter, 10, currentY);
+  
+    // Save the PDF
+    doc.save("Gurukrupa_Kirana.pdf");
   };
+  
+  
 
-  const cartItems = [
-    {
-      id: 1,
-      name: "Fresh Apples",
-      price: 150,
-      quantity: 2,
-      image: "https://via.placeholder.com/200/FF0000/FFFFFF?text=Apple",
-      description: "Fresh organic apples directly from the farm.",
-    },
-    {
-      id: 2,
-      name: "Bananas",
-      price: 60,
-      quantity: 1,
-      image: "https://via.placeholder.com/200/FFFF00/000000?text=Banana",
-      description: "Ripe bananas packed with nutrients.",
-    },
-    {
-      id: 3,
-      name: "Oranges",
-      price: 120,
-      quantity: 3,
-      image: "https://via.placeholder.com/200/FFA500/FFFFFF?text=Orange",
-      description: "Juicy oranges sourced locally.",
-    },
-  ];
+
+ 
+
 
   const calculateTotal = () => {
-    let total = cartItems.reduce(
+    let total = selectedItems && selectedItems.length>=1 ? selectedItems.reduce(
       (sum, item) => sum + item.price * item.quantity,
       0
-    );
+    ):""
     if (deliveryOption === "home" && total >= 500) {
       total += Math.ceil(total / 1000) * 20; // ₹20 for every ₹1000
     }
     return total.toFixed(2);
   };
 
-  const generateReceipt = () => {
-    const doc = new jsPDF();
-    doc.text("Order Receipt", 10, 10);
-    doc.text(`User Name: ${user.name}`, 10, 20);
-    doc.text(`Mobile: ${user.mobile}`, 10, 30);
-    doc.text("Cart Items:", 10, 40);
-    cartItems.forEach((item, index) => {
-      doc.text(`${index + 1}. ${item.name} x${item.quantity} - ₹${item.price}`, 10, 50 + index * 10);
-    });
-    doc.text(`Total Price: ₹${calculateTotal()}`, 10, 60 + cartItems.length * 10);
-    doc.text("Thank you for shopping with us!", 10, 80 + cartItems.length * 10);
-    doc.text("Gurukrupa kirana will be with you always ");
-    doc.save("receipt.pdf");
-  };
-
-  const handleOrderPlacement = () => {
-    if (!address || !paymentMethod || !deliveryOption) {
-      alert("Please fill all the fields.");
-      return;
-    }
-    setOrderPlaced(true);
-  };
+  
+  
+ 
 
   return (
     <div
@@ -86,6 +212,7 @@ const OrderCompletion = () => {
         minHeight: "100vh",
         paddingTop:"100px"
       }}
+    
     >
       {!orderPlaced ? (
         <motion.div
@@ -94,11 +221,12 @@ const OrderCompletion = () => {
           animate={{ opacity: 1 }}
           transition={{ duration: 1 }}
         >
+            <ToastContainer/>
           {/* Cart Items Section */}
           <div className="row mb-4">
-            {cartItems.map((item) => (
+           {  selectedItems && selectedItems.length>=0 ? selectedItems.map((item) => (
               <div
-                key={item.id}
+                key={item.id}  
                 className="col-md-4 mb-3 bg-light p-3 shadow-sm rounded"
               >
                 <motion.div
@@ -114,22 +242,30 @@ const OrderCompletion = () => {
                   <h5 className="fw-bold mt-3">{item.name}</h5>
                   <p>{item.description}</p>
                   <p className="text-primary fw-bold">
-                    Price: ₹{item.price} x {item.quantity}
+                    Price: ₹{item.price} x {item.quantity} {item.unit}
                   </p>
                   <p className="text-success fw-bold">
                     Subtotal: ₹{item.price * item.quantity}
                   </p>
                 </motion.div>
               </div>
-            ))}
+
+            )):""}
           </div>
 
           {/* Address Section */}
           <div className="mb-4 bg-light p-3 shadow-sm rounded">
+          <h5 className="fw-bold">Total Price</h5>
+          <p>
+              
+              <strong>  ₹ {total}</strong> 
+              {deliveryOption==="home" ?  <span> (₹ 20 Charges added for Home Delivery)  </span>:""}
+            </p>
+
             <h5 className="fw-bold">User Details</h5>
             <p>
-              <strong>Name:</strong> {user.name} <br />
-              <strong>Mobile:</strong> {user.mobile}
+              <strong>Name:</strong> {userName} <br />
+              <strong>Mobile:</strong> {mobileNumber}
             </p>
             <h5 className="fw-bold">Enter Address</h5>
             <textarea
@@ -144,16 +280,17 @@ const OrderCompletion = () => {
           <div className="mb-4 bg-light p-3 shadow-sm rounded">
             <h5 className="fw-bold">Delivery Option</h5>
             <div className="form-check">
-              <input
+              <input 
+              disabled={total<=1000}
                 type="radio"
                 className="form-check-input"
                 id="homeDelivery"
-                value="home"
+                value="Home Delivery"
                 checked={deliveryOption === "home"}
                 onChange={(e) => setDeliveryOption(e.target.value)}
               />
               <label className="form-check-label" htmlFor="homeDelivery">
-                Home Delivery (₹20 per 1000 for orders above ₹500)
+                Home Delivery (Home Delivery only available for above than 1000 rupees of  order)
               </label>
             </div>
             <div className="form-check">
@@ -162,7 +299,7 @@ const OrderCompletion = () => {
                 className="form-check-input"
                 id="storePickup"
                 value="store"
-                checked={deliveryOption === "store"}
+                checked={deliveryOption === "Store Pickup"}
                 onChange={(e) => setDeliveryOption(e.target.value)}
               />
               <label className="form-check-label" htmlFor="storePickup">
@@ -174,8 +311,10 @@ const OrderCompletion = () => {
           {/* Payment Section */}
           <div className="mb-4 bg-light p-3 shadow-sm rounded">
             <h5 className="fw-bold">Choose Payment Method</h5>
-            <div className="d-flex justify-content-around">
+            <i> <small>Due to technical issues, our online payment options are temporarily unavailable. Please use the Cash on Delivery (COD) option.Online payment services will resume soon. </small></i>
+            <div className="d-flex justify-content-around"> 
               <button
+              disabled
                 className={`btn ${
                   paymentMethod === "creditCard" ? "btn-primary" : "btn-outline-primary"
                 }`}
@@ -183,7 +322,8 @@ const OrderCompletion = () => {
               >
                 <FaCreditCard size={24} /> Credit Card
               </button>
-              <button
+              <button 
+              disabled
                 className={`btn ${
                   paymentMethod === "upi" ? "btn-success" : "btn-outline-success"
                 }`}
@@ -192,6 +332,7 @@ const OrderCompletion = () => {
                 <FaMobileAlt size={24} /> UPI
               </button>
               <button
+              disabled
                 className={`btn ${
                   paymentMethod === "wallet" ? "btn-warning" : "btn-outline-warning"
                 }`}
@@ -200,6 +341,8 @@ const OrderCompletion = () => {
                 <FaWallet size={24} /> Wallet
               </button>
               <button
+              selected
+              
                 className={`btn ${
                   paymentMethod === "cod" ? "btn-secondary" : "btn-outline-secondary"
                 }`}
@@ -213,7 +356,7 @@ const OrderCompletion = () => {
           {/* Place Order Button */}
           <motion.button
             className="btn btn-success w-100"
-            onClick={handleOrderPlacement}
+            onClick={handleSaveOrder}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
@@ -229,7 +372,7 @@ const OrderCompletion = () => {
         >
           <h3 className="fw-bold text-success">Order Placed Successfully!</h3>
           <p>Your order will be delivered soon. Thank you for shopping with us!</p>
-          <button className="btn btn-primary" onClick={generateReceipt}>
+          <button className="btn btn-primary" onClick={generateReceipt} >
             Download Receipt
           </button>
         </motion.div>

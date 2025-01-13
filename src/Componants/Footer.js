@@ -2,19 +2,33 @@ import React from "react";
 import { motion } from "framer-motion";
 // import "bootstrap/dist/css/bootstrap.min.css";
 import { FaFacebook, FaInstagram, FaTwitter, FaYoutube, FaLinkedin } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+
 // import groceryCategory from "./grocery-category.jpg"; // Replace with your image
 // import groceryLogo from "./grocery-logo.png"; // Replace with your image
 
 function Footer() {
+  const navigate= useNavigate()
   const sectionVariants = {
     hidden: { opacity: 0, y: 50 },
     visible: { opacity: 1, y: 0 },
   };
 
+
+  const categories = ["Biscuits", "Soaps", "Shampoo", "Washing Powder", "ToothPaste", "Tea Powder", ];
+
+
   const linkHover = {
     scale: 1.1,
     transition: { type: "spring", stiffness: 300 },
   };
+
+
+  const handleCategoryData=(category)=>{ 
+    navigate(`/categoryData/${category}`)
+    window.scrollTo(0,0)
+
+  }
 
   return (
     <motion.footer
@@ -33,7 +47,7 @@ function Footer() {
           <div className="col-md-4 mb-4 text-center">
             <motion.div variants={sectionVariants}>
               <img
-                src="/"
+                src="https://res-console.cloudinary.com/det3aoore/thumbnails/v1/image/upload/v1736750867/MThTZXAyNF9qdW51cWk=/preview"
                 alt="Logo"
                 className="img-fluid mb-3"
                 style={{ width: "120px", borderRadius: "50%" }}
@@ -88,42 +102,26 @@ function Footer() {
                 Popular Categories
               </h5>
               <ul className="list-unstyled text-muted">
-                <li className="mb-2">
-                  <motion.a
-                    href="#"
+                {categories.map((item, index)=>{
+                  return  <li className="mb-2">
+                  <motion.a 
+                    
                     className="text-decoration-none text-light"
                     whileHover={linkHover}
+                    onClick={()=>{handleCategoryData(item)}}
+                    style={{cursor:"pointer"}}
                   >
-                    Fruits & Vegetables
+                  {item}
                   </motion.a>
                 </li>
-                <li className="mb-2">
-                  <motion.a
-                    href="#"
-                    className="text-decoration-none text-light"
-                    whileHover={linkHover}
-                  >
-                    Beverages
-                  </motion.a>
-                </li>
-                <li className="mb-2">
-                  <motion.a
-                    href="#"
-                    className="text-decoration-none text-light"
-                    whileHover={linkHover}
-                  >
-                    Snacks & Packaged Foods
-                  </motion.a>
-                </li>
-                <li className="mb-2">
-                  <motion.a
-                    href="#"
-                    className="text-decoration-none text-light"
-                    whileHover={linkHover}
-                  >
-                    Household Items
-                  </motion.a>
-                </li>
+
+
+
+
+
+                })}
+               
+              
               </ul>
             </motion.div>
           </div>
@@ -138,10 +136,10 @@ function Footer() {
                 Gurukrupa Grocery is your trusted partner for fresh and quality groceries. We offer a seamless shopping experience with doorstep delivery and amazing discounts.
               </p>
               <img
-                src="/"
+                src="https://res-console.cloudinary.com/det3aoore/thumbnails/v1/image/upload/v1736751365/REFMTF9FXzIwMjUtMDEtMTNfMTIuMjUuNDdfLV9BX3Zpc3VhbGx5X2FwcGVhbGluZ19zZXRfb2ZfaWNvbnNfcmVwcmVzZW50aW5nX2NhdGVnb3J5X25hbWVzX2Zvcl9hX2Zvb3Rlcl9zZWN0aW9uX2luX2Ffd2ViX2FwcGxpY2F0aW9uX2NhbGxlZF9HdXJ1a3J1cGEuX1RoZV9pY29uc19zaG91bGRfYmVfc3R5bGlzaF9uZmhqb2s=/preview"
                 alt="Category"
                 className="img-fluid mt-3"
-                style={{ borderRadius: "10px", width: "100%" }}
+                style={{ borderRadius: "10px", width: "100px",height:"100px" }}
               />
             </motion.div>
           </div>

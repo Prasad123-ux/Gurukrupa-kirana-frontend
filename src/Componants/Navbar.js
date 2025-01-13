@@ -17,6 +17,14 @@ function Navbar() {
     setIsMenuOpen(false);
   };
 
+
+  const token = localStorage.getItem("TOKEN");
+
+ 
+
+
+
+
   return (
     <motion.nav
       className="navbar navbar-expand-lg navbar-light bg-light shadow-sm"
@@ -39,7 +47,7 @@ function Navbar() {
           transition={{ duration: 1 }}
         >
           <img
-            src="https://via.placeholder.com/50x50.png?text=G"
+            src="https://res-console.cloudinary.com/det3aoore/thumbnails/v1/image/upload/v1736750867/MThTZXAyNF9qdW51cWk=/preview"
             alt="App Logo"
             className="rounded-circle"
             style={{ width: "50px", height: "50px", objectFit: "cover" }}
@@ -64,33 +72,100 @@ function Navbar() {
           id="navbarNav"
         >
           <ul className="navbar-nav ms-auto align-items-center">
-            {[
-              { path: "/about", label: "About" },
-              { path: "/myCart", label: "My Cart" },
-              { path: "/orderCompletion", label: "Order Completion" },
-              { path: "/home", label: "Products" },
-              { path: "/myOrders", label: "My Orders" },
-              { path: "/contact", label: "Contact" },
-              { path: "/adminDashboard", label: "admin" },
-              { path: "/adminProductForm", label: "Add Product" },
-
-            ].map((item, index) => (
-              <motion.li
-                className="nav-item"
-                key={index}
-                whileHover={{ scale: 1.1 }}
+          
+              { token ?( <motion.li className="nav-item" whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
                 transition={{ duration: 0.3 }}
-                onClick={closeMenu}
-              >
+                onClick={closeMenu}>
                 <Link
                   className="nav-link text-dark fw-bold mx-2"
-                  to={item.path}
+                  to='/home'
                 >
-                  {item.label}
+                  Home
                 </Link>
-              </motion.li>
-            ))}
+              </motion.li>) :"" 
+}  
+
+{ token ?( <motion.li className="nav-item" whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
+                transition={{ duration: 0.3 }}
+                onClick={closeMenu}>
+                <Link
+                  className="nav-link text-dark fw-bold mx-2"
+                  to='/myOrders'
+                >
+                  My Orders
+                </Link>
+              </motion.li>) :"" 
+}  
+
+{ token   ?(
+ <motion.li className="nav-item" whileHover={{ scale: 1.1 }}
+ whileTap={{ scale: 0.95 }}
+ transition={{ duration: 0.3 }}
+ onClick={closeMenu}>
+ <Link
+   className="nav-link text-dark fw-bold mx-2"
+   to='/myCart'
+ >
+   My Cart
+ </Link>
+</motion.li>
+):""
+
+
+
+}
+<motion.li className="nav-item" whileHover={{ scale: 1.1 }}
+ whileTap={{ scale: 0.95 }}
+ transition={{ duration: 0.3 }}
+ onClick={closeMenu}>
+ <Link
+   className="nav-link text-dark fw-bold mx-2"
+   to='/contact'
+ >                                                                                                                                                                                                                                                                                                                                                                                                                         
+   Contact
+ </Link>
+</motion.li> 
+
+
+
+<motion.li className="nav-item" whileHover={{ scale: 1.1 }}
+ whileTap={{ scale: 0.95 }}
+ transition={{ duration: 0.3 }}
+ onClick={closeMenu}>
+ <Link
+   className="nav-link text-dark fw-bold mx-2"
+   to='/about'
+ >                                                                                                                                                                                                                                                                                                                                                                                                                         
+  About Us
+ </Link>
+</motion.li> 
+
+
+
+{/* </motion.li> */}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+              
+
+
+          
+          
+          
             <motion.li
               className="nav-item"
               whileHover={{ scale: 1.1 }}

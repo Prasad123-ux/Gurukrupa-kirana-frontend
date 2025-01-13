@@ -4,10 +4,14 @@ import "../Styles/AboutSection.css";
 
 const AboutSection = () => {
   const shopImages = [
-    "/images/shop1.jpg",
-    "/images/shop2.jpg",
-    "/images/shop3.jpg",
-    "/images/shop4.jpg",
+    "https://res-console.cloudinary.com/det3aoore/thumbnails/v1/image/upload/v1736171107/V2hhdHNBcHBfSW1hZ2VfMjAyNS0wMS0wNl9hdF8xOC41Ni41N18zNWI1OTBjY194amV0ZW4=/preview",
+    "https://res-console.cloudinary.com/det3aoore/thumbnails/v1/image/upload/v1736170682/V2hhdHNBcHBfSW1hZ2VfMjAyNS0wMS0wNl9hdF8xOC41Ni41OF9jM2M4NTI1MV92a2MzYnA=/preview",
+    "https://res-console.cloudinary.com/det3aoore/thumbnails/v1/image/upload/v1736170755/V2hhdHNBcHBfSW1hZ2VfMjAyNS0wMS0wNV9hdF8yMi4yNi4yOV8yOGQ3MGVjY19lNGlpZGw=/preview",
+    "https://res-console.cloudinary.com/det3aoore/thumbnails/v1/image/upload/v1736171246/V2hhdHNBcHBfSW1hZ2VfMjAyNS0wMS0wNV9hdF8yMi4yNi4yOF8xMDAyNzI5Nl9xbWpzM28=/preview",
+    "https://res-console.cloudinary.com/det3aoore/thumbnails/v1/image/upload/v1736170827/V2hhdHNBcHBfSW1hZ2VfMjAyNS0wMS0wNV9hdF8yMi4yNi4yM18xNTYxZTg0Zl9pZWFsZ2M=/preview",
+     "https://res-console.cloudinary.com/det3aoore/thumbnails/v1/image/upload/v1736170939/V2hhdHNBcHBfSW1hZ2VfMjAyNS0wMS0wNV9hdF8yMi4yNi4yNF9hYWJmMDAxN19ucHBxYWk=/preview",
+     "https://res-console.cloudinary.com/det3aoore/thumbnails/v1/image/upload/v1736170827/V2hhdHNBcHBfSW1hZ2VfMjAyNS0wMS0wNV9hdF8yMi4yNi4yM18xNTYxZTg0Zl9pZWFsZ2M=/preview",
+     "https://res-console.cloudinary.com/det3aoore/thumbnails/v1/image/upload/v1736170911/V2hhdHNBcHBfSW1hZ2VfMjAyNS0wMS0wNV9hdF8yMi4yNi4yMl82MWYwYTY3Ml9rZmltY3k=/preview",
   ];
 
   return (
@@ -31,7 +35,7 @@ const AboutSection = () => {
         >
           <h3>Our Story</h3>
           <p>
-            Gurukrupa Kirana Store was established in [Year] with a mission to
+            Gurukrupa Kirana Store was established in 2022 with a mission to
             provide top-quality grocery products to our valued customers. Over
             the years, we have built a strong reputation for offering fresh,
             affordable, and diverse goods to meet our community's needs.

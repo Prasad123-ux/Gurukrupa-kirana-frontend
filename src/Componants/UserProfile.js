@@ -1,34 +1,191 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { FaUserEdit, FaCamera, FaMapMarkerAlt } from "react-icons/fa";
 import "bootstrap/dist/css/bootstrap.min.css";
- import "../Styles/UserProfile.css";
+import "../Styles/UserProfile.css"; 
+import { ToastContainer, toast } from 'react-toastify';
+import Loader from "./Loader";
 
-const UserProfile = () => {
+
+const UserProfile = () => { 
+
+  const [loading, setLoading]= useState(true) 
+  const [error, setError]= useState()
   const [profile, setProfile] = useState({
-    name: "John Doe",
-    mobile: "9876543210",
-    address: "123, Green Street, Mumbai",
-    profileImage: "https://via.placeholder.com/150",
+    name: "",
+    mobile: "",
+    address: "Not Mentioned",
+    profileImage: "",
   });
 
-  const handleEdit = (field) => {
-    const updatedValue = prompt(`Enter your new ${field}:`, profile[field]);
-    if (updatedValue) {
-      setProfile({ ...profile, [field]: updatedValue });
-    }
-  };
+  const notifySuccess = () => toast.success('This is a success message!');
+    const notifyError = (message) => toast.error(message);
+    const notifyInfo = () => toast.info('This is an info message!');
+    const notifyWarning = () => toast.warning('This is a warning message!');
 
-  const handleProfileImageUpload = (e) => {
+
+  const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      const imageUrl = URL.createObjectURL(file);
-      setProfile({ ...profile, profileImage: imageUrl });
+      setProfile({ ...profile, profileImage: file }); // Store the file object temporarily
+    }
+  };
+  const token = localStorage.getItem("TOKEN");
+
+  useEffect(() => {
+    const getUserData = async () => {
+      try {
+        const response = await fetch("https://gurukrupa-kirana-backend.onrender.com/api/user/getUserData", {
+          method: "POST",
+          headers: { "Content-type": "application/json" },
+          body: JSON.stringify({ token }),
+        });
+        if (!response.ok) {
+          const errorText = await response.text();
+          throw new Error(`Request failed with status ${response.status}: ${errorText}`);
+        }
+        const data = await response.json(); 
+        console.log(data)
+        
+          setProfile({
+            name: data.data.name,
+            mobile: data.data.mobile_number,
+            address: data.data.address,
+            profileImage: data.data.profileImage,
+          });
+      } catch (err) {
+        // console.error("Error fetching user data:", err); 
+        notifyError(err.message)
+        setError("Internal Server Error")
+
+      }finally{
+        setLoading(false)
+        
+      }
+    };
+    getUserData();
+  }, [token]);
+
+
+
+  // const handleEdit = async (field) => {
+  //   const updatedValue = prompt(`Enter your new ${field}:`, profile[field]);
+  //   if (updatedValue) {
+  //     const updatedProfile = { ...profile, [field]: updatedValue };
+  //     setProfile(updatedProfile); 
+      
+
+  //     // Send update request to backend
+      
+  //   }
+  // };
+
+
+
+
+  const handleProfileImageUpload = async (e) => {
+    e.preventDefault()
+    
+
+    const formData = new FormData(); 
+    
+    formData.append("profileImage", profile.profileImage);
+    formData.append("mobileNumber", profile.mobile);
+
+    formData.append("name", profile.name);
+
+    formData.append("address",profile.address );  
+
+
+
+    console.log(formData)
+
+
+    try {
+      const response = await fetch("https://gurukrupa-kirana-backend.onrender.com/api/user/updateProfileData", {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Image upload failed with status ${response.status}: ${errorText}`);
+      }
+
+      const result = await response.json();
+      
+      setProfile({ ...profile, profileImage: result.profileImage });
+      notifySuccess("User Data updated Successfully")
+    } catch (error) {
+      notifyError("Failed to upload profile Data. Please try again.")
+      // setError(error.message)
+    
+    }finally{
+      setLoading(false)
     }
   };
 
+
+
+
+  console.log(profile)
+
+
+  const onchange=(e)=>{
+    setProfile({...profile, [e.target.name]:e.target.value}) 
+
+    
+  } 
+
+ 
   return (
-    <div className="user-profile-section">
+    <div className="user-profile-section"> 
+    <ToastContainer/>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form onSubmit={handleProfileImageUpload}>
+        <div class="mb-3">
+            <label for="file" class="col-form-label">Choose File:</label>
+            <input type="file" class="form-control" name="profileImage"    accept="image/*"   onChange={handleFileChange}id="profileImage"/>
+          </div>
+          <div class="mb-3">
+            <label for="name" class="col-form-label">Name:</label>
+            <input type="text" class="form-control" name="name" value={profile.name} onChange={onchange} id="name"/>
+          </div>
+          <div class="mb-3">
+            <label for="mobile" class="col-form-label">Mobile Number:</label>
+            <input class="form-control" type="number" id="mobile" name="mobile" value={profile.mobile}  onChange={onchange}></input>
+          </div>
+          <div class="mb-3">
+            <label for="address" class="col-form-label">Address:</label>
+            <input class="form-control" type="address" id="message-text" name="address" value={profile.address}  onChange={onchange}></input>
+          </div>
+       
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" data-bs-dismiss="modal" class="btn btn-primary">Send message</button>
+      </div>
+      </form>
+      </div>
+    </div>
+  </div>
+</div> 
+
+{ loading ? (
+          <div className="text-center"><Loader/></div>
+        ) : error ? (
+          <div className="text-danger text-center">{error}</div>
+        ):
       <div className="container">
         <motion.div
           className="profile-card"
@@ -43,51 +200,55 @@ const UserProfile = () => {
               className="profile-image"
               whileHover={{ scale: 1.2, rotate: 5 }}
               transition={{ duration: 0.4 }}
-              onClick={() => document.getElementById("profileImageUpload").click()}
+              
             />
             <input
               type="file"
               id="profileImageUpload"
               style={{ display: "none" }}
-              accept="image/*"
-              onChange={handleProfileImageUpload}
+              accept="image/*" 
+              
+              // onChange={handleProfileImageUpload} 
+
+
             />
-            <motion.button
-              className="btn btn-outline-primary mt-3"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              onClick={() => document.getElementById("profileImageUpload").click()}
-            >
-              <FaCamera className="me-2" />
-              Change Profile Image
-            </motion.button>
+        
+
           </div>
+          <button type="button" className="btn btn-outline-primary " data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Edit Detail</button>
+
 
           <div className="profile-details mt-4">
             <ProfileField
               label="Name"
               value={profile.name}
               icon={<FaUserEdit />}
-              onEdit={() => handleEdit("name")}
+              // onEdit={() => handleEdit("name")} 
+              
             />
             <ProfileField
               label="Mobile Number"
               value={profile.mobile}
               icon={<FaUserEdit />}
-              onEdit={() => handleEdit("mobile")}
+              // onEdit={() => handleEdit("mobile")}
             />
             <ProfileField
               label="Address"
-              value={profile.address}
+              value={!profile.address? "Not Mentioned": profile.address }
               icon={<FaMapMarkerAlt />}
-              onEdit={() => handleEdit("address")}
+              // onEdit={() => handleEdit("address")}
             />
           </div>
         </motion.div>
-      </div>
+      </div> 
+
+      }
     </div>
   );
 };
+
+
+
 
 const ProfileField = ({ label, value, icon, onEdit }) => (
   <motion.div
@@ -100,15 +261,12 @@ const ProfileField = ({ label, value, icon, onEdit }) => (
       <h6 className="text-muted mb-1">{label}</h6>
       <p className="fw-bold">{value}</p>
     </div>
-    <motion.button
-      className="btn btn-outline-secondary btn-sm"
-      whileHover={{ scale: 1.1 }}
-      whileTap={{ scale: 0.9 }}
-      onClick={onEdit}
-    >
-      {icon}
-      Edit
-    </motion.button>
+    
+   
+   
+
+
+  
   </motion.div>
 );
 

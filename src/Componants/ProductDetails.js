@@ -1,49 +1,166 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/css/bootstrap.min.css"; 
+import { useParams } from "react-router-dom"; 
+import "../Styles/ProductDetail.css"; 
+import { useNavigate } from "react-router-dom";
+import Loader from "./Loader";
+import { ToastContainer, toast } from 'react-toastify';
 
-// Dummy Data
-const product = {
-  id: 1,
-  name: "Fresh Apples",
-  price: 5.99,
-  category: "Fruits",
-  description: "Fresh and juicy apples directly from the farm. Packed with vitamins and nutrients.",
-  image: "https://via.placeholder.com/200/FF0000/FFFFFF?text=Apple",
-  offers: [
-    { quantity: 5, discount: "10%" },
-    { quantity: 10, discount: "20%" },
-  ],
-};
+
 
 function ProductDetails() {
-  const [quantity, setQuantity] = useState(1);
+  const [quantity, setQuantity] = useState(1);  
+  const [product, setProduct] = useState(null); // Initial state as null for better checks 
+  const [total,setTotal]= useState()
+  const { id } = useParams(); // Correct usage of useParams 
+  const navigate= useNavigate() 
+  const token= localStorage.getItem("TOKEN") 
+  const [loading, setLoading]= useState(true) 
+  const [error, setError]= useState(null)
 
-  const calculatePrice = () => {
-    let finalPrice = product.price * quantity;
+
+   const notifySuccess = (message) => toast.success(message);
+    const notifyError = (message) => toast.error(message);
+    const notifyInfo = () => toast.info('This is an info message!');
+    const notifyWarning = () => toast.warning('This is a warning message!');
+
+
+
+  const getProductDetail = async () => { 
+    try {
+      const response = await fetch(`https://gurukrupa-kirana-backend.onrender.com/api/user/getProductDetail/${id}`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        notifyError("We could not find product Please find another product")
+        setError(errorText)
+        //  throw new Error(`Request failed with status ${response.status}: ${errorText}`);
+      }
+
+      const data = await response.json();
+      setProduct(data.data);
+      notifySuccess(data.message)
+    } catch (err) {
+       notifyError(err.message)
+      // console.error(err);
+    }
+    finally{
+      setLoading(false)
+    }
+  };  
+
+
+  useEffect(() => { 
+    window.scrollTo(0,0)
+
+    if (id) {
+      getProductDetail(); 
+      console.log(product)
+    }
+  }, [id]); // Ensure id is a dependency 
+
+
+  
+
+  const calculatePrice = (price) => {
+    if (!product) return "0.00"; // Handle case where product is not yet available
+    let finalPrice = price * quantity;
     const offer = product.offers.find((o) => quantity >= o.quantity);
     if (offer) {
       finalPrice -= (finalPrice * parseInt(offer.discount)) / 100;
     }
     return finalPrice.toFixed(2);
   };
+ 
+
+
+
+
+  // if (!product) {
+  //   return <div><Loader/></div>; 
+    
+  // }
+    
+    // Show a loading state while data is fetched
+  
+
+
+ 
+const addToCart=async()=>{ 
+  
+
+  try{
+  
+  const response= await fetch("https://gurukrupa-kirana-backend.onrender.com/api/user/addToCart", { 
+
+    method:"POST",
+    headers:{"Content-type":"application/json"},
+    body:JSON.stringify({id:id, quantity:quantity ,price: product && product.productPrice >=0 ?product.productPrice:"",category: product && product.productCategory.length >=0 ?product.productCategory:"",token:token, name: product && product.productName.length >=0 ?product.productName:"" ,unit: product && product.productUnit.length >=0 ?product.productUnit:"",image: product && product.productLink.length >=0 ?product.productLink:""})
+  })
+  if(!response.ok){
+    
+  toast.error("Product Not added in cart. Please try again")
+    const errorText = await response.text();
+    toast.error("Product Not added in cart. Please try again once again")
+    
+    // throw new Error(`Request failed with status ${response.status}: ${errorText}`); 
+
+    
+
+  }else{
+    toast.info("Product Added in cart Successfully")
+    // navigate("/myCart") 
+
+
+  }
+}catch(err){
+
+  toast.error("Product Not added in cart. Please try again")
+
+
+}finally{
+
+}
+
+}
+  
+
+
+
+
+
+
+  
 
   return (
-    <div
+    <>{  loading ? (
+              <div className="text-center"><Loader/></div>
+            ) : error ? (
+              <div className="text-danger text-center">{error}</div>
+            ) : <div 
+    
       style={{
         fontFamily: "'Poppins', sans-serif",
         backgroundColor: "#f9f9f9",
         minHeight: "100vh",
         padding: "20px 0",
-      }}
+      }} 
+      // className="product"
     >
       {/* Product Section */}
       <motion.div
-        className="container"
+
+        className="container product"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
       >
+
+        {  product && product.productName.length >= 0   ? 
         <div className="row align-items-center">
           <motion.div
             className="col-md-6 text-center"
@@ -52,8 +169,9 @@ function ProductDetails() {
             transition={{ type: "spring", stiffness: 100 }}
           >
             <img
-              src={product.image}
-              alt={product.name}
+              //  alt={product.name}
+               src={ product && product.productLink.length >= 0  ? product.productLink[0]:" "}              alt="nothing"
+              //  alt={product.name}
               style={{
                 maxWidth: "300px",
                 borderRadius: "10px",
@@ -65,13 +183,13 @@ function ProductDetails() {
             className="col-md-6"
             initial={{ x: 100, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
-            transition={{ type: "spring", stiffness: 100 }}
+            transition={{ type: "spring", stiffness: 100 }} 
           >
-            <h3 className="fw-bold">{product.name}</h3>
-            <p className="text-muted mb-1">Category: {product.category}</p>
-            <p className="text-muted">{product.description}</p>
-            <p className="text-success fw-bold">Price: ${product.price.toFixed(2)} per unit</p>
-
+            <h3 className="fw-bold">{ product && product.productName.length >= 0  ? product.productName:" "}</h3>  
+            <p className="text-muted mb-1">Category: {product&& product.productCategory.length >= 0  ? product.productCategory:" "}</p>
+            <p className="text-muted">{product && product.productDescription.length >= 0  ? product.productDescription:" "}</p>
+            <p className="text-success fw-bold">Price: { product && product.productPrice>=0  ? product.productPrice:" N/A"} per {product && product.productUnit ? product.productUnit :"" }</p>
+              
             {/* Quantity Selector */}
             <div className="d-flex align-items-center my-3">
               <label htmlFor="quantity" className="me-2 fw-bold">
@@ -81,31 +199,38 @@ function ProductDetails() {
                 type="number"
                 id="quantity"
                 value={quantity}
-                min="1"
+                min="1" 
+                max="50"
                 onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value)))}
                 className="form-control"
                 style={{ width: "80px" }}
               />
             </div>
-
+           
             {/* Total Price */}
-            <p className="text-primary fw-bold">Total: ${calculatePrice()}</p>
+            <p className="text-primary fw-bold">Total: {product && product.productPrice>=0  ? product.productPrice*quantity:" N/A"} </p>  
 
             {/* Order Button */}
+
+            { product && product.productStockQuantity >=1  ? 
+         
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="btn btn-primary px-4 py-2"
-              style={{ borderRadius: "20px" }}
+              style={{ borderRadius: "20px" }} 
+              onClick={addToCart}
             >
-              Make Order
+              Add to Cart
             </motion.button>
+:"Item Not Available"}
           </motion.div>
-        </div>
+        </div> 
+  :<div className="text-center">oops..! Try again . We don't have information about product </div>  }
       </motion.div>
 
       {/* Offers Section */}
-      <motion.div
+      {/* <motion.div
         className="container mt-5"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -132,7 +257,7 @@ function ProductDetails() {
             </motion.div>
           ))}
         </div>
-      </motion.div>
+      </motion.div> */}
 
       {/* About Section */}
       <motion.div
@@ -141,13 +266,16 @@ function ProductDetails() {
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
       >
-        <h4 className="fw-bold text-center mb-4">About Our Store</h4>
+        <h4 className="fw-bold text-center mb-4">About Our Store </h4>
         <p className="text-muted text-center">
           Welcome to our grocery store! We provide the freshest produce and high-quality items for your everyday needs.
           Our mission is to deliver excellence and ensure every customer is satisfied. Thank you for choosing us!
         </p>
       </motion.div>
+      <ToastContainer autoClose={4000}/>
     </div>
+}</>
+
   );
 }
 
