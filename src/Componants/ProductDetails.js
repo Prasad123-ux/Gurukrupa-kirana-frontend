@@ -18,6 +18,8 @@ function ProductDetails() {
   const token= localStorage.getItem("TOKEN") 
   const [loading, setLoading]= useState(true) 
   const [error, setError]= useState(null)
+  const [cartLoading, setCartLoading]= useState(false)
+
 
 
     const notifySuccess = (message) => toast.success(message);
@@ -89,7 +91,7 @@ function ProductDetails() {
 
  
 const addToCart=async()=>{ 
-  
+  setCartLoading(true)
 
   try{
   
@@ -121,6 +123,7 @@ const addToCart=async()=>{
 
 
 }finally{
+  setCartLoading(false)
 
 }
 
@@ -210,18 +213,28 @@ const addToCart=async()=>{
 
             {/* Order Button */}
 
-            { product && product.productStockQuantity >=1  ? 
-         
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="btn btn-primary px-4 py-2"
-              style={{ borderRadius: "20px" }} 
-              onClick={addToCart}
-            >
-              Add to Cart
-            </motion.button>
-:"Item Not Available"}
+            {product ? (
+  product.productStockQuantity >= 1 ? (
+    cartLoading ? (
+      <Loader /> // Display the loader if loading is true
+    ) : (
+      <motion.button
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        className="btn btn-primary px-4 py-2"
+        style={{ borderRadius: "20px" }}
+        onClick={addToCart}
+      >
+        Add to Cart
+      </motion.button>
+    )
+  ) : (
+    <span>Item Not Available</span> // Inform user that the item is unavailable
+  )
+) : (
+  <Loader /> // Handle case when product is null or undefined
+)}
+
           </motion.div>
         </div> 
   :<div className="text-center">oops..! Try again . We don't have information about product </div>  }

@@ -5,6 +5,7 @@ import { FaCreditCard, FaMoneyBillAlt, FaWallet, FaMobileAlt } from "react-icons
 import "bootstrap/dist/css/bootstrap.min.css"; 
 import { useLocation } from "react-router-dom"; 
 import { ToastContainer, toast } from 'react-toastify';
+import Loader from "./Loader";
 
 
 
@@ -22,6 +23,8 @@ const OrderCompletion = () => {
   const [total, setTotal]= useState(0) 
   const [loading, setLoading]= useState(true) 
   const [error, setError]= useState()
+  const[orderLoading, setOrderLoading]= useState(false)
+
  
   const location = useLocation();
   const { selectedItems } = location.state || {}; 
@@ -94,6 +97,7 @@ if(!response){
       notifyWarning("Please Fill all the details")
       return;
     }
+    setOrderLoading(true)
     
     try{
       const response=await fetch("https://gurukrupa-kirana-backend.onrender.com/api/user/saveMyOrder", {
@@ -111,6 +115,7 @@ if(!response){
         console.log(data)
         setOrderPlaced(true);
         notifySuccess("Order Placed Successfully")
+        window.scrollTo(0,0)
         
       }
 
@@ -119,6 +124,7 @@ if(!response){
 
     }finally{
     setLoading(false)
+    setOrderLoading(false)
 
     }
 
@@ -354,6 +360,8 @@ if(!response){
           </div>
 
           {/* Place Order Button */}
+          {
+            orderLoading  ?  <Loader/>:
           <motion.button
             className="btn btn-success w-100"
             onClick={handleSaveOrder}
@@ -362,6 +370,8 @@ if(!response){
           >
             Place Order
           </motion.button>
+
+}
         </motion.div>
       ) : (
         <motion.div
