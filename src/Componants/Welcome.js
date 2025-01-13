@@ -134,7 +134,7 @@ function WelcomePage() {
 
 
       {/* Form Section  */}
-      <div className="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div className="modal-dialog">
     <div className="modal-content">
       <div className="modal-header">
@@ -145,14 +145,14 @@ function WelcomePage() {
         
       <form className="row g-3 needs-validation"  onSubmit={handleFormSubmit}  noValidate>
   <div className="col-md-12 position-relative">
-    <label for="validationTooltip01" className="form-label">Your Name</label>
+    <label htmlFor="validationTooltip01" className="form-label">Your Name</label>
     <input type="text" className="form-control" id="validationTooltip01" value={userInfo.name} name="name" placeholder="Prasad Metkar"   onChange={onChange} required/>
     <div className="valid-tooltip">
       Looks good!
     </div>
   </div>
   <div className="col-md-12 position-relative">
-    <label for="validationTooltip02" className="form-label">Mobile Number</label>
+    <label htmlFor="validationTooltip02" className="form-label">Mobile Number</label>
     <input type="Number" className="form-control"  id="validationTooltip02" value={userInfo.mobile_number} name="mobile_number"  placeholder="Enter your mobile number"  onChange={onChange} required />
     <div className="valid-tooltip">
       Looks good!

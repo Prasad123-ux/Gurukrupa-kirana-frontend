@@ -103,7 +103,7 @@ function Footer() {
               </h5>
               <ul className="list-unstyled text-muted">
                 {categories.map((item, index)=>{
-                  return  <li className="mb-2">
+                  return  <li key={index} className="mb-2">
                   <motion.a 
                     
                     className="text-decoration-none text-light"
@@ -153,11 +153,11 @@ function Footer() {
         >
           <p>© {new Date().getFullYear()} Gurukrupa Grocery. All Rights Reserved.</p>
           <p>
-            <a href="#" className="text-light text-decoration-none">
+            <a href="/" className="text-light text-decoration-none">
               Terms of Service
             </a>{" "}
             |{" "}
-            <a href="#" className="text-light text-decoration-none">
+            <a href="/" className="text-light text-decoration-none">
               Privacy Policy
             </a>
           </p>

@@ -155,19 +155,19 @@ const UserProfile = () => {
       <div class="modal-body">
         <form onSubmit={handleProfileImageUpload}>
         <div class="mb-3">
-            <label for="file" class="col-form-label">Choose File:</label>
+            <label htmlFor="file" class="col-form-label">Choose File:</label>
             <input type="file" class="form-control" name="profileImage"    accept="image/*"   onChange={handleFileChange}id="profileImage"/>
           </div>
           <div class="mb-3">
-            <label for="name" class="col-form-label">Name:</label>
+            <label htmlFor="name" class="col-form-label">Name:</label>
             <input type="text" class="form-control" name="name" value={profile.name} onChange={onchange} id="name"/>
           </div>
           <div class="mb-3">
-            <label for="mobile" class="col-form-label">Mobile Number:</label>
+            <label htmlFor="mobile" class="col-form-label">Mobile Number:</label>
             <input class="form-control" type="number" id="mobile" name="mobile" value={profile.mobile}  onChange={onchange}></input>
           </div>
           <div class="mb-3">
-            <label for="address" class="col-form-label">Address:</label>
+            <label htmlFor="address" class="col-form-label">Address:</label>
             <input class="form-control" type="address" id="message-text" name="address" value={profile.address}  onChange={onchange}></input>
           </div>
        
