@@ -40,6 +40,7 @@ function CategoryWiseData() {
 
 
   useEffect(() => {
+    window.scrollTo(0,0)
     const getProductData = async () => {
       try {
         const response = await fetch("https://gurukrupa-kirana-backend.onrender.com/api/user/categoryWiseData", {

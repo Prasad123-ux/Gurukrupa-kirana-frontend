@@ -44,7 +44,7 @@ function Footer() {
           <div className="col-md-4 mb-4 text-center">
             <motion.div variants={sectionVariants}>
               <img
-                src="https://res-console.cloudinary.com/det3aoore/thumbnails/v1/image/upload/v1736750867/MThTZXAyNF9qdW51cWk=/preview"
+                src="https://res-console.cloudinary.com/det3aoore/thumbnails/v1/image/upload/v1736834141/cHJvZHVjdF9pbWFnZXMvMThTZXAyNF9zaHY5c2I=/preview"
                 alt="Logo"
                 className="img-fluid mb-3"
                 style={{ width: "120px", borderRadius: "50%" }}
@@ -133,7 +133,7 @@ function Footer() {
                 Gurukrupa Grocery is your trusted partner for fresh and quality groceries. We offer a seamless shopping experience with doorstep delivery and amazing discounts.
               </p>
               <img
-                src="https://res-console.cloudinary.com/det3aoore/thumbnails/v1/image/upload/v1736751365/REFMTF9FXzIwMjUtMDEtMTNfMTIuMjUuNDdfLV9BX3Zpc3VhbGx5X2FwcGVhbGluZ19zZXRfb2ZfaWNvbnNfcmVwcmVzZW50aW5nX2NhdGVnb3J5X25hbWVzX2Zvcl9hX2Zvb3Rlcl9zZWN0aW9uX2luX2Ffd2ViX2FwcGxpY2F0aW9uX2NhbGxlZF9HdXJ1a3J1cGEuX1RoZV9pY29uc19zaG91bGRfYmVfc3R5bGlzaF9uZmhqb2s=/preview"
+                src="https://res-console.cloudinary.com/det3aoore/thumbnails/v1/image/upload/v1736835256/cHJvZHVjdF9pbWFnZXMvYWxsLWZtY2ctZ3JvY2VyeS1wcm9kdWN0c19kbHZ0bm4=/preview"
                 alt="Category"
                 className="img-fluid mt-3"
                 style={{ borderRadius: "10px", width: "100px",height:"100px" }}

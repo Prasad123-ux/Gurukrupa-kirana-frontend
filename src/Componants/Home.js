@@ -35,6 +35,7 @@ function HomePage() {
 
 
   useEffect(() => {
+    window.scrollTo(0,0)
     const getProductData = async () => {
     
       try {
@@ -153,7 +154,7 @@ function HomePage() {
           <div className="carousel-inner">
             <div className="carousel-item active">
               <img
-                src="https://res-console.cloudinary.com/det3aoore/thumbnails/v1/image/upload/v1736097976/V2hhdHNBcHBfSW1hZ2VfMjAyNS0wMS0wNV9hdF8yMi4yNi4yMl9jZTZiYzVhY19mYXJ6anQ=/preview"
+                src="https://res-console.cloudinary.com/det3aoore/thumbnails/v1/image/upload/v1736834503/cHJvZHVjdF9pbWFnZXMvV2hhdHNBcHBfSW1hZ2VfMjAyNS0wMS0xNF9hdF8xMS4yOC4zNV81ZWZjZDEyN191YzhzM2g=/preview"
                 className="d-block w-100"
                 alt="Welcome to Gurukrupa kirana"
                 style={{height:"500px"}}
@@ -162,7 +163,7 @@ function HomePage() {
             </div>
             <div className="carousel-item">
               <img
-              src="https://res-console.cloudinary.com/det3aoore/thumbnails/v1/image/upload/v1736171107/V2hhdHNBcHBfSW1hZ2VfMjAyNS0wMS0wNl9hdF8xOC41Ni41N18zNWI1OTBjY194amV0ZW4=/preview"
+              src="https://res-console.cloudinary.com/det3aoore/thumbnails/v1/image/upload/v1736834483/cHJvZHVjdF9pbWFnZXMvV2hhdHNBcHBfSW1hZ2VfMjAyNS0wMS0xNF9hdF8xMS4yOC4zNV8zMzk5ZmNjZl9pajVzc2k=/preview"
 
                 className="d-block  w-100"
                 alt="Fresh Groceries Everyday"

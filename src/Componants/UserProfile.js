@@ -29,9 +29,14 @@ const UserProfile = () => {
       setProfile({ ...profile, profileImage: file }); // Store the file object temporarily
     }
   };
-  const token = localStorage.getItem("TOKEN");
+  const token = localStorage.getItem("TOKEN"); 
+
+
+
+
 
   useEffect(() => {
+    window.scrollTo(0,0)
     const getUserData = async () => {
       try {
         const response = await fetch("https://gurukrupa-kirana-backend.onrender.com/api/user/getUserData", {
@@ -108,7 +113,7 @@ const UserProfile = () => {
       notifySuccess("User Data updated Successfully")
     } catch (error) {
       notifyError("Failed to upload profile Data. Please try again.")
-       setError(error.message)
+      //  setError(error.message)
     
     }finally{
       setLoading(false)

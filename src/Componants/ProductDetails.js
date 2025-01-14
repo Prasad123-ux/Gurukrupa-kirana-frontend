@@ -114,7 +114,7 @@ const addToCart=async()=>{
   }else{
     const data = await response.json()
     notifySuccess(data.message)
-    
+    navigate("/myCart")
 }
 }catch(err){
   notifyError(err.message)

@@ -26,7 +26,7 @@ const MyCart = ({ navigateToOrder }) => {
   
 
 useEffect(()=>{   
-  console.log(cartItems)
+  window.scrollTo(0,0)
   
 
   const handleMyCartData=async()=>{
