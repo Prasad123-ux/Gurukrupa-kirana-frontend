@@ -12,23 +12,14 @@ import Loader from "./Loader";
 // import { useToast } from "@chakra-ui/react"; 
 
 function WelcomePage() {  
-  const [userInfo, setUserInfo] = useState({name:"", mobile_number:""})  
+  const [userInfo, setUserInfo] = useState({name:"", mobile_number:"", otp:""})  
   const [loading,setLoading]= useState(false)
-
-  const [tokenData,setTokenData]= useState(null)   
+const [tokenData,setTokenData]= useState(null)   
+const navigate=useNavigate()
+const [showOtpField, setShowOtpField] = useState(false);
+const notifySuccess = () => toast.success('This is a success message!');
+const notifyError = (message) => toast.error(message);
   
-  const navigate=useNavigate()
-  // const toast= useToast();
-
-
-  
-  const notifySuccess = () => toast.success('This is a success message!');
-  const notifyError = (message) => toast.error(message);
-  const notifyInfo = () => toast.info('This is an info message!');
-  const notifyWarning = () => toast.warning('This is a warning message!');
- 
-
-
   useEffect(()=>{
     const token = localStorage.getItem("TOKEN");
     setTokenData(token);
@@ -42,12 +33,46 @@ function WelcomePage() {
 
  }  
 
+const handleGenerateOTP=async(e)=>{
+  e.preventDefault() 
+  try{
+    const response= await fetch("https://gurukrupa-kirana-backend.onrender.com/api/user/sendOTP", {
+      method:"POST",
+      headers:{"Content-type":"application/json"},
+      body:JSON.stringify({userInfo:userInfo})
+
+  }) 
+  if(!response.ok){
+    const errorText = await response.text();
+    // notifyError("failed to proceed, Please try again")
+    throw new Error(`Request failed with status ${response.status}: ${errorText}`);
+    
+  }else{
+    const data=await response.json()
+    setShowOtpField(true)
+    console.log(data)
+
+  }
+
+  }catch(err){
+    console.log(err)
+
+  }
+
+}
+
+
 
 
  const handleFormSubmit=async(e)=>{  
    setLoading(true)
   e.preventDefault()
-  console.log(userInfo)
+  // if (!userInfo.otp) {
+  //   alert("Please enter the OTP.");
+  //   return;
+  // }
+
+
   try{ 
   const response= await fetch("https://gurukrupa-kirana-backend.onrender.com/api/user/register", {
     method:"POST",
@@ -144,44 +169,117 @@ function WelcomePage() {
 
 
       {/* Form Section  */}
-      <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+     {/* Form Section */}
+<div
+  className="modal fade"
+  id="exampleModal"
+  tabIndex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
   <div className="modal-dialog">
     <div className="modal-content">
       <div className="modal-header">
-        <h5 className="modal-title" id="exampleModalLabel">Please Fill your contact Information</h5>
-        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <h5 className="modal-title" id="exampleModalLabel">
+          Please Fill Your Contact Information
+        </h5>
+        <button
+          type="button"
+          className="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
       </div>
       <div className="modal-body">
-        
-      <form className="row g-3 needs-validation"  onSubmit={handleFormSubmit}  noValidate>
-  <div className="col-md-12 position-relative">
-    <label htmlFor="validationTooltip01" className="form-label">Your Name</label>
-    <input type="text" className="form-control" id="validationTooltip01" value={userInfo.name} name="name" placeholder="Enter Your Name"   onChange={onChange} required/>
-    <div className="valid-tooltip">
-      Looks good!
-    </div>
-  </div>
-  <div className="col-md-12 position-relative">
-    <label htmlFor="validationTooltip02" className="form-label">Mobile Number</label>
-    <input type="Number" className="form-control"  id="validationTooltip02" value={userInfo.mobile_number} name="mobile_number"  placeholder="Enter your mobile number"  onChange={onChange} required />
-    <div className="valid-tooltip">
-      Looks good!
-    </div>
-  </div>
- 
+        <form
+          className="row g-3 needs-validation"
+          onSubmit={handleFormSubmit}
+          noValidate
+        >
+          <div className="col-md-12 position-relative">
+            <label htmlFor="validationTooltip01" className="form-label">
+              Your Name
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              id="validationTooltip01"
+              value={userInfo.name}
+              name="name"
+              placeholder="Enter Your Name"
+              onChange={onChange}
+              required
+            />
+            <div className="valid-tooltip">Looks good!</div>
+          </div>
 
-    
-      <div className="modal-footer">
-        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="submit" className="btn btn-primary" data-bs-dismiss="modal">Save changes</button>      </div>
-      </form>
+          <div className="col-md-12 position-relative">
+            <label htmlFor="validationTooltip02" className="form-label">
+              Mobile Number
+            </label>
+            <div className="d-flex">
+              <input
+                type="number"
+                className="form-control"
+                id="validationTooltip02"
+                value={userInfo.mobile_number}
+                name="mobile_number"
+                placeholder="Enter your mobile number"
+                onChange={onChange}
+                required
+              />
+              {/* <button
+                type="button"
+                className="btn btn-primary ms-2"
+                onClick={handleGenerateOTP}
+              >
+                Send OTP
+              </button> */}
+            </div>
+            <div className="valid-tooltip">Looks good!</div>
+          </div>
+
+          {/* OTP Input Field */}
+          {showOtpField && (
+            <div className="col-md-12 position-relative mt-3">
+              <label htmlFor="otpInput" className="form-label">
+                Enter OTP
+              </label>
+              <input
+                type="text"
+                className="form-control"
+                id="otpInput"
+                value={userInfo.otp}
+                name="otp"
+                placeholder="Enter OTP"
+                onChange={onChange}
+                required
+              />
+              <div className="valid-tooltip">Looks good!</div>
+            </div>
+          )}
+
+          <div className="modal-footer">
+            <button
+              type="button"
+              className="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button
+              type="submit"
+              className="btn btn-primary"
+              data-bs-dismiss="modal"
+            >
+              Save Changes
+            </button>
+          </div>
+        </form>
       </div>
-      
     </div>
   </div>
 </div>
-     
-
 
 
       {/* Image Section */}

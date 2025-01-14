@@ -139,7 +139,7 @@ const addToCart=async()=>{
 
   return (
     <>{  loading ? (
-              <div className="text-center"><Loader/></div>
+              <div className="text-center " style={{paddingTop:"200px"}}><Loader/></div>
             ) : error ? (
               <div className="text-danger text-center">{error}</div>
             ) : <div 
@@ -216,7 +216,8 @@ const addToCart=async()=>{
             {product ? (
   product.productStockQuantity >= 1 ? (
     cartLoading ? (
-      <Loader /> // Display the loader if loading is true
+      <div className="text-center " style={{alignItems:'center'}}><Loader/></div>
+      // Display the loader if loading is true
     ) : (
       <motion.button
         whileHover={{ scale: 1.05 }}

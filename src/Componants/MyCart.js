@@ -26,7 +26,7 @@ const MyCart = ({ navigateToOrder }) => {
   
 
 useEffect(()=>{   
-  window.scrollTo(0,0)
+  // window.scrollTo(0,0)
   
 
   const handleMyCartData=async()=>{
@@ -63,11 +63,12 @@ useEffect(()=>{
   } 
 
 handleMyCartData()
-},[token, cartItems])
+},[token])
 
 
 
 const handleDeleteItem=async(id)=>{ 
+  console.log(id)
   try{
     const response= await fetch("https://gurukrupa-kirana-backend.onrender.com/api/user/deleteCartItem", {
       method:"POST",
@@ -82,7 +83,7 @@ const handleDeleteItem=async(id)=>{
     }else{
       const data = await response.json()
       notifySuccess(data.message)
-      deleteCart(id)
+       deleteCart(id)
     }
 
   }catch(err){ 
@@ -99,7 +100,7 @@ const handleDeleteItem=async(id)=>{
 
 
 const deleteCart = (id) => {
-  setCartItems((item) =>(item && item.length>=0? item.filter((item) => item.id !== id):"")); 
+  setCartItems((item) =>(item && item.length>=0? item.filter((item) => item._id !== id):"")); 
 
 };
 
@@ -178,7 +179,7 @@ const calculateTotal = () =>
 
          
           {loading ? (
-                  <div className="text-center"><Loader/></div>
+                  <div className="text-center"style={{alignItems:"center"}}><Loader/></div>
                 ) : error ? (
                   <div className="text-danger text-center">{error}</div>
                 ) :
@@ -249,7 +250,7 @@ const calculateTotal = () =>
               
                 <motion.button
                   className="btn btn-danger btn-sm mt-3 w-100"
-                  onClick={() => handleDeleteItem(item.id)}
+                  onClick={() => handleDeleteItem(item._id)}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
