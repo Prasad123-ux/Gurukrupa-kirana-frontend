@@ -44,7 +44,7 @@ function Footer() {
           <div className="col-md-4 mb-4 text-center">
             <motion.div variants={sectionVariants}>
               <img
-                src="https://res-console.cloudinary.com/det3aoore/thumbnails/v1/image/upload/v1736834141/cHJvZHVjdF9pbWFnZXMvMThTZXAyNF9zaHY5c2I=/preview"
+                src="https://res.cloudinary.com/det3aoore/image/upload/v1736835677/product_images/cr6oqb4rn7m2dmbxlvtn.png"
                 alt="Logo"
                 className="img-fluid mb-3"
                 style={{ width: "120px", borderRadius: "50%" }}
@@ -133,7 +133,7 @@ function Footer() {
                 Gurukrupa Grocery is your trusted partner for fresh and quality groceries. We offer a seamless shopping experience with doorstep delivery and amazing discounts.
               </p>
               <img
-                src="https://res-console.cloudinary.com/det3aoore/thumbnails/v1/image/upload/v1736835256/cHJvZHVjdF9pbWFnZXMvYWxsLWZtY2ctZ3JvY2VyeS1wcm9kdWN0c19kbHZ0bm4=/preview"
+                src="https://res.cloudinary.com/det3aoore/image/upload/v1736835256/product_images/all-fmcg-grocery-products_dlvtnn.jpg"
                 alt="Category"
                 className="img-fluid mt-3"
                 style={{ borderRadius: "10px", width: "100px",height:"100px" }}

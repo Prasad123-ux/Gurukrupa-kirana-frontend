@@ -154,7 +154,7 @@ function HomePage() {
           <div className="carousel-inner">
             <div className="carousel-item active">
               <img
-                src="https://res-console.cloudinary.com/det3aoore/thumbnails/v1/image/upload/v1736834503/cHJvZHVjdF9pbWFnZXMvV2hhdHNBcHBfSW1hZ2VfMjAyNS0wMS0xNF9hdF8xMS4yOC4zNV81ZWZjZDEyN191YzhzM2g=/preview"
+                src="https://res.cloudinary.com/det3aoore/image/upload/v1736834483/product_images/WhatsApp_Image_2025-01-14_at_11.28.35_3399fccf_ij5ssi.jpg"
                 className="d-block w-100"
                 alt="Welcome to Gurukrupa kirana"
                 style={{height:"500px"}}
@@ -163,7 +163,7 @@ function HomePage() {
             </div>
             <div className="carousel-item">
               <img
-              src="https://res-console.cloudinary.com/det3aoore/thumbnails/v1/image/upload/v1736834483/cHJvZHVjdF9pbWFnZXMvV2hhdHNBcHBfSW1hZ2VfMjAyNS0wMS0xNF9hdF8xMS4yOC4zNV8zMzk5ZmNjZl9pajVzc2k=/preview"
+              src="https://res.cloudinary.com/det3aoore/image/upload/v1736834503/product_images/WhatsApp_Image_2025-01-14_at_11.28.35_5efcd127_uc8s3h.jpg"
 
                 className="d-block  w-100"
                 alt="Fresh Groceries Everyday"

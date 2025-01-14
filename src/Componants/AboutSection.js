@@ -4,16 +4,16 @@ import "../Styles/AboutSection.css";
 
 const AboutSection = () => {
   const shopImages = [
-    "https://res-console.cloudinary.com/det3aoore/thumbnails/v1/image/upload/v1736834654/cHJvZHVjdF9pbWFnZXMvV2hhdHNBcHBfSW1hZ2VfMjAyNS0wMS0xNF9hdF8xMS4yOC40Ml80MWEzOGJkY19jY2l3bjY=/preview",
-    "https://res-console.cloudinary.com/det3aoore/thumbnails/v1/image/upload/v1736834637/cHJvZHVjdF9pbWFnZXMvV2hhdHNBcHBfSW1hZ2VfMjAyNS0wMS0xNF9hdF8xMS4yOC40M184NzZmZDg0Nl9rbzdlM2Y=/preview",
-    "https://res-console.cloudinary.com/det3aoore/thumbnails/v1/image/upload/v1736834614/cHJvZHVjdF9pbWFnZXMvV2hhdHNBcHBfSW1hZ2VfMjAyNS0wMS0xNF9hdF8xMS4yOC40MV9iODUwZGFjZl9xZHBkcmU=/preview",
-    "https://res-console.cloudinary.com/det3aoore/thumbnails/v1/image/upload/v1736834600/cHJvZHVjdF9pbWFnZXMvV2hhdHNBcHBfSW1hZ2VfMjAyNS0wMS0xNF9hdF8xMS4yOC40MF8zMDA1YjU4Ml9pdG83a2Y=/preview",
-    "https://res-console.cloudinary.com/det3aoore/thumbnails/v1/image/upload/v1736834582/cHJvZHVjdF9pbWFnZXMvV2hhdHNBcHBfSW1hZ2VfMjAyNS0wMS0xNF9hdF8xMS4yOC4zOF9kY2YzMDdjOV9wZHRjY2w=/preview",
-    "https://res-console.cloudinary.com/det3aoore/thumbnails/v1/image/upload/v1736834547/cHJvZHVjdF9pbWFnZXMvV2hhdHNBcHBfSW1hZ2VfMjAyNS0wMS0xNF9hdF8xMS4yOC4zN184YmEzNzI4OV9ncGNycGo=/preview",
-    "https://res-console.cloudinary.com/det3aoore/thumbnails/v1/image/upload/v1736834532/cHJvZHVjdF9pbWFnZXMvV2hhdHNBcHBfSW1hZ2VfMjAyNS0wMS0xNF9hdF8xMS4yOC4zNl82ZDBkZDQ2OF9hdmZxMHU=/preview",
-    "https://res-console.cloudinary.com/det3aoore/thumbnails/v1/image/upload/v1736834514/cHJvZHVjdF9pbWFnZXMvV2hhdHNBcHBfSW1hZ2VfMjAyNS0wMS0xNF9hdF8xMS4yOC4zNl8zYjQ0MGNjNV94eXE5cjA=/preview",
-    "https://res-console.cloudinary.com/det3aoore/thumbnails/v1/image/upload/v1736834503/cHJvZHVjdF9pbWFnZXMvV2hhdHNBcHBfSW1hZ2VfMjAyNS0wMS0xNF9hdF8xMS4yOC4zNV81ZWZjZDEyN191YzhzM2g=/preview",
-    "https://res-console.cloudinary.com/det3aoore/thumbnails/v1/image/upload/v1736834483/cHJvZHVjdF9pbWFnZXMvV2hhdHNBcHBfSW1hZ2VfMjAyNS0wMS0xNF9hdF8xMS4yOC4zNV8zMzk5ZmNjZl9pajVzc2k=/preview"
+   "https://res.cloudinary.com/det3aoore/image/upload/v1736834654/product_images/WhatsApp_Image_2025-01-14_at_11.28.42_41a38bdc_cciwn6.jpg",
+   "https://res.cloudinary.com/det3aoore/image/upload/v1736834637/product_images/WhatsApp_Image_2025-01-14_at_11.28.43_876fd846_ko7e3f.jpg",
+   "https://res.cloudinary.com/det3aoore/image/upload/v1736834614/product_images/WhatsApp_Image_2025-01-14_at_11.28.41_b850dacf_qdpdre.jpg",
+   "https://res.cloudinary.com/det3aoore/image/upload/v1736834600/product_images/WhatsApp_Image_2025-01-14_at_11.28.40_3005b582_ito7kf.jpg",
+   "https://res.cloudinary.com/det3aoore/image/upload/v1736834547/product_images/WhatsApp_Image_2025-01-14_at_11.28.37_8ba37289_gpcrpj.jpg",
+   "https://res.cloudinary.com/det3aoore/image/upload/v1736834582/product_images/WhatsApp_Image_2025-01-14_at_11.28.38_dcf307c9_pdtccl.jpg",
+   "https://res.cloudinary.com/det3aoore/image/upload/v1736834532/product_images/WhatsApp_Image_2025-01-14_at_11.28.36_6d0dd468_avfq0u.jpg",
+   "https://res.cloudinary.com/det3aoore/image/upload/v1736834514/product_images/WhatsApp_Image_2025-01-14_at_11.28.36_3b440cc5_xyq9r0.jpg",
+   "https://res.cloudinary.com/det3aoore/image/upload/v1736834503/product_images/WhatsApp_Image_2025-01-14_at_11.28.35_5efcd127_uc8s3h.jpg",
+   "https://res.cloudinary.com/det3aoore/image/upload/v1736834483/product_images/WhatsApp_Image_2025-01-14_at_11.28.35_3399fccf_ij5ssi.jpg"
 
 
   ];
