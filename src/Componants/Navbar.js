@@ -48,7 +48,7 @@ function Navbar() {
           transition={{ duration: 1 }}
         >
           <img
-            src="https://res-console.cloudinary.com/det3aoore/thumbnails/v1/image/upload/v1736834141/cHJvZHVjdF9pbWFnZXMvMThTZXAyNF9zaHY5c2I=/preview"
+            src="https://res.cloudinary.com/det3aoore/image/upload/v1736835256/product_images/all-fmcg-grocery-products_dlvtnn.jpg"
             alt="App Logo"
             className="rounded-circle"
             style={{ width: "50px", height: "50px", objectFit: "cover" }}
