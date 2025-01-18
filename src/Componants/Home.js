@@ -10,7 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { Link } from "react-router-dom";
 import Loader from "./Loader";
 
-const categories = ["Biscuits", "Soaps", "Shampoo", "Washing Powder", "ToothPaste", "Tea Powder", "Masala", "Hair Oil"];
+const categories = ["Biscuits", "Soaps", "Shampoo", "Washing Powder", "ToothPaste", "Tea Powder", "Masala", "Hair Oil", "Sweets", "Nuts"];
 
 const productCardVariants = {
   hidden: { opacity: 0, scale: 0.9 },

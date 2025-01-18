@@ -24,7 +24,7 @@ const productCardVariants = {
 
 function CategoryWiseData() {
     const [bugs, setBugs]= useState()
-    const {productCategory}= useParams()
+    const {category}= useParams()
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null); 
@@ -40,13 +40,14 @@ function CategoryWiseData() {
 
 
   useEffect(() => {
+  
     window.scrollTo(0,0)
     const getProductData = async () => {
       try {
         const response = await fetch("https://gurukrupa-kirana-backend.onrender.com/api/user/categoryWiseData", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body:JSON.stringify({productCategory})
+          body:JSON.stringify({category})
         });
 
         if (!response.ok) {
@@ -67,7 +68,7 @@ function CategoryWiseData() {
     };
 
     getProductData();
-  }, [productCategory]); 
+  }, [category]); 
 
 
   const handleDetail=(id)=>{ 
@@ -90,7 +91,7 @@ function CategoryWiseData() {
 
       {/* Product Cards Section */}
       <motion.div className="container mt-4">
-        <h5 className="fw-bold text-center mb-4">{productCategory}</h5>
+        <h5 className="fw-bold text-center mb-4">{category}</h5>
         {loading ? (
           <div className="text-center"><Loader/></div>
         ) : error ? (

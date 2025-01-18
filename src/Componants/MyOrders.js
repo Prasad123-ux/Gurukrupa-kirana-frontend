@@ -6,6 +6,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { ToastContainer, toast } from 'react-toastify'; 
 import Loader from "./Loader";  
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 
 const MyOrders = () => {
@@ -13,6 +14,7 @@ const MyOrders = () => {
   const token = localStorage.getItem("TOKEN");  
   const [loading, setLoading]= useState(true) 
   const [error, setError]= useState()
+  const navigate= useNavigate()
 
        
         const notifyWarning = (message) => toast.warning(message);
@@ -54,8 +56,7 @@ const MyOrders = () => {
     getMyOrder();
   }, [token]);
 
-  
-  
+ 
   
   return (
     <div style={{ fontFamily: "'Poppins', sans-serif", backgroundColor: "#f9fafb", padding: "20px", minHeight: "100vh", paddingTop: "100px" }}> 

@@ -155,7 +155,11 @@ const calculateTotal = () =>
 
 
   
-
+       const handleDetail=(id)=>{ 
+        console.log(id)
+        navigate(`/ProductDetails/${id}`)
+    
+      }
   
 
   return (
@@ -203,10 +207,11 @@ const calculateTotal = () =>
                 background: "linear-gradient(135deg, #ffffff, #f8f9fa)",
               }}
             >
-              <motion.img
+                <motion.img
                 src={item.image}
                 alt={item.name}
-                className="card-img-top"
+                className="card-img-top" 
+                onClick={()=>{handleDetail(item.id)}}
                 style={{
                   height: "200px",
                   objectFit: "cover",

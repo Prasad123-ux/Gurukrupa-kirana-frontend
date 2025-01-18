@@ -1,16 +1,33 @@
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useEffect, useState } from "react";
+import { motion, useScroll } from "framer-motion";
 import { FaFacebook, FaInstagram, FaTwitter, FaYoutube, FaLinkedin } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom"; 
+import { ToastContainer, toast } from 'react-toastify'; 
+
 
 
 function Footer() {
   const navigate= useNavigate()
+  const [token , setToken]= useState()
   const sectionVariants = {
     hidden: { opacity: 0, y: 50 },
     visible: { opacity: 1, y: 0 },
   };
 
+  useEffect(()=>{
+  console.log(token)
+const tokenValue=localStorage.getItem("TOKEN") 
+console.log(tokenValue)
+setToken(tokenValue)
+  }, [token])
+
+
+        const notifySuccess = (message) => toast.success(message);
+        const notifyError = (message) => toast.error(message);
+        const notifyInfo = (message) => toast.info(message);
+        const notifyWarning = (message) => toast.warning(message);
+    
+  
 
   const categories = ["Biscuits", "Soaps", "Shampoo", "Washing Powder", "ToothPaste", "Tea Powder", ];
 
@@ -21,9 +38,19 @@ function Footer() {
   };
 
 
-  const handleCategoryData=(category)=>{ 
-    navigate(`/categoryData/${category}`)
-    window.scrollTo(0,0)
+  const handleCategoryData=(category)=>{  
+    if (!token){
+      window.scrollTo(0,0)
+      notifyWarning("Please Login Yourself")
+      return 
+      
+    }else{
+      navigate(`/categoryData/${category}`)
+      window.scrollTo(0,0)
+
+     
+    }
+   
 
   }
 
@@ -39,6 +66,7 @@ function Footer() {
       transition={{ staggerChildren: 0.2, duration: 1 }}
     >
       <div className="container">
+        <ToastContainer/>
         <div className="row">
           {/* Logo and Social Media Section */}
           <div className="col-md-4 mb-4 text-center">
@@ -111,15 +139,9 @@ function Footer() {
                   {item}
                   </motion.a>
                 </li>
+})}
+ </ul>
 
-
-
-
-
-                })}
-               
-              
-              </ul>
             </motion.div>
           </div>
 
