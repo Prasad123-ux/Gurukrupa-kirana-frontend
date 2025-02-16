@@ -31,7 +31,7 @@ useEffect(()=>{
 
   const handleMyCartData=async()=>{
     try{
-      const response= await fetch("http://localhost:7000/api/user/getCartData", {
+      const response= await fetch("https://gurukrupa-kirana-backend.onrender.com/api/user/getCartData", {
         method:"POST",
         headers:{"Content-type":"application/json"},
         body:JSON.stringify({token:token})
@@ -70,7 +70,7 @@ handleMyCartData()
 const handleDeleteItem=async(id)=>{ 
   console.log(id)
   try{
-    const response= await fetch("http://localhost:7000/api/user/deleteCartItem", {
+    const response= await fetch("https://gurukrupa-kirana-backend.onrender.com/api/user/deleteCartItem", {
       method:"POST",
       headers:{"Content-type":"application/json"},
       body:JSON.stringify({id, token:token})

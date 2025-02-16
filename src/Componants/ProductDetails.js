@@ -29,7 +29,7 @@ function ProductDetails() {
 
   const getProductDetail = async () => { 
     try {
-      const response = await fetch(`http://localhost:7000/api/user/getProductDetail/${id}`, {
+      const response = await fetch(`https://gurukrupa-kirana-backend.onrender.com/api/user/getProductDetail/${id}`, {
         method: "GET",
         headers: { "Content-Type": "application/json" },
       });
@@ -95,7 +95,7 @@ const addToCart=async()=>{
 
   try{
   
-  const response= await fetch("http://localhost:7000/api/user/addToCart", { 
+  const response= await fetch("https://gurukrupa-kirana-backend.onrender.com/api/user/addToCart", { 
 
     method:"POST",
     headers:{"Content-type":"application/json"},

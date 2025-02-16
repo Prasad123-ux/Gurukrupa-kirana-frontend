@@ -53,7 +53,7 @@ if (deliveryOption==="home"  ){
 
     const getUserData=async()=>{ 
       try{
-const response = await fetch("http://localhost:7000/api/user/getUserData" , { 
+const response = await fetch("https://gurukrupa-kirana-backend.onrender.com/api/user/getUserData" , { 
   method:"POST", 
   headers:{"Content-type":"application/json"},
   body:JSON.stringify({token})
@@ -100,7 +100,7 @@ if(!response){
     setOrderLoading(true)
     
     try{
-      const response=await fetch("http://localhost:7000/api/user/saveMyOrder", {
+      const response=await fetch("https://gurukrupa-kirana-backend.onrender.com/api/user/saveMyOrder", {
         method:'POST',
         headers:{"Content-type":"application/json"},
         body:JSON.stringify({ userName:userName, mobileNumber:mobileNumber,address: address,deliveryOption: deliveryOption, paymentMethod:paymentMethod, total:total, id: selectedItems[0]._id, items:selectedItems})

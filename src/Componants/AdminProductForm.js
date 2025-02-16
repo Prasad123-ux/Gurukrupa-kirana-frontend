@@ -87,8 +87,8 @@ function AdminProductForm() {
     });
 
     try {
-        // const response = await fetch("http://localhost:7000/api/admin/addProductData",
-         const response= await fetch("http://localhost:7000/api/admin/addProductData",
+        // const response = await fetch("https://gurukrupa-kirana-backend.onrender.com/api/admin/addProductData",
+         const response= await fetch("https://gurukrupa-kirana-backend.onrender.com/api/admin/addProductData",
          {
             method: "POST",
             // headers:{"Content-type":"application/json"},  

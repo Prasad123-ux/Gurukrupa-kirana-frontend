@@ -27,7 +27,7 @@ const MyOrders = () => {
     window.scrollTo(0,0)
     const getMyOrder = async () => {
       try {
-        const response = await fetch("http://localhost:7000/api/user/getMyOrders", {
+        const response = await fetch("https://gurukrupa-kirana-backend.onrender.com/api/user/getMyOrders", {
           method: "POST",
           headers: { "Content-type": "application/json" },
           body: JSON.stringify({ token }),
