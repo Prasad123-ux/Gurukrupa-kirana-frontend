@@ -31,7 +31,7 @@ useEffect(()=>{
 
   const handleMyCartData=async()=>{
     try{
-      const response= await fetch("https://gurukrupa-kirana-backend.onrender.com/api/user/getCartData", {
+      const response= await fetch("http://localhost:7000/api/user/getCartData", {
         method:"POST",
         headers:{"Content-type":"application/json"},
         body:JSON.stringify({token:token})
@@ -70,7 +70,7 @@ handleMyCartData()
 const handleDeleteItem=async(id)=>{ 
   console.log(id)
   try{
-    const response= await fetch("https://gurukrupa-kirana-backend.onrender.com/api/user/deleteCartItem", {
+    const response= await fetch("http://localhost:7000/api/user/deleteCartItem", {
       method:"POST",
       headers:{"Content-type":"application/json"},
       body:JSON.stringify({id, token:token})
@@ -83,6 +83,7 @@ const handleDeleteItem=async(id)=>{
     }else{
       const data = await response.json()
       notifySuccess(data.message)
+      notifyWarning("If its Showing all items are deleted then refresh the page")
        deleteCart(id)
     }
 
@@ -97,12 +98,11 @@ const handleDeleteItem=async(id)=>{
 
 
 
-
-
 const deleteCart = (id) => {
-  setCartItems((item) =>(item && item.length>=0? item.filter((item) => item._id !== id):"")); 
-
+  setCartItems((prevItems) => (Array.isArray(prevItems) ? prevItems.filter((item) => item._id === id) : []));
 };
+
+
 
 
  const handleSelectItem = (id) => {

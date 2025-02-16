@@ -27,6 +27,7 @@ function HomePage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null); 
   const navigate= useNavigate()
+  const [itemValue, setItemValue]= useState(1)
 
 
   const notifyError = (message) => toast.error(message);
@@ -39,7 +40,7 @@ function HomePage() {
     const getProductData = async () => {
     
       try {
-        const response = await fetch("https://gurukrupa-kirana-backend.onrender.com/api/user/getProductData", {
+        const response = await fetch("http://localhost:7000/api/user/getProductData", {
           method: "GET",
           headers: { "Content-Type": "application/json" },
         });
@@ -78,6 +79,16 @@ function HomePage() {
     navigate(`/categoryData/${category}`)
 
   }
+
+const cartIncrement=()=>{
+  setItemValue(itemValue+1)
+}
+
+const cartDecrement=()=>{
+  setItemValue(itemValue-1)
+}
+
+
 
   return (
     <div
@@ -199,7 +210,7 @@ function HomePage() {
               >
                 <div
                   className="card border-0 shadow-sm p-2"
-                  onClick={()=>{handleDetail(product._id);}}
+                 
                   style={{
                     borderRadius: "12px",
                     textAlign: "center",
@@ -214,13 +225,21 @@ function HomePage() {
                     className="card-img-top mx-auto"
                     style={{ maxWidth: "100%", maxHeight: "100px" }}
                     alt={product.name || "Product"}
+                    onClick={()=>{handleDetail(product._id);}}
                   />
                   <div className="card-body">
                     <h6 className="fw-bold text-truncate">{product.productName}</h6>
                     <p className="text-muted mb-1">{product.productCategory}</p>
                     <p className="text-success fw-bold fs-6"> <FaRupeeSign /> {product.productPrice} / {product.productUnit}</p>
                   </div>
-               
+               <div className="card-footer">
+                {/* <button className="btn btn-primary w-100"> Add to cart</button> */}
+
+                {/* <div className="d-flex justify-content-around shadow">
+                  <button className="btn btn-warning" onClick={cartDecrement}>-</button><input value={itemValue} className="shadow fw-bolder fs-6"/><button className="btn btn-danger" onClick={cartIncrement}>+</button>
+
+                </div> */}
+               </div>
                 </div>
               </motion.div>
               

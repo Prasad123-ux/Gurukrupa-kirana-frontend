@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import { motion, useScroll } from "framer-motion";
 import { FaFacebook, FaInstagram, FaTwitter, FaYoutube, FaLinkedin } from "react-icons/fa";
 import { useNavigate } from "react-router-dom"; 
-import { ToastContainer, toast } from 'react-toastify'; 
+import { ToastContainer, toast } from 'react-toastify';  
+
 
 
 
@@ -54,6 +55,10 @@ setToken(tokenValue)
 
   }
 
+  const handleHome=()=>{
+    navigate("/")
+    
+  }
   return (
     <motion.footer
       className="text-light pt-5"
@@ -75,10 +80,14 @@ setToken(tokenValue)
                 src="https://res.cloudinary.com/det3aoore/image/upload/v1736835677/product_images/cr6oqb4rn7m2dmbxlvtn.png"
                 alt="Logo"
                 className="img-fluid mb-3"
-                style={{ width: "120px", borderRadius: "50%" }}
+                style={{ width: "120px", borderRadius: "50%" }} 
+                onClick={handleHome}
               />
               <h5 className="fw-bold text-uppercase" style={{ fontSize: "14px" }}>
-                Gurukrupa Grocery
+                Gurukrupa Grocery  
+                 
+
+
               </h5>
               <div className="mt-3">
                 <motion.a
@@ -172,11 +181,11 @@ setToken(tokenValue)
         >
           <p>© {new Date().getFullYear()} Gurukrupa Grocery. All Rights Reserved.</p>
           <p>
-            <a href="/" className="text-light text-decoration-none">
+            <a href="/about" className="text-light text-decoration-none">
               Terms of Service
             </a>{" "}
             |{" "}
-            <a href="/" className="text-light text-decoration-none">
+            <a href="/about" className="text-light text-decoration-none">
               Privacy Policy
             </a>
           </p>

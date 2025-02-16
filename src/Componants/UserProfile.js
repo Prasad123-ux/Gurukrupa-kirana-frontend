@@ -5,13 +5,16 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "../Styles/UserProfile.css"; 
 import { ToastContainer, toast } from 'react-toastify';
 import Loader from "./Loader";
+import { useNavigate } from "react-router-dom";
 
 
 const UserProfile = () => { 
 
   const [loading, setLoading]= useState(true) 
   const [error, setError]= useState()
+  const navigate=useNavigate()
   const [profile, setProfile] = useState({
+
     name: "",
     mobile: "",
     address: "Not Mentioned",
@@ -39,7 +42,7 @@ const UserProfile = () => {
     window.scrollTo(0,0)
     const getUserData = async () => {
       try {
-        const response = await fetch("https://gurukrupa-kirana-backend.onrender.com/api/user/getUserData", {
+        const response = await fetch("http://localhost:7000/api/user/getUserData", {
           method: "POST",
           headers: { "Content-type": "application/json" },
           body: JSON.stringify({ token }),
@@ -94,7 +97,7 @@ const UserProfile = () => {
 
 
     try {
-      const response = await fetch("https://gurukrupa-kirana-backend.onrender.com/api/user/updateProfileData", {
+      const response = await fetch("http://localhost:7000/api/user/updateProfileData", {
         method: "PUT",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -132,6 +135,13 @@ const UserProfile = () => {
     
   } 
 
+  const handleDashboard=()=>{
+    navigate("/adminDashboard")
+
+  }
+  const handleProductAdd=()=>{
+    navigate("/adminProductForm")
+  }
  
   return (
     <div className="user-profile-section"> 
@@ -230,11 +240,34 @@ const UserProfile = () => {
               icon={<FaMapMarkerAlt />}
               // onEdit={() => handleEdit("address")}
             />
+          {  profile.mobile_number===9307173845 || 9359334431 || 8530825101 ?   
+            <div
+              label="Dashboard"
+            onClick={handleDashboard}
+              
+              // onEdit={() => handleEdit("mobile")}
+            > Dashboard</div>:""
+          }
+          
+           {  profile.mobile_number===9307173845 || 9359334431 || 8530825101 ?   
+            <div
+              label="Add Product"
+            onClick={handleProductAdd}
+              
+              // onEdit={() => handleEdit("mobile")}
+            > Add Product</div>:""
+          }
+
           </div>
         </motion.div>
+        <div>
+
+</div>
       </div> 
 
-      }
+      } 
+
+     
     </div>
   );
 };

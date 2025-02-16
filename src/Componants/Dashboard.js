@@ -31,7 +31,7 @@ const Dashboard1 = () => {
     
     const getTotalOrder = async () => {
       try {
-        const response = await fetch("https://gurukrupa-kirana-backend.onrender.com/api/admin/getTotalOrder", {
+        const response = await fetch("http://localhost:7000/api/admin/getTotalOrder", {
           method: "POST",
           headers: { "Content-type": "application/json" },
           body: JSON.stringify({ token }),

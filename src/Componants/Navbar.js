@@ -3,9 +3,11 @@ import { motion } from "framer-motion";
 import { FaUserCircle } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import "../Styles/Navbar.css";
+import { useNavigate } from "react-router-dom";
 
 function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const navigate= useNavigate()
   
 
   // Function to toggle the menu
@@ -23,7 +25,10 @@ function Navbar() {
 
  
 
-
+  const handleHome=()=>{
+    navigate("/")
+    
+  }
 
 
   return (
@@ -32,6 +37,7 @@ function Navbar() {
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 1 }}
+      
       style={{
         fontFamily: "'Poppins', sans-serif",
         position: "fixed",
@@ -42,6 +48,7 @@ function Navbar() {
       <div className="container-fluid px-4">
         {/* Logo */}
         <motion.div
+        onClick={handleHome}
           className="navbar-brand d-flex align-items-center"
           initial={{ rotate: 0 }}
           whileHover={{ rotate: 360 }}
@@ -51,7 +58,8 @@ function Navbar() {
             src="https://res.cloudinary.com/det3aoore/image/upload/v1736835677/product_images/cr6oqb4rn7m2dmbxlvtn.png"
             alt="App Logo"
             className="rounded-circle"
-            style={{ width: "50px", height: "50px", objectFit: "cover" }}
+            style={{ width: "50px", height: "50px", objectFit: "cover" }} 
+           
           />
           <span className="ms-2 fw-bold text-success">Gurukrupa Kirana</span>
         </motion.div>
