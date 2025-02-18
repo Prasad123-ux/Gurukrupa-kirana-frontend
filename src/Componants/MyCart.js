@@ -213,8 +213,8 @@ const calculateTotal = () =>
                 className="card-img-top" 
                 onClick={()=>{handleDetail(item.id)}}
                 style={{
-                  height: "200px",
-                  objectFit: "cover",
+                  height: "100px",
+                  objectFit:"fill",
                 }}
                 whileHover={{ scale: 1.2 }}
               />

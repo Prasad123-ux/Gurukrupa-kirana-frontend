@@ -9,8 +9,20 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Link } from "react-router-dom";
 import Loader from "./Loader";
+import { FiShare2 } from "react-icons/fi";
 
-const categories = ["Biscuits", "Soaps", "Shampoo", "Washing Powder", "ToothPaste", "Tea Powder", "Masala", "Hair Oil", "Sweets", "Nuts"];
+const categories = ["बिस्किटे",
+    "साबण",
+    "शँपु",
+    "धुण्याचा पावडर",
+    "टूथपेस्ट",
+    "चहा पावडर",
+    "मसाले",
+    "केसांचे तेल",
+    "गोडधोड पदार्थ",
+    "सुकामेवा",
+    "दुग्धजन्य पदार्थ",
+    "खाद्यतेल"]
 
 const productCardVariants = {
   hidden: { opacity: 0, scale: 0.9 },

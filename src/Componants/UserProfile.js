@@ -126,7 +126,7 @@ const UserProfile = () => {
 
 
 
-  console.log(profile)
+  
 
 
   const onchange=(e)=>{
@@ -194,7 +194,8 @@ const UserProfile = () => {
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-        >
+        > 
+
           <div className="text-center">
             <motion.img
               src={profile.profileImage}

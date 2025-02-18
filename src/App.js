@@ -18,6 +18,8 @@ import AdminProductForm from './Componants/AdminProductForm'
 import CategoryWiseData from './Componants/CategoryWiseData'
 import Loader from './Componants/Loader'
 import OrderDetail from './Componants/OrderDetail'
+import Ratings from './Componants/Ratings'
+import { Rating } from 'react-simple-star-rating'
 
 
 export default function App() {
@@ -42,7 +44,8 @@ export default function App() {
       <Route exact path="/adminProductForm" element={<AdminProductForm/>}/> 
       <Route exact path="/categoryData/:category" element={<CategoryWiseData/>}/>  
       <Route exact path="/getOrderDetail/:id/:innerID" element={<OrderDetail/>}/>  
-      <Route exact path="/loader" element={<Loader/>}/>
+      <Route exact path="/loader" element={<Loader/>}/> 
+      <Route exact path="/ratings/:id" element={<Ratings/>}/>
  
 
  
