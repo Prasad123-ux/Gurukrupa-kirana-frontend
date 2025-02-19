@@ -39,12 +39,12 @@ function ProductDetails() {
 
     const [formData, setFormData] = useState({
         productName: "",
-        category: "",
-        price: "",
-        stock: "",
-        unit: "",
-        customUnit: "",
-        description: "",
+        productCategory: "",
+        productPrice: "",
+        productStockQuantity: "",     
+        productUnit: "",  
+        productCustomUnit: "",           
+        productDescription: "",
         photo: null,
       });
 
@@ -99,8 +99,8 @@ useEffect(() => {
         const value = e.target.value;
         setFormData({
           ...formData,                                           
-          unit: value,
-          customUnit: value === "other" ? "" : formData.customUnit,
+          productUnit: value,
+          productCustomUnit: value === "other" ? "" : formData.productCustomUnit,
         });
       };
     
@@ -169,8 +169,8 @@ useEffect(() => {
         return;
     }
 
-    const finalUnit = formData.unit === "other" ? formData.customUnit : formData.unit;
-    const payload = { ...formData, unit: finalUnit };
+    const finalUnit = formData.productUnit === "other" ? formData.productCustomUnit : formData.productUnit;
+    const payload = { ...formData, productUnit: finalUnit };
 
     const formDataToSend = new FormData();
 
@@ -438,8 +438,8 @@ const handleDeleteProduct=async()=>{
                   <input
                     type="text"
                     id="category"
-                    name="category"
-                    value={formData.category}
+                    name="productCategory"
+                    value={formData.productCategory}
                     onChange={handleInputChange}
                     className="form-control"
                     placeholder="Enter category"
@@ -459,8 +459,8 @@ const handleDeleteProduct=async()=>{
                   <input
                     type="number"
                     id="price"
-                    name="price"
-                    value={formData.price}
+                    name="productPrice"
+                    value={formData.productPrice}
                     onChange={handleInputChange}
                     className="form-control"
                     placeholder="Enter price"
@@ -480,8 +480,8 @@ const handleDeleteProduct=async()=>{
                   <input
                     type="number"
                     id="stock"
-                    name="stock"
-                    value={formData.stock}
+                    name="productStockQuantity"
+                    value={formData.productStockQuantity}
                     onChange={handleInputChange}
                     className="form-control"
                     placeholder="Enter stock quantity"
@@ -500,8 +500,8 @@ const handleDeleteProduct=async()=>{
                   </label>
                   <select
                     id="unit"
-                    name="unit"
-                    value={formData.unit}
+                    name="productUnit"
+                    value={formData.productUnit}
                     onChange={handleUnitChange}
                     className="form-control"
                   
@@ -529,8 +529,8 @@ const handleDeleteProduct=async()=>{
                     <input
                       type="text"
                       id="customUnit"
-                      name="customUnit"
-                      value={formData.customUnit}
+                      name="productCustomUnit"
+                      value={formData.productCustomUnit}
                       onChange={handleInputChange}
                       className="form-control"
                       placeholder="Enter custom unit"
@@ -550,8 +550,8 @@ const handleDeleteProduct=async()=>{
                   </label>
                   <textarea
                     id="description"
-                    name="description"
-                    value={formData.description}
+                    name="productDescription"
+                    value={formData.productDescription}
                     onChange={handleInputChange}
                     className="form-control"
                     placeholder="Enter product description"
@@ -578,7 +578,8 @@ const handleDeleteProduct=async()=>{
                     accept="image/*"
                     
                   />
-                </motion.div>
+                </motion.div>  
+
         
                 {/* Submit Button */}
                 <motion.div className="text-center">
