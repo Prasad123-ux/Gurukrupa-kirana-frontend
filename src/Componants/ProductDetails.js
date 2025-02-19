@@ -260,7 +260,7 @@ const handleLike=()=>{
   else{
     setLike(true)
     handleReportJob()
-    notifySuccess("Thank You for Your Support")
+    notifySuccess("आपल्या पाठबळाबद्दल धन्यवाद!")
   }
 
  
@@ -621,7 +621,7 @@ const handleDeleteProduct=async()=>{
             {/* Quantity Selector */}
             <div className="d-flex align-items-center my-3">
               <label htmlFor="quantity" className="me-2 fw-bold">
-                Quantity:
+              प्रमाण :
               </label>
               <input
                 type="number"
@@ -636,7 +636,7 @@ const handleDeleteProduct=async()=>{
             </div>
            
             {/* Total Price */}
-            <p className="text-primary fw-bold">Total: {product && product.productPrice>=0  ? product.productPrice*quantity:" N/A"} <FaRupeeSign/> </p>  
+            <p className="text-primary fw-bold">एकूण: {product && product.productPrice>=0  ? product.productPrice*quantity:" N/A"} <FaRupeeSign/> </p>  
 
             {/* Order Button */}
 
@@ -653,24 +653,26 @@ const handleDeleteProduct=async()=>{
         style={{ borderRadius: "20px" }}
         onClick={addToCart}
       >
-        Add to Cart
+       कार्टमध्ये जोडा
       </motion.button> 
       
     )
   ) : (
-    <span>Item Not Available</span> // Inform user that the item is unavailable
+    <span>आयटम उपलब्ध नाही</span> // Inform user that the item is unavailable
   )
 ) : (
   <Loader /> // Handle case when product is null or undefined
 )}
 <div className="d-flex justify-content-center flex-row">
-<p className="mt-5"> Article ID: {product && product._id>=0   ? product._id:""}{id}</p>
+<p className="mt-5"> लेख ID:{product && product._id>=0   ? product._id:""}{id}</p>
 <p className="mt-5 ms-5" ><IoCopy onClick={()=>{handleCopy(id)}}  style={{width:"fitContent", height:"fitContent" ,cursor: "pointer", color: "#4CAF50", fontSize: "18px" }}/></p>
 </div>
 
           </motion.div>
         </div> 
-  :<div className="text-center">oops..! Try again . We don't have information about product </div>  }
+  :<div className="text-center">अरेरे...! पुन्हा प्रयत्न करा. आमच्याकडे उत्पादनाची माहिती उपलब्ध नाही.
+  
+   </div>  }
       </motion.div>
 
     

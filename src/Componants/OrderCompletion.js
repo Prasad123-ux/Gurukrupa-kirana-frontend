@@ -188,11 +188,11 @@ if(!response){
     doc.setFontSize(14);
   
     // Title
-    doc.text("Gurukrupa Kirana Sawargaon", 80,10)
+    doc.text("गुरुकृपा किराणा सावरगाव", 80,10)
     // doc.text("Order Receipt", 10, 20);
   
     // User Info
-    doc.text(`User Name: ${userName}`, 10, 20);
+    doc.text(`वापरकर्त्याचे नाव: ${userName}`, 10, 20);
     doc.text(`Mobile: ${mobileNumber}`, 10, 30);
   
     // Cart Items Header
@@ -216,16 +216,16 @@ if(!response){
     
     // Total Price
     currentY += 10; // Add extra spacing
-    doc.text(`Total Price: ₹${calculateTotal()}`, 10, currentY);
+    doc.text(`एकूण किंमत: ₹${calculateTotal()}`, 10, currentY);
   
     // Footer
     currentY += 20;
-    const footerText = "Thank you for shopping with us! Gurukrupa Kirana will be with you always.";
+    const footerText = "आमच्यासोबत खरेदी केल्याबद्दल धन्यवाद! गुरुकृपा किराणा नेहमीच तुमच्या सोबत असेल. 😊🛒";
     const wrappedFooter = doc.splitTextToSize(footerText, 180);
     doc.text(wrappedFooter, 10, currentY);
   
     // Save the PDF
-    doc.save("Gurukrupa_Kirana.pdf");
+    doc.save("गुरुकृपा किराणा.pdf");
   };
   
   
@@ -288,10 +288,10 @@ if(!response){
                   <h5 className="fw-bold mt-3">{item.name}</h5>
                   <p>{item.description}</p>
                   <p className="text-primary fw-bold">
-                    Price: ₹{item.price} x {item.quantity} {item.unit}
+                  किंमत: ₹{item.price} x {item.quantity} {item.unit}
                   </p>
                   <p className="text-success fw-bold">
-                    Subtotal: ₹{item.price * item.quantity}
+                  उपएकूण: ₹{item.price * item.quantity}
                   </p>
                 </motion.div>
               </div>
@@ -301,22 +301,30 @@ if(!response){
 
           {/* Address Section */}
           <div className="mb-4 bg-light p-3 shadow-sm rounded">
-          <h5 className="fw-bold">Total Price</h5>
+          <h5 className="fw-bold">एकूण किंमत</h5>
           <p>
               
               <strong>  ₹ {total}</strong> 
-              {deliveryOption==="home" ?  <span> (₹ 20 Charges added for Home Delivery)  </span>:""}
+              {deliveryOption==="home" ?  <span> (₹20 घरपोच वितरण शुल्क जोडले गेले
+
+
+
+
+
+
+
+)  </span>:""}
             </p>
 
-            <h5 className="fw-bold">User Details</h5>
+            <h5 className="fw-bold">वापरकर्ता तपशील</h5>
             <p>
-              <strong>Name:</strong> {userName} <br />
+              <strong> नाव:</strong> {userName} <br />
               <strong>Mobile:</strong> {mobileNumber}
             </p>
-            <h5 className="fw-bold">Enter Address</h5>
+            <h5 className="fw-bold">पत्ता प्रविष्ट करा</h5>
             <textarea
               className="form-control"
-              placeholder="Enter delivery address"
+              placeholder="पत्ता प्रविष्ट करा"
               value={address}
               onChange={(e) => setAddress(e.target.value)}
             />
@@ -324,7 +332,7 @@ if(!response){
 
           {/* Delivery Options */}
           <div className="mb-4 bg-light p-3 shadow-sm rounded">
-            <h5 className="fw-bold">Delivery Option</h5>
+            <h5 className="fw-bold"></h5>
             <div className="form-check">
               <input 
               disabled={total<=1000}
@@ -336,7 +344,7 @@ if(!response){
                 onChange={(e) => setDeliveryOption(e.target.value)}
               />
               <label className="form-check-label" htmlFor="homeDelivery">
-                Home Delivery (Home Delivery only available for above than 1000 rupees of  order)
+              घरपोच डिलिव्हरी (फक्त 1000 रुपयांपेक्षा जास्त ऑर्डरसाठी घरपोच डिलिव्हरी उपलब्ध आहे)
               </label>
             </div>
             <div className="form-check">
@@ -349,15 +357,15 @@ if(!response){
                 onChange={(e) => setDeliveryOption(e.target.value)}
               />
               <label className="form-check-label" htmlFor="storePickup">
-                Store Pickup (Free)
+              स्टोअर पिकअप (विनामूल्य)
               </label>
             </div>
           </div>
 
           {/* Payment Section */}
           <div className="mb-4 bg-light p-3 shadow-sm rounded">
-            <h5 className="fw-bold">Choose Payment Method</h5>
-            <i> <small>Due to technical issues, our online payment options are temporarily unavailable. Please use the Cash on Delivery (COD) option.Online payment services will resume soon. </small></i>
+            <h5 className="fw-bold">पेमेंट पद्धत निवडा</h5>
+            <i> <small>तांत्रिक अडचणींमुळे, आमचे ऑनलाइन पेमेंट पर्याय तात्पुरत्या अनुपलब्ध आहेत. कृपया कॅश ऑन डिलिव्हरी (COD) पर्याय वापरा. ऑनलाइन पेमेंट सेवा लवकरच पुन्हा सुरू होईल. </small></i>
             <div className="d-flex justify-content-around"> 
               <button
               disabled
@@ -408,7 +416,7 @@ if(!response){
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            Place Order
+            ऑर्डर द्या
           </motion.button>
 
 }
@@ -420,10 +428,12 @@ if(!response){
           animate={{ opacity: 1 }}
           transition={{ duration: 1 }}
         >
-          <h3 className="fw-bold text-success">Order Placed Successfully!</h3>
-          <p>Your order will be delivered soon. Thank you for shopping with us!</p>
+          <h3 className="fw-bold text-success">ऑर्डर यशस्वीरित्या दिले!
+
+</h3>
+          <p>तुमची ऑर्डर लवकरच डिलिव्हर केली जाईल. आमच्याकडून खरेदी केल्याबद्दल धन्यवाद!!</p>
           <button className="btn btn-primary" onClick={generateReceipt} >
-            Download Receipt
+          पावती डाउनलोड करा
           </button>
         </motion.div>
       )}

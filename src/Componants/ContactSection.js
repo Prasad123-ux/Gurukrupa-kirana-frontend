@@ -15,7 +15,7 @@ const ContactSection = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          Contact Us
+          संपर्क करा
         </motion.h2>
 
         <motion.div
@@ -41,7 +41,7 @@ const ContactSection = () => {
           <div className="contact-card">
             <FaMapMarkerAlt className="icon address-icon" />
             <p>
-              <strong>Address:</strong> Gurukrupa Kirana Store, Near Bus Stop, Sawargaon, Maharashtra
+              <strong>पत्ता:</strong> गुरुकृपा किराणा स्टोअर, बसस्थानकाजवळ, सावरगाव, महाराष्ट्र
             </p>
           </div>
         </motion.div>
@@ -72,7 +72,7 @@ const ContactSection = () => {
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
           >
-            Join WhatsApp Group
+           व्हॉट्सअॅप गटात सामील व्हा
           </motion.a>
         </motion.div>
       </div>

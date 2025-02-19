@@ -30,7 +30,7 @@ setToken(tokenValue)
     
   
 
-  const categories = ["Biscuits", "Soaps", "Shampoo", "Washing Powder", "ToothPaste", "Tea Powder", ];
+  const categories = ["बिस्किटे", "साबण", "शॅम्पू", "धुण्याचा पावडर", "टूथपेस्ट", "चहा पावडर", ];
 
 
   const linkHover = {
@@ -84,7 +84,7 @@ setToken(tokenValue)
                 onClick={handleHome}
               />
               <h5 className="fw-bold text-uppercase" style={{ fontSize: "14px" }}>
-                Gurukrupa Grocery  
+              गुरुकृपा किराणा
                  
 
 
@@ -133,7 +133,7 @@ setToken(tokenValue)
           <div className="col-md-4 mb-4">
             <motion.div variants={sectionVariants}>
               <h5 className="fw-bold text-uppercase mb-3" style={{ fontSize: "14px" }}>
-                Popular Categories
+              लोकप्रिय श्रेणी
               </h5>
               <ul className="list-unstyled text-muted">
                 {categories.map((item, index)=>{
@@ -158,10 +158,18 @@ setToken(tokenValue)
           <div className="col-md-4 mb-4">
             <motion.div variants={sectionVariants}>
               <h5 className="fw-bold text-uppercase mb-3" style={{ fontSize: "14px" }}>
-                About Us
+              आमच्याबद्दल
               </h5>
               <p className="text-muted small">
-                Gurukrupa Grocery is your trusted partner for fresh and quality groceries. We offer a seamless shopping experience with doorstep delivery and amazing discounts.
+              गुरुकृपा किराणा हा तुमचा ताजा आणि उच्च दर्जाच्या किराणासाठी विश्वासू भागीदार आहे. आम्ही तुम्हाला घरपोच सेवा आणि आश्चर्यकारक सवलतींसह सहज खरेदीचा अनुभव देतो. 😊🛒🚚
+
+
+
+
+
+
+
+
               </p>
               <img
                 src="https://res.cloudinary.com/det3aoore/image/upload/v1736835256/product_images/all-fmcg-grocery-products_dlvtnn.jpg"
@@ -182,11 +190,11 @@ setToken(tokenValue)
           <p>© {new Date().getFullYear()} Gurukrupa Grocery. All Rights Reserved.</p>
           <p>
             <a href="/about" className="text-light text-decoration-none">
-              Terms of Service
+            सेवेच्या अटी
             </a>{" "}
             |{" "}
             <a href="/about" className="text-light text-decoration-none">
-              Privacy Policy
+            गोपनीयता धोरण
             </a>
           </p>
         </motion.div>

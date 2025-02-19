@@ -199,7 +199,7 @@ const cartDecrement=()=>{
 
       {/* Product Cards Section */}
       <motion.div className="container mt-4">
-        <h5 className="fw-bold text-center mb-4">Explore Our Products</h5>
+        <h5 className="fw-bold text-center mb-4">आमची उत्पादने</h5>
          {/* <button className="btn btn" onClick={notifySuccess}> SUCCESS</button> */}
          <ToastContainer autoClose={7000}/>
           

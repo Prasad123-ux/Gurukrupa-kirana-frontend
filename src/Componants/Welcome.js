@@ -17,7 +17,7 @@ function WelcomePage() {
 const [tokenData,setTokenData]= useState(null)   
 const navigate=useNavigate()
 const [showOtpField, setShowOtpField] = useState(false);
-const notifySuccess = () => toast.success('This is a success message!');
+const notifySuccess = () => toast.success('तुम्ही यशस्वीरित्या लॉग इन केले आहे!');
 const notifyError = (message) => toast.error(message);
   
   useEffect(()=>{
@@ -106,7 +106,7 @@ const handleGenerateOTP=async(e)=>{
 
 
      <div
-      className="container-fluid welcome vh-100 d-flex flex-column justify-content-center align-items-center text-center"
+      className="container-fluid welcome  d-flex flex-column justify-content-center align-items-center text-center"
       style={{
         background: ' linear-gradient(to bottom, #f7f9fc, #e9ecef)',
         backgroundSize: "cover",
@@ -132,7 +132,7 @@ const handleGenerateOTP=async(e)=>{
 
       {/* Animated Title */}
       <motion.h1
-        className="display-3 fw-bold text-success"
+        className="display-6 fw-bold text-success"
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 1 }}
@@ -140,19 +140,19 @@ const handleGenerateOTP=async(e)=>{
           textShadow: "2px 2px 4px rgba(0, 0, 0, 0.3)",
         }}
       >
-        Welcome to Gurukrupa Kirana  
+        गुरुकृपा किराणा मध्ये आपले स्वागत आहे!
         
       </motion.h1>
 
       {/* Subtitle */}
       <motion.p
-        className="fs-5 text-dark"
+        className="fs-6 text-dark"
         initial={{ x: -100, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
         transition={{ duration: 1, delay: 0.2 }}
         style={{ maxWidth: "600px", margin: "0 auto", lineHeight: "1.8" }}
       >
-        Your trusted grocery delivery service. Fresh products delivered straight to your doorstep with love and care!
+        तुमची विश्वासू किराणा घरपोच सेवा. ताज्या आणि शुद्ध वस्तू वेळेत तुमच्या दारात पोहोचवण्यासाठी आमची अनुभवी टीम नेहमी तत्पर आहे. विश्वास, गुणवत्ता आणि उत्कृष्ट सेवा यांचा संगम म्हणजे गुरुकृपा किराणा! आजच ऑर्डर करा आणि घरबसल्या सहज खरेदीचा आनंद घ्या! 
       </motion.p>
 
       {/* Animated Button */}
@@ -164,7 +164,7 @@ const handleGenerateOTP=async(e)=>{
         transition={{ duration: 0.5, delay: 0.4 }}
       >
       { !tokenData || tokenData==="undefined"? (<button className="btn btn-success btn-lg px-5 mt-4 fw-bold shadow-lg " type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">  Let’s Start </button>)
-       : (<Link to="/home"> <button className="btn btn-success btn-lg px-5 mt-4 fw-bold shadow-lg " type="button"> Let's Start</button></Link>)}
+       : (<Link to="/home"> <button className="btn btn-success btn-lg px-5 mt-4 fw-bold shadow-lg " type="button"> चला सुरुवात करूया! </button></Link>)}
       </motion.div>
 
 
@@ -181,7 +181,7 @@ const handleGenerateOTP=async(e)=>{
     <div className="modal-content">
       <div className="modal-header">
         <h5 className="modal-title" id="exampleModalLabel">
-          Please Fill Your Contact Information
+        कृपया तुमची संपर्क माहिती भरा
         </h5>
         <button
           type="button"
@@ -198,7 +198,7 @@ const handleGenerateOTP=async(e)=>{
         >
           <div className="col-md-12 position-relative">
             <label htmlFor="validationTooltip01" className="form-label">
-              Your Name
+            तुमचे नाव
             </label>
             <input
               type="text"
@@ -206,7 +206,7 @@ const handleGenerateOTP=async(e)=>{
               id="validationTooltip01"
               value={userInfo.name}
               name="name"
-              placeholder="Enter Your Name"
+              placeholder="तुमचे नाव प्रविष्ट करा"
               onChange={onChange}
               required
             />
@@ -215,7 +215,7 @@ const handleGenerateOTP=async(e)=>{
 
           <div className="col-md-12 position-relative">
             <label htmlFor="validationTooltip02" className="form-label">
-              Mobile Number
+            मोबाईल नंबर
             </label>
             <div className="d-flex">
               <input
@@ -224,7 +224,7 @@ const handleGenerateOTP=async(e)=>{
                 id="validationTooltip02"
                 value={userInfo.mobile_number}
                 name="mobile_number"
-                placeholder="Enter your mobile number"
+                placeholder="तुमचा मोबाईल नंबर प्रविष्ट करा"
                 onChange={onChange}
                 required
               />

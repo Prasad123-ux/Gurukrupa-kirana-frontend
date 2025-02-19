@@ -83,12 +83,12 @@ const handleDeleteItem=async(id)=>{
     }else{
       const data = await response.json()
       notifySuccess(data.message)
-      notifyWarning("If its Showing all items are deleted then refresh the page")
+      notifyWarning("जर सर्व आयटम हटवले आहेत असे दिसत असेल, तर पेज रिफ्रेश करा.")
        deleteCart(id)
     }
 
   }catch(err){ 
-    notifyError("Not deleted..! Please try again") 
+    notifyError("हटवले नाही...! कृपया पुन्हा प्रयत्न करा.") 
 
 
   }
@@ -112,12 +112,12 @@ const deleteCart = (id) => {
      const isSelected = prev.some((item) => item._id === id);
   
      if (isSelected) {
-      notifyInfo("item dis-selected")
+      notifyInfo("आयटम निवड रद्द केली")
      
 //       // Remove the item from selectedItems
        return prev.filter((item) => item._id !== id);
      } else {
-      notifyInfo("item selected")
+      notifyInfo("आयटम निवडले")
 //       // Find the item in cartItems and add it to selectedItems
        const selectedItem = cartItems.products.find((item) => item._id === id);
   if (selectedItem) {
@@ -140,7 +140,7 @@ const deleteCart = (id) => {
     if (selectedItems.length === 0) { 
       
       // alert("Please select at least one item for billing!");  
-      notifyWarning("Please select at least one item for billing!")
+      notifyWarning("कृपया बिलिंगसाठी किमान एक आयटम निवडा!")
 
       return;
     }
@@ -175,7 +175,7 @@ const calculateTotal = () =>
     <ToastContainer/>
 
 
-      <h3 className="text-center fw-bold mb-4">My Cart</h3>
+      <h3 className="text-center fw-bold mb-4">माझी कार्ट</h3>
       <div className="row gy-3"> 
 
 
@@ -259,12 +259,12 @@ const calculateTotal = () =>
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  <FaTrashAlt /> Delete
+                  <FaTrashAlt />हटवा
                 </motion.button>
               </div>
             </div>
           </motion.div>
-        )): <h6 className="text-center fw-bold mb-4">No items Found...!</h6>
+        )): <h6 className="text-center fw-bold mb-4">एकही वस्तू सापडली नाही...!</h6>
         
         
         
@@ -299,8 +299,8 @@ const calculateTotal = () =>
         style={{ position: "sticky", bottom: "0", zIndex: "1000" }}
       >
         <h5 className="fw-bold">
-          Total: ₹{calculateTotal()} ({ selectedItems.length}{" "})
-          items
+        एकूण: ₹{calculateTotal()} ({ selectedItems.length}{" "})
+        वस्तू
         </h5>
         <motion.button
           className="btn btn-success w-100"
@@ -308,13 +308,14 @@ const calculateTotal = () =>
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
-          Proceed to Billing
+          बिलिंगसाठी पुढे जा
         </motion.button>
       </div>
 :<div className="text-center"> 
-   <h6 className="text-center fw-bold mb-4">Your cart is empty! 🛒 Add items to your cart and start shopping your favorites.</h6>
+   <h6 className="text-center fw-bold mb-4">तुमची कार्ट रिकामी आहे! 🛒
+   वस्तू जोडा आणि तुमच्या आवडत्या वस्तूंची खरेदी सुरू करा. 😊</h6>
 
-   <Link to="/home" className="text-center">Explore Products</Link>
+   <Link to="/home" className="text-center">उत्पादने एक्सप्लोर करा</Link>
   
   </div>}
     </div>

@@ -113,9 +113,9 @@ const UserProfile = () => {
       const result = await response.json();
       
       setProfile({ ...profile, profileImage: result.profileImage });
-      notifySuccess("User Data updated Successfully")
+      notifySuccess("वापरकर्ता डेटा यशस्वीरित्या अद्यतनित केला गेला आहे.")
     } catch (error) {
-      notifyError("Failed to upload profile Data. Please try again.")
+      notifyError("प्रोफाइल डेटा अपलोड करण्यात अयशस्वी. कृपया पुन्हा प्रयत्न करा.")
       //  setError(error.message)
     
     }finally{
@@ -151,31 +151,31 @@ const UserProfile = () => {
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+        <h5 class="modal-title" id="exampleModalLabel">नवीन संदेश</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <form onSubmit={handleProfileImageUpload}>
         <div class="mb-3">
-            <label htmlFor="file" class="col-form-label">Choose File:</label>
+            <label htmlFor="file" class="col-form-label">फाईल निवडा:</label>
             <input type="file" class="form-control" name="profileImage"    accept="image/*"   onChange={handleFileChange}id="profileImage"/>
           </div>
           <div class="mb-3">
-            <label htmlFor="name" class="col-form-label">Name:</label>
+            <label htmlFor="name" class="col-form-label">नाव:</label>
             <input type="text" class="form-control" name="name" value={profile.name} onChange={onchange} id="name"/>
           </div>
           <div class="mb-3">
-            <label htmlFor="mobile" class="col-form-label">Mobile Number:</label>
+            <label htmlFor="mobile" class="col-form-label">मोबाईल नंबर:</label>
             <input class="form-control" type="number" id="mobile" name="mobile" value={profile.mobile}  onChange={onchange}></input>
           </div>
           <div class="mb-3">
-            <label htmlFor="address" class="col-form-label">Address:</label>
+            <label htmlFor="address" class="col-form-label">पत्ता:</label>
             <input class="form-control" type="address" id="message-text" name="address" value={profile.address}  onChange={onchange}></input>
           </div>
        
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="submit" data-bs-dismiss="modal" class="btn btn-primary">Send message</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">बंद करा</button>
+        <button type="submit" data-bs-dismiss="modal" class="btn btn-primary">संदेश पाठवा</button>
       </div>
       </form>
       </div>
@@ -218,7 +218,7 @@ const UserProfile = () => {
         
 
           </div>
-          <button type="button" className="btn btn-outline-primary " data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Edit Detail</button>
+          <button type="button" className="btn btn-outline-primary " data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">तपशील संपादित करा</button>
 
 
           <div className="profile-details mt-4">
@@ -237,7 +237,7 @@ const UserProfile = () => {
             />
             <ProfileField
               label="Address"
-              value={!profile.address? "Not Mentioned": profile.address }
+              value={!profile.address? "उल्लेख नाही": profile.address }
               icon={<FaMapMarkerAlt />}
               // onEdit={() => handleEdit("address")}
             />

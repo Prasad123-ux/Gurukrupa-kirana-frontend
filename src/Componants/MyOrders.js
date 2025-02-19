@@ -73,7 +73,7 @@ const MyOrders = () => {
 
 
       <div className="container">
-        <h3 className="text-center fw-bold mb-4">My Orders</h3>
+        <h3 className="text-center fw-bold mb-4">माझ्या ऑर्डर्स</h3>
         <div className="row gy-4">  
            {loading ? (
                     <div className="text-center"><Loader/></div>
@@ -91,17 +91,17 @@ const MyOrders = () => {
                 >
                   <div className="card shadow-sm p-4" style={{ borderRadius: "10px" }}>
                     <div className="d-flex justify-content-between align-items-center">
-                      <h6 className="fw-bold mb-1">Order ID: <span className="text-muted">{item._id}</span></h6>
-                      <span className="text-muted small">Order Date: {new Date(item.placedAt).toLocaleDateString()}</span>
+                      <h6 className="fw-bold mb-1">ऑर्डर आयडी: <span className="text-muted">{item._id}</span></h6>
+                      <span className="text-muted small">ऑर्डर दिनांक: {new Date(item.placedAt).toLocaleDateString()}</span>
                     </div>
                     <hr />
-                    <p className="small text-muted"><strong>User:</strong> {info.userName} | {info.mobileNumber}</p>
-                    <p className="small text-muted"><strong>Address:</strong> {info.address}</p>
-                    <p className="small text-muted"><strong>Payment Type:</strong> {item.paymentMethod==="cod"?"Cash on delivery":"Home Delivery"} <FaCreditCard className="ms-2 text-primary" /></p>
-                    <p className="small text-muted"><strong>Delivery Type:</strong> {item.deliveryOption==="store" ? "Pick up from Store":"Delivered by Home"} <FaTruck className="ms-2 text-info" /></p>
-                    <p className="small text-muted"><strong>Total Price:</strong> ₹{item.total}</p>
+                    <p className="small text-muted"><strong>वापरकर्ता:</strong> {info.userName} | {info.mobileNumber}</p>
+                    <p className="small text-muted"><strong>पत्ता:</strong> {info.address}</p>
+                    <p className="small text-muted"><strong>पेमेंट प्रकार:</strong> {item.paymentMethod==="cod"?"Cash on delivery":"Home Delivery"} <FaCreditCard className="ms-2 text-primary" /></p>
+                    <p className="small text-muted"><strong>वितरण प्रकार:</strong> {item.deliveryOption==="store" ? "Pick up from Store":"Delivered by Home"} <FaTruck className="ms-2 text-info" /></p>
+                    <p className="small text-muted"><strong>एकूण किंमत:</strong> ₹{item.total}</p>
                     <div className="mt-3">
-                      <h6 className="fw-bold">Items Ordered:</h6>
+                      <h6 className="fw-bold">ऑर्डर केलेल्या वस्तू:</h6>
                       <div className="row gy-2">
                         {item.items?.map((orderedItem, idx) => (
                           <div key={idx} className="col-6 col-md-4">
@@ -113,8 +113,8 @@ const MyOrders = () => {
                               <img src={orderedItem.image[0]} alt={orderedItem.itemName} style={{ width: "50px", height: "50px" }} className="me-2"  />
                               <div className="">
                                 <p className="mb-1 fw-bold small">{orderedItem.itemName} </p>
-                                <p className="text-muted small">Qty: {orderedItem.quantity} {orderedItem.unit}  </p>
-                                <p className="mb-1 fw-bold small"> Price: ₹ {orderedItem.price}/ {orderedItem.unit} </p>
+                                <p className="text-muted small">प्रमाण: {orderedItem.quantity} {orderedItem.unit}  </p>
+                                <p className="mb-1 fw-bold small"> किंमत: ₹ {orderedItem.price}/ {orderedItem.unit} </p>
 
                                 {/* <div className="mb-1 fw-bold small">₹ {orderedItem.price}/ {orderedItem.unit}</div> */}
                               </div>
@@ -130,7 +130,7 @@ const MyOrders = () => {
 
 
                   <div className="mt-4">
-  <h6 className="fw-bold">Order Progress:</h6>
+  <h6 className="fw-bold">ऑर्डर प्रगती:</h6>
   <div className="progress" style={{ height: "5px", borderRadius: "5px" }}>
     <motion.div
       className="progress-bar"
@@ -168,7 +168,7 @@ const MyOrders = () => {
       ))
     ) : (
       <li className="list-group-item small text-muted">
-        No progress information available
+        गतीविषयी कोणतीही माहिती उपलब्ध नाही
       </li>
     )}
   </ul>

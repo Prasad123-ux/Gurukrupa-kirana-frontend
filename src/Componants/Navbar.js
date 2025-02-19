@@ -61,7 +61,7 @@ function Navbar() {
             style={{ width: "50px", height: "50px", objectFit: "cover" }} 
            
           />
-          <span className="ms-2 fw-bold text-success">Gurukrupa Kirana</span>
+          <span className="ms-2 fw-bold text-success">गुरुकृपा किराणा</span>
         </motion.div>
 
         {/* Toggle Button for Mobile */}
@@ -90,7 +90,7 @@ function Navbar() {
                   className="nav-link text-dark fw-bold mx-2"
                   to='/home'
                 >
-                  Home
+                मुख्यपृष्ठ    
                 </Link>
               </motion.li>) :"" 
 }  
@@ -103,7 +103,7 @@ function Navbar() {
                   className="nav-link text-dark fw-bold mx-2"
                   to='/myOrders'
                 >
-                  My Orders
+                माझी ऑर्डर्स
                 </Link>
               </motion.li>) :"" 
 }  
@@ -117,7 +117,7 @@ function Navbar() {
    className="nav-link text-dark fw-bold mx-2"
    to='/myCart'
  >
-   My Cart
+   माझी कार्ट
  </Link>
 </motion.li>
 ):""
@@ -133,7 +133,7 @@ function Navbar() {
    className="nav-link text-dark fw-bold mx-2"
    to='/contact'
  >                                                                                                                                                                                                                                                                                                                                                                                                                         
-   Contact
+   संपर्क
  </Link>
 </motion.li> 
 
@@ -147,7 +147,7 @@ function Navbar() {
    className="nav-link text-dark fw-bold mx-2"
    to='/about'
  >                                                                                                                                                                                                                                                                                                                                                                                                                         
-  About Us
+  आमच्याबद्दल
  </Link>
 </motion.li> 
 
