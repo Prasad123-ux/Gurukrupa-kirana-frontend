@@ -136,7 +136,7 @@ function CategoryWiseData() {
             ))}
           </div>
         ) : (
-          <div className="text-center">No products available</div>
+          <div className="text-center">{`कोणतीही उत्पादने उपलब्ध नाहीत, लवकरच आम्ही ${category} या विभागात उत्पादने जोडू.`} </div>
         )}
       </motion.div>
     </div>

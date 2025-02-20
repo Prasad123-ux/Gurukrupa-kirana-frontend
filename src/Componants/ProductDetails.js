@@ -125,7 +125,7 @@ useEffect(() => {
       console.log(product._id)
       // notifySuccess(data.message)
     } catch (err) {
-       notifyError("Internal Server Error")
+      //  notifyError("Internal Server Error")
       // console.error(err);
     }
     finally{
@@ -616,7 +616,7 @@ const handleDeleteProduct=async()=>{
             <p className="text-muted mb-1 mt-2 fw-bold">प्रकार: {product&& product.productCategory.length >= 0  ? product.productCategory:" "}</p>
             <p className="text-muted mt-4"> <span className="fw-bolder" > माहिती</span> : {product && product.productDescription.length >= 0  ? product.productDescription:" "}</p>
             <p className="text-success fs-5 fw-bold">Price: <FaRupeeSign/> { product && product.productPrice>=0  ? product.productPrice:" N/A"} per {product && product.productUnit ? product.productUnit :"" }</p>
-            <p className="text-success ">M.R.P: <del>&#8377; { product && product.productPrice>=0  ? product.productPrice*2 :" N/A"}.00</del>  (Incl. of all taxes)</p>
+            <p className="text-success ">M.R.P: <del>&#8377; { product && product.productPrice>=0  ? product.productPrice%5+product.productPrice :" N/A"}.00</del>  (Incl. of all taxes)</p>
 
             {/* Quantity Selector */}
             <div className="d-flex align-items-center my-3">

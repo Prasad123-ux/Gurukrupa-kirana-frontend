@@ -24,6 +24,7 @@ const categories = ["बिस्किटे",
     "दुग्धजन्य पदार्थ",
     "खाद्यतेल"]
 
+   
 const productCardVariants = {
   hidden: { opacity: 0, scale: 0.9 },
   visible: (i) => ({
@@ -40,6 +41,7 @@ function HomePage() {
   const [error, setError] = useState(null); 
   const navigate= useNavigate()
   const [itemValue, setItemValue]= useState(1)
+  const [category, setCategory]= useState([])
 
 
   const notifyError = (message) => toast.error(message);
@@ -65,9 +67,11 @@ function HomePage() {
         const data = await response.json(); 
         // toast.success("data fetched successfully")
         
-        console.log(data)
-        setProducts(data.data || []);
-        //  notifySuccess("Proceed with products")
+        console.log(data)  
+        setProducts(data.data || []);  
+        const uniqueCategories = new Set(data.data.map(item => item.productCategory));
+              setCategory([...uniqueCategories]); // Convert Set back to array
+        //  notifySuccess("Proceed with products") 
       } catch (err) {
     
         notifyError(err.message )
@@ -126,32 +130,32 @@ const cartDecrement=()=>{
           // fontSize:"0.1rem"
         }}
       >
-        {categories.map((name, index) => (
+        { category && category.length>=0  ? category.map((name, index) => (
           <motion.button
             key={index}
             whileHover={{ scale: 1.3 }}
             className="d-inline-block mx-3"
-            style={{
-              width: "100%",
-              height: "100%",
-              borderRadius: "50%",
-              backgroundColor: "#f8f9fa",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
-              cursor: "pointer",
-              padding: "10px",  
-              // fontSize
+            // style={{
+            //   width: "100%",
+            //   height: "100%",
+            //   borderRadius: "50%",
+            //   backgroundColor: "#f8f9fa",
+            //   display: "flex",
+            //   alignItems: "center",
+            //   justifyContent: "center",
+            //   boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
+            //   cursor: "pointer",
+            //   padding: "10px",  
+            //   // fontSize
 
 
-            }}
+            // }}
             onClick={()=>{handleCategoryData(name)}}
 
           >
             <span style={{ fontSize: "10px" }}>{name}</span>
           </motion.button>
-        ))}
+        )):""}
       </div>
 
       {/* Carousel Section */}
@@ -177,7 +181,7 @@ const cartDecrement=()=>{
           <div className="carousel-inner">
             <div className="carousel-item active">
               <img
-                src="https://res.cloudinary.com/det3aoore/image/upload/v1736834483/product_images/WhatsApp_Image_2025-01-14_at_11.28.35_3399fccf_ij5ssi.jpg"
+                src="https://res.cloudinary.com/det3aoore/image/upload/v1740020557/5gB_sMvwavcDxq60EL-LIobryUCqgtFEe9mvlZPPEFti7Iwv2Gp8GwzjjvkZHb4EpTqmVEcpfZ7oBJO8NWorrpuL3Pkt1U8BxTln7RddVkwheSJpbU1KRGXcvJHLS155FmIcbnYNeUE5uqW_XW9T6Sw_hti55i.webp"
                 className="d-block w-100"
                 alt="Welcome to Gurukrupa kirana"
                 style={{height:"500px"}}
@@ -186,7 +190,7 @@ const cartDecrement=()=>{
             </div>
             <div className="carousel-item">
               <img
-              src="https://res.cloudinary.com/det3aoore/image/upload/v1736834503/product_images/WhatsApp_Image_2025-01-14_at_11.28.35_5efcd127_uc8s3h.jpg"
+              src="https://res.cloudinary.com/det3aoore/image/upload/v1740020889/24657a_308b429d59884ce98c13649db36c8a04mv2-1-1_kfurfr.png"
 
                 className="d-block  w-100"
                 alt="Fresh Groceries Everyday"
@@ -239,7 +243,7 @@ const cartDecrement=()=>{
                     alt={product.name || "Product"}
                     onClick={()=>{handleDetail(product._id);}}
                   />
-                  <div className="card-body">
+                  <div className="card-body mt-1">
                     <h6 className="fw-bold text-truncate">{product.productName}</h6>
                     <p className="text-muted mb-1">{product.productCategory}</p>
                     <p className="text-success fw-bold fs-6"> <FaRupeeSign /> {product.productPrice} / {product.productUnit}</p>
