@@ -57,10 +57,10 @@ const ContactSection = () => {
             <a href="https://wa.me/918530825101" target="_blank" rel="noopener noreferrer">
               <FaWhatsapp className="social-icon whatsapp-icon" />
             </a>
-            <a href="/" target="_blank" rel="noopener noreferrer">
+            <a href="https://www.facebook.com/prasad.metkar.925" target="_blank" rel="noopener noreferrer">
               <FaFacebook className="social-icon facebook-icon" />
             </a>
-            <a href="/" target="_blank" rel="noopener noreferrer">
+            <a href="https://www.instagram.com/metkar.prasad/" target="_blank" rel="noopener noreferrer">
               <FaInstagram className="social-icon instagram-icon" />
             </a>
           </div>

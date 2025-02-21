@@ -91,7 +91,7 @@ setToken(tokenValue)
               </h5>
               <div className="mt-3">
                 <motion.a
-                  href="#"
+                  href="https://www.facebook.com/prasad.metkar.925"
                   whileHover={linkHover}
                   className="text-light mx-2"
                 >
@@ -105,7 +105,7 @@ setToken(tokenValue)
                   <FaInstagram size={25} />
                 </motion.a>
                 <motion.a
-                  href="#"
+                  href="https://www.instagram.com/metkar.prasad/"
                   whileHover={linkHover}
                   className="text-light mx-2"
                 >
@@ -119,7 +119,7 @@ setToken(tokenValue)
                   <FaYoutube size={25} />
                 </motion.a>
                 <motion.a
-                  href="#"
+                  href="https://www.linkedin.com/in/prasad-metkar/"
                   whileHover={linkHover}
                   className="text-light mx-2"
                 >
