@@ -66,10 +66,13 @@ useEffect(() => {
 
   try {
     const decoded = jwtDecode(token); // Decode the JWT token
-    const mobile_number = decoded.mobile_number;
-    console.log(mobile_number)
+  
+    let mobile_number = decoded.mobile_number;
 
     // Corrected condition
+    console.log(typeof(mobile_number))
+    mobile_number=Number(mobile_number)
+    console.log(typeof(mobile_number))
     const allowedNumbers = [9307173845, 8530825101, 9359334431];
 
     if (allowedNumbers.includes(mobile_number)){ 
