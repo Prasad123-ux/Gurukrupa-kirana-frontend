@@ -139,7 +139,7 @@ function Navbar() {
 
 
 
-<motion.li className="nav-item" whileHover={{ scale: 1.1 }}
+{ token   ?(<motion.li className="nav-item" whileHover={{ scale: 1.1 }}
  whileTap={{ scale: 0.95 }}
  transition={{ duration: 0.3 }}
  onClick={closeMenu}>
@@ -150,7 +150,7 @@ function Navbar() {
   आमच्याबद्दल
  </Link>
 </motion.li> 
-
+):""}
 
 
 {/* </motion.li> */}
