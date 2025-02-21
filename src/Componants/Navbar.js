@@ -139,7 +139,7 @@ function Navbar() {
 
 
 
-{ token   ?(<motion.li className="nav-item" whileHover={{ scale: 1.1 }}
+<motion.li className="nav-item" whileHover={{ scale: 1.1 }}
  whileTap={{ scale: 0.95 }}
  transition={{ duration: 0.3 }}
  onClick={closeMenu}>
@@ -150,32 +150,11 @@ function Navbar() {
   आमच्याबद्दल
  </Link>
 </motion.li> 
-):""}
+
 
 
 {/* </motion.li> */}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-              
-
-
-          
-          
-          
-            <motion.li
+{ token ? ( <motion.li
               className="nav-item"
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
@@ -189,7 +168,8 @@ function Navbar() {
                   title="User Profile"
                 />
               </Link>
-            </motion.li>
+            </motion.li>):""
+}
           </ul>
         </div>
       </div>
