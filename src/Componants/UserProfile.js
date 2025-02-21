@@ -115,7 +115,7 @@ const UserProfile = () => {
       setProfile({ ...profile, profileImage: result.profileImage });
       notifySuccess("वापरकर्ता डेटा यशस्वीरित्या अद्यतनित केला गेला आहे.")
     } catch (error) {
-      notifyError("प्रोफाइल डेटा अपलोड करण्यात अयशस्वी. कृपया पुन्हा प्रयत्न करा.")
+      notifyError("प्रोफाइल डेटा अपलोड करण्यात अयशस्वी. ")
       //  setError(error.message)
     
     }finally{

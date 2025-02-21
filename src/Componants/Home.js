@@ -42,7 +42,36 @@ function HomePage() {
   const navigate= useNavigate()
   const [itemValue, setItemValue]= useState(1)
   const [category, setCategory]= useState([])
+  const token= localStorage.getItem("TOKEN")
 
+  const categories = ["बिस्किटे",
+    "साबण",
+    "शँपु",
+    "धुण्याचा पावडर",
+    "टूथपेस्ट",
+    "चहा पावडर",
+    "मसाले",
+    "केसांचे तेल",
+    "गोडधोड पदार्थ",
+    "सुकामेवा",
+    "दुग्धजन्य पदार्थ",
+    "खाद्यतेल"]
+
+    const handleCategoryData=(category)=>{  
+      if (!token){
+        window.scrollTo(0,0)
+        notifyError("Please Login Yourself")
+        return 
+        
+      }else{
+        navigate(`/categoryData/${category}`)
+        window.scrollTo(0,0)
+  
+       
+      }
+     
+  
+    }
 
   const notifyError = (message) => toast.error(message);
 
@@ -91,10 +120,10 @@ function HomePage() {
 
   }
 
-  const handleCategoryData=(category)=>{ 
-    navigate(`/categoryData/${category}`)
+  // const handleCategoryData=(category)=>{ 
+  //   navigate(`/categoryData/${category}`)
 
-  }
+  // }
 
 const cartIncrement=()=>{
   setItemValue(itemValue+1)
@@ -103,6 +132,8 @@ const cartIncrement=()=>{
 const cartDecrement=()=>{
   setItemValue(itemValue-1)
 }
+
+
 
 
 
@@ -245,7 +276,7 @@ const cartDecrement=()=>{
                   />
                   <div className="card-body mt-1">
                     <h6 className="fw-bold text-truncate">{product.productName}</h6>
-                    <p className="text-muted mb-1">{product.productCategory}</p>
+                    <p className="text-muted mb-1" style={{cursor:"pointer"}} onClick={()=>{handleCategoryData(product.productCategory)}}>{product.productCategory}</p>
                     <p className="text-success fw-bold fs-6"> <FaRupeeSign /> {product.productPrice} / {product.productUnit}</p>
                   </div>
                <div className="card-footer">

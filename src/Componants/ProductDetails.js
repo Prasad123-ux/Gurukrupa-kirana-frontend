@@ -271,7 +271,7 @@ const handleShare=(productName)=>{
 
   const productURL = window.location.href; // Get current page URL
   const encodedURL = encodeURIComponent(productURL); // Ensure proper encoding
-  const message = `नमस्कार! गुरुकृपा किराणा मध्ये आपले स्वागत आहे!  मी तुम्हाला हे उत्पादन शेअर करत आहे मी तुम्हाला हे उत्पादन शेअर करत आहे: ${productName}   \n\nअधिक माहितीसाठी येथे क्लिक करा 👇\n${productURL}`;
+  const message = `नमस्कार! गुरुकृपा किराणा मध्ये आपले स्वागत आहे ! मी तुम्हाला हे उत्पादन शेअर करत आहे.: ${productName}  M.R.P:${product.productPrice}  \n\nअधिक माहितीसाठी येथे क्लिक करा 👇\n${productURL}`;
   
   const whatsappURL = `https://wa.me/?text=${encodeURIComponent(message)}`;
   
@@ -317,7 +317,21 @@ const handleDeleteProduct=async()=>{
 
 
 
+const handleCategoryData=(category)=>{  
+  if (!token){
+    window.scrollTo(0,0)
+    notifyError("Please Login Yourself")
+    return 
+    
+  }else{
+    navigate(`/categoryData/${category}`)
+    window.scrollTo(0,0)
 
+   
+  }
+ 
+
+}
 
   return (
     <>{  loading ? (
@@ -442,7 +456,8 @@ const handleDeleteProduct=async()=>{
                     value={formData.productCategory}
                     onChange={handleInputChange}
                     className="form-control"
-                    placeholder="Enter category"
+                    placeholder="Enter category" 
+                    style={{cursor:"pointer"}}
                 
                   />
                 </motion.div>
@@ -612,8 +627,8 @@ const handleDeleteProduct=async()=>{
             <h3 className="fw-bold mt-5 d-flex justify-content-between"><span>{ product && product.productName.length >= 0  ? product.productName:" "} </span><div className="d-flex justify-content-around  "> <motion.div 
         className=" me-5"
         style={{ borderRadius: "px", width:"fitContent" }}
-        onClick={()=>{handleShare(product.productName, )}}> <FiShare2 /></motion.div> { like ? <span onClick={handleLike} className=""><FcLike /></span>: <span onClick={handleLike}><GrLike /></span> }</div> </h3>  
-            <p className="text-muted mb-1 mt-2 fw-bold">प्रकार: {product&& product.productCategory.length >= 0  ? product.productCategory:" "}</p>
+        onClick={()=>{handleShare(product.productName, )}}> <FiShare2 style={{cursor:"pointer"}} /></motion.div> { like ? <span onClick={handleLike} style={{cursor:"pointer"}}><FcLike /></span>: <span onClick={handleLike}><GrLike /></span> }</div> </h3>  
+            <p className="text-muted mb-1 mt-2 fw-bold" style={{cursor:"pointer"}} onClick={()=>{handleCategoryData(product.productCategory)}}>प्रकार: {product&& product.productCategory.length >= 0  ? product.productCategory:" "}</p>
             <p className="text-muted mt-4"> <span className="fw-bolder" > माहिती</span> : {product && product.productDescription.length >= 0  ? product.productDescription:" "}</p>
             <p className="text-success fs-5 fw-bold">Price: <FaRupeeSign/> { product && product.productPrice>=0  ? product.productPrice:" N/A"} per {product && product.productUnit ? product.productUnit :"" }</p>
             <p className="text-success ">M.R.P: <del>&#8377; { product && product.productPrice>=0  ? product.productPrice%5+product.productPrice :" N/A"}.00</del>  (Incl. of all taxes)</p>
