@@ -5,7 +5,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "../Styles/UserProfile.css"; 
 import { ToastContainer, toast } from 'react-toastify';
 import Loader from "./Loader";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom"; 
+import { jwtDecode } from "jwt-decode";
 
 
 const UserProfile = () => { 
@@ -13,6 +14,7 @@ const UserProfile = () => {
   const [loading, setLoading]= useState(true) 
   const [error, setError]= useState()
   const navigate=useNavigate()
+  const [showValue, setShowValue]= useState(false)
   const [profile, setProfile] = useState({
 
     name: "",
@@ -89,7 +91,8 @@ const UserProfile = () => {
 
     formData.append("name", profile.name);
 
-    formData.append("address",profile.address );  
+    formData.append("address",profile.address );   
+   
 
 
 
@@ -142,7 +145,29 @@ const UserProfile = () => {
   const handleProductAdd=()=>{
     navigate("/adminProductForm")
   }
+ useEffect(() => {
+   if (!token) return;
  
+   try {
+     const decoded = jwtDecode(token); // Decode the JWT token
+     const mobile_number = decoded.mobile_number;
+     console.log(mobile_number)
+ 
+     // Corrected condition
+     const allowedNumbers = [9307173845, 8530825101, 9359334431];
+ 
+     if (allowedNumbers.includes(mobile_number)){ 
+       console.log("number find")
+       setShowValue(true);
+     } else {
+       setShowValue(false);
+       console.log("number not find")
+     }
+   } catch (error) {
+     console.error("Invalid token", error);
+     setShowValue(false);
+   }
+ }, [token]);
   return (
     <div className="user-profile-section"> 
     <ToastContainer/>
@@ -241,7 +266,7 @@ const UserProfile = () => {
               icon={<FaMapMarkerAlt />}
               // onEdit={() => handleEdit("address")}
             />
-          {  profile.mobile_number===9307173845 || 9359334431 || 8530825101 ?   
+          {  showValue ? 
             <div
               label="Dashboard"
             onClick={handleDashboard}
@@ -250,7 +275,7 @@ const UserProfile = () => {
             > Dashboard</div>:""
           }
           
-           {  profile.mobile_number===9307173845 || 9359334431 || 8530825101 ?   
+           {  showValue ?   
             <div
               label="Add Product"
             onClick={handleProductAdd}

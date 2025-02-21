@@ -72,7 +72,7 @@ useEffect(() => {
     // Corrected condition
     const allowedNumbers = [9307173845, 8530825101, 9359334431];
 
-    if (mobile_number === 9307173845 || 8530825101 || 9359334431) { 
+    if (allowedNumbers.includes(mobile_number)){ 
       console.log("number find")
       setShowValue(true);
     } else {
