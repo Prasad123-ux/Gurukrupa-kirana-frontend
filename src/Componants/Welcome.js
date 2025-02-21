@@ -163,8 +163,8 @@ const handleGenerateOTP=async(e)=>{
         whileTap={{ scale: 0.95 }}
         transition={{ duration: 0.5, delay: 0.4 }}
       >
-      { !tokenData || tokenData==="undefined"? (<button className="btn btn-success btn-lg px-5 mt-4 fw-bold shadow-lg " type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">  Let’s Start </button>)
-       : (<Link to="/home"> <button className="btn btn-success btn-lg px-5 mt-4 fw-bold shadow-lg " type="button"> चला सुरुवात करूया! </button></Link>)}
+      { !tokenData || tokenData==="undefined"? (<button className="btn btn-success btn-lg px-5 mt-4 fw-bold shadow-lg " type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">  चला सुरुवात करूया! </button>)
+       : (<Link to="/home"> <button className="btn btn-success btn-lg px-5 mt-4 fw-bold shadow-lg " type="button">चला सुरुवात करूया!  </button></Link>)}
       </motion.div>
 
 
@@ -265,14 +265,14 @@ const handleGenerateOTP=async(e)=>{
               className="btn btn-secondary"
               data-bs-dismiss="modal"
             >
-              Close
+           बंद करा
             </button>
             <button
               type="submit"
               className="btn btn-primary"
               data-bs-dismiss="modal"
             >
-              Save Changes
+           बदल जतन करा
             </button>
           </div>
         </form>
