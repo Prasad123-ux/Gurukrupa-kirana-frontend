@@ -27,7 +27,7 @@ const MyOrders = () => {
     window.scrollTo(0,0)
     const getMyOrder = async () => {
       try {
-        const response = await fetch("https://gurukrupa-kirana-backend.onrender.com/api/user/getMyOrders", {
+        const response = await fetch("http://localhost:7000/api/user/getMyOrders", {
           method: "POST",
           headers: { "Content-type": "application/json" },
           body: JSON.stringify({ token }),
@@ -109,6 +109,7 @@ const MyOrders = () => {
                               className="d-flex align-items-center shadow-sm p-2 rounded"
                               style={{ backgroundColor: "#ffffff", borderRadius: "10px" }}
                               whileHover={{ scale: 1.05 }}
+                              onClick={()=>{handleDetail(info.id)}}
                             >
                               <img src={orderedItem.image[0]} alt={orderedItem.itemName} style={{ width: "50px", height: "50px" }} className="me-2"  />
                               <div className="">

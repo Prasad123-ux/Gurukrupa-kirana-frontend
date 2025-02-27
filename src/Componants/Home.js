@@ -10,21 +10,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import { Link } from "react-router-dom";
 import Loader from "./Loader";
 import { FiShare2 } from "react-icons/fi";
+import { FiPlus, FiMinus } from "react-icons/fi"
 
-const categories = ["बिस्किटे",
-    "साबण",
-    "शँपु",
-    "धुण्याचा पावडर",
-    "टूथपेस्ट",
-    "चहा पावडर",
-    "मसाले",
-    "केसांचे तेल",
-    "गोडधोड पदार्थ",
-    "सुकामेवा",
-    "दुग्धजन्य पदार्थ",
-    "खाद्यतेल"]
 
-   
 const productCardVariants = {
   hidden: { opacity: 0, scale: 0.9 },
   visible: (i) => ({
@@ -43,19 +31,9 @@ function HomePage() {
   const [itemValue, setItemValue]= useState(1)
   const [category, setCategory]= useState([])
   const token= localStorage.getItem("TOKEN")
+const [cart, setCart]= useState({})  
 
-  const categories = ["बिस्किटे",
-    "साबण",
-    "शँपु",
-    "धुण्याचा पावडर",
-    "टूथपेस्ट",
-    "चहा पावडर",
-    "मसाले",
-    "केसांचे तेल",
-    "गोडधोड पदार्थ",
-    "सुकामेवा",
-    "दुग्धजन्य पदार्थ",
-    "खाद्यतेल"]
+  
 
     const handleCategoryData=(category)=>{  
       if (!token){
@@ -74,6 +52,7 @@ function HomePage() {
     }
 
   const notifyError = (message) => toast.error(message);
+  const notifySuccess = (message) => toast.success(message);
 
 
 
@@ -83,7 +62,7 @@ function HomePage() {
     const getProductData = async () => {
     
       try {
-        const response = await fetch("https://gurukrupa-kirana-backend.onrender.com/api/user/getProductData", {
+        const response = await fetch("http://localhost:7000/api/user/getProductData", {
           method: "GET",
           headers: { "Content-Type": "application/json" },
         });
@@ -124,16 +103,69 @@ function HomePage() {
   //   navigate(`/categoryData/${category}`)
 
   // }
+  const addCart =async (productName, productCategory, productPrice, productUnit, productImg, productID ) => {
+    setCart((prevCart) => ({
+      ...prevCart,
+      [productID]: (prevCart[productID] || 0) + 1,
+    }));  
 
-const cartIncrement=()=>{
-  setItemValue(itemValue+1)
-}
+    const updatedCartData = {
+      productName,
+      productCategory,
+      productPrice,
+      productUnit,
+      productImg,
+      productID,
 
-const cartDecrement=()=>{
-  setItemValue(itemValue-1)
-}
+    };
+
+    try{
+      const response= await fetch("http://localhost:7000/api/user/addToCart", { 
+    
+        method:"POST",
+        headers:{"Content-type":"application/json"},
+        body:JSON.stringify({ token:token, cartData:updatedCartData})
+      })
+      if(!response.ok){
+       const errorText = await response.text();
+      throw new Error(`Request failed with status ${response.status}: ${errorText}`); 
+      }else{
+        const data = await response.json()
+        notifySuccess(data.message)
+      
+    }
+    }catch(err){
+      notifyError(err.message)
+    
+       }
+    };
 
 
+
+
+
+    
+
+  const cartIncrement = (productId) => {
+    setCart((prevCart) => ({
+      ...prevCart,
+      [productId]: prevCart[productId] + 1,
+    }));
+    console.log(cart)
+  };
+
+  const cartDecrement = (productId) => {
+    setCart((prevCart) => {
+      const newCart = { ...prevCart };
+      if (newCart[productId] > 1) {
+        newCart[productId] -= 1;
+      } else {
+        delete newCart[productId]; // Remove item if quantity reaches 0
+      }
+      return newCart;
+    });
+    console.log(cart)
+  };
 
 
 
@@ -239,63 +271,65 @@ const cartDecrement=()=>{
          <ToastContainer autoClose={7000}/>
           
         {/* </button> */}
+        <motion.div className="container mt-4">
+        {/* <h5 className="fw-bold text-center mb-4">आमची उत्पादने</h5> */}
+
         {loading ? (
-          <div className="text-center"><Loader/></div>
+          <div className="text-center">Loading...</div>
         ) : error ? (
           <div className="text-danger text-center">{error}</div>
         ) : products.length > 0 ? (
           <div className="row g-3">
             {products.map((product, i) => (
               <motion.div
-                key={product.id}
+                key={product._id}
                 className="col-6 col-md-4 col-lg-3"
-                custom={i}
-                initial="hidden"
-                animate="visible"
-                variants={productCardVariants}
-                whileHover="hover"
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: i * 0.2, type: "spring", stiffness: 100 }}
               >
-                <div
-                  className="card border-0 shadow-sm p-2"
-                 
-                  style={{
-                    borderRadius: "12px",
-                    textAlign: "center",
-                    fontSize: "12px",
-                    height: "200px",
-                    backgroundColor: "#fff",
-                    boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
-                  }}
-                >
+                <div className="card border-0 shadow-sm p-2" style={{ borderRadius: "12px", textAlign: "center", backgroundColor: "#fff" }}>
                   <img
                     src={product.productLink[0]}
                     className="card-img-top mx-auto"
-                    style={{ maxWidth: "100%", maxHeight: "100px" }}
-                    alt={product.name || "Product"}
-                    onClick={()=>{handleDetail(product._id);}}
+                    style={{ maxWidth: "100%", maxHeight: "100px", cursor: "pointer" }}
+                    alt={product.productName}
+                    onClick={() => handleDetail(product._id)}
                   />
                   <div className="card-body mt-1">
                     <h6 className="fw-bold text-truncate">{product.productName}</h6>
-                    <p className="text-muted mb-1" style={{cursor:"pointer"}} onClick={()=>{handleCategoryData(product.productCategory)}}>{product.productCategory}</p>
-                    <p className="text-success fw-bold fs-6"> <FaRupeeSign /> {product.productPrice} / {product.productUnit}</p>
+                    <p className="text-muted mb-1">{product.productCategory}</p>
+                    <div className="d-flex justify-content-between align-items-center">
+                      <span className="fw-bold">
+                        <FaRupeeSign /> {product.productPrice}
+                      </span>
+                    </div>
+
+                    {/* Add to Cart or Quantity Selector */}
+                    {cart[product._id] ? (
+                      <div className="d-flex justify-content-center align-items-center mt-2">
+                        <button className="btn btn-danger btn-sm" onClick={() => cartDecrement(product._id)}>
+                          <FiMinus />
+                        </button>
+                        <span className="mx-2">{cart[product._id]}</span>
+                        <button className="btn btn-success btn-sm" onClick={() => cartIncrement(product._id)}>
+                          <FiPlus />
+                        </button>
+                      </div>
+                    ) : (
+                      <button className="btn btn-primary mt-2 w-100" onClick={() => addCart(product.productName, product.productCategory, product.productPrice, product.productUnit, product.productLink[0], product._id )}>
+                        Add to Cart
+                      </button>
+                    )}
                   </div>
-               <div className="card-footer">
-                {/* <button className="btn btn-primary w-100"> Add to cart</button> */}
-
-                {/* <div className="d-flex justify-content-around shadow">
-                  <button className="btn btn-warning" onClick={cartDecrement}>-</button><input value={itemValue} className="shadow fw-bolder fs-6"/><button className="btn btn-danger" onClick={cartIncrement}>+</button>
-
-                </div> */}
-               </div>
                 </div>
               </motion.div>
-              
             ))}
           </div>
         ) : (
-          <div className="text-center"><span>No products Available ?  </span>
-          <Link to="/contact">Contact us </Link> </div>
+          <div className="text-center">No products found</div>
         )}
+      </motion.div>
       </motion.div>
     </div>
   );

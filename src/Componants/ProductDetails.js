@@ -29,6 +29,7 @@ function ProductDetails() {
   const [cartLoading, setCartLoading]= useState(false) 
   const [like,setLike]= useState(false) 
   const [showValue,setShowValue]= useState(false)
+  const [cart, setCart]= useState({})  
   
 
 
@@ -111,7 +112,7 @@ useEffect(() => {
 
   const getProductDetail = async () => { 
     try {
-      const response = await fetch(`https://gurukrupa-kirana-backend.onrender.com/api/user/getProductDetail/${id}`, {
+      const response = await fetch(`http://localhost:7000/api/user/getProductDetail/${id}`, {
         method: "GET",
         headers: { "Content-Type": "application/json" },
       });
@@ -196,7 +197,7 @@ useEffect(() => {
     });
 
     try {
-        const response = await fetch(`https://gurukrupa-kirana-backend.onrender.com/api/admin/updateProduct/${id}`, {
+        const response = await fetch(`http://localhost:7000/api/admin/updateProduct/${id}`, {
             method: "PATCH",
             body: formDataToSend, // Do NOT set Content-Type explicitly
         });
@@ -216,44 +217,51 @@ useEffect(() => {
 };
 
 
- 
-const addToCart=async()=>{ 
-  setCartLoading(true)
+
+const addCart =async (productName, productCategory, productPrice, productUnit, productImg, productID ) => {
+  setCart((prevCart) => ({
+    ...prevCart,
+    [productID]: (prevCart[productID] || 0) + 1,
+  }));  
+
+  const updatedCartData = {
+    productName,
+    productCategory,
+    productPrice,
+    productUnit,
+    productImg,
+    productID,
+    quantity
+
+  };
 
   try{
+    const response= await fetch("http://localhost:7000/api/user/addToCart", { 
   
-  const response= await fetch("https://gurukrupa-kirana-backend.onrender.com/api/user/addToCart", { 
-
-    method:"POST",
-    headers:{"Content-type":"application/json"},
-    body:JSON.stringify({id:id, quantity:quantity ,price: product && product.productPrice >=0 ?product.productPrice:"",category: product && product.productCategory.length >=0 ?product.productCategory:"",token:token, name: product && product.productName.length >=0 ?product.productName:"" ,unit: product && product.productUnit.length >=0 ?product.productUnit:"",image: product && product.productLink.length >=0 ?product.productLink:""})
-  })
-  if(!response.ok){
+      method:"POST",
+      headers:{"Content-type":"application/json"},
+      body:JSON.stringify({ token:token, cartData:updatedCartData})
+    })
+    if(!response.ok){
+     const errorText = await response.text();
+    throw new Error(`Request failed with status ${response.status}: ${errorText}`); 
+    }else{
+      const data = await response.json()
+      notifySuccess(data.message)
     
+  }
+  }catch(err){
+    notifyError(err.message)
   
-    const errorText = await response.text();
-  
-throw new Error(`Request failed with status ${response.status}: ${errorText}`); 
+     }
+  };
 
-    
-
-  }else{
-    const data = await response.json()
-    notifySuccess(data.message)
-    navigate("/myCart")
-}
-}catch(err){
-  notifyError(err.message)
-
-  
+ 
 
 
-}finally{
-  setCartLoading(false)
 
-}
 
-}
+
   
 const handleLike=()=>{ 
   if(like===true){
@@ -299,7 +307,7 @@ const handleCopy=(id)=>{
 const handleDeleteProduct=async()=>{  
   setLoading(true)
   try{
-    const response= await fetch(`https://gurukrupa-kirana-backend.onrender.com/api/admin/deleteProduct/${id}`, {
+    const response= await fetch(`http://localhost:7000/api/admin/deleteProduct/${id}`, {
       method:"DELETE"
     })
     if(!response.ok){
@@ -669,8 +677,8 @@ const handleCategoryData=(category)=>{
         whileTap={{ scale: 0.95 }}
         className="btn btn-primary px-4 py-2"
         style={{ borderRadius: "20px" }}
-        onClick={addToCart}
-      >
+        onClick={() => addCart(product.productName, product.productCategory, product.productPrice, product.productUnit, product.productLink[0], product._id )}>
+  
        कार्टमध्ये जोडा
       </motion.button> 
       

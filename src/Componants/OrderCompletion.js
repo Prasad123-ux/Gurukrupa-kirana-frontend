@@ -14,8 +14,8 @@ import Loader from "./Loader";
 
 const OrderCompletion = () => {
   const [address, setAddress] = useState("");
-  const [deliveryOption, setDeliveryOption] = useState("");
-  const [paymentMethod, setPaymentMethod] = useState("");
+  const [deliveryOption, setDeliveryOption] = useState("Store Pickup");
+  const [paymentMethod, setPaymentMethod] = useState("Cash On Delivery");
   const [orderPlaced, setOrderPlaced] = useState(false);
   const [userName,setUserName]= useState()
   const [mobileNumber,setMobileNumber]= useState() 
@@ -24,7 +24,7 @@ const OrderCompletion = () => {
   const [loading, setLoading]= useState(true) 
   const [error, setError]= useState()
   const[orderLoading, setOrderLoading]= useState(false)
-
+ const [aboveT, setAboveT]= useState(false)
  
   const location = useLocation();
   const { selectedItems } = location.state || {}; 
@@ -39,10 +39,17 @@ const OrderCompletion = () => {
 
 useEffect(()=>{
   console.log(selectedItems)
-  const totalPrice= selectedItems && selectedItems.length>=0 ? selectedItems.reduce((total, item)=>total+(item.price*item.quantity),0) :""
+  const totalPrice= selectedItems && selectedItems.length>=0 ? selectedItems.reduce((total, item)=>total+(item.productPrice*item.quantity),0) :"" 
+  if(totalPrice>=1000){
+    setAboveT(true)
+  }
+  else{
+    setDeliveryOption("Store Pickup")
+  }
 if (deliveryOption==="home"  ){
  setTotal(totalPrice+20)
 }else{
+
   setTotal(totalPrice)
 }
 },[selectedItems,deliveryOption,total])
@@ -53,7 +60,7 @@ if (deliveryOption==="home"  ){
 
     const getUserData=async()=>{ 
       try{
-const response = await fetch("https://gurukrupa-kirana-backend.onrender.com/api/user/getUserData" , { 
+const response = await fetch("http://localhost:7000/api/user/getUserData" , { 
   method:"POST", 
   headers:{"Content-type":"application/json"},
   body:JSON.stringify({token})
@@ -93,14 +100,14 @@ if(!response){
 
 
   const handleSaveOrder=async ()=>{
-    if (!address || !paymentMethod || !deliveryOption) {
-      notifyWarning("Please Fill all the details")
-      return;
+    if (!address || address.length<=5  ) {
+      notifyWarning("कृपया तुमचा पत्ता यशस्वीरित्या प्रविष्ट करा.")
+  return;
     }
     setOrderLoading(true)
     
     try{
-      const response=await fetch("https://gurukrupa-kirana-backend.onrender.com/api/user/saveMyOrder", {
+      const response=await fetch("http://localhost:7000/api/user/saveMyOrder", {
         method:'POST',
         headers:{"Content-type":"application/json"},
         body:JSON.stringify({ userName:userName, mobileNumber:mobileNumber,address: address,deliveryOption: deliveryOption, paymentMethod:paymentMethod, total:total, id: selectedItems[0]._id, items:selectedItems})
@@ -110,7 +117,7 @@ if(!response){
 
       if(!response.ok){
          const errorText = await response.text();
-  alert("there is some problem")
+  
   throw new Error(`Request failed with status ${response.status}: ${errorText}`); 
   
       }else{
@@ -208,7 +215,7 @@ if(!response){
         doc.addPage(); // Add new page
         currentY = 10; // Reset Y for new page
       }
-      const itemText = `${index + 1}. ${item.name}  = ${item.price}*${item.quantity} = ₹${item.price}`;
+      const itemText = `${index + 1}. ${item.productName}  = ${item.productPrice}*${item.quantity} = ₹${item.productPrice}`;
       doc.text(itemText, 10, currentY); // Render text
       currentY += lineHeight; // Move Y down
     });
@@ -236,7 +243,7 @@ if(!response){
 
   const calculateTotal = () => {
     let total = selectedItems && selectedItems.length>=1 ? selectedItems.reduce(
-      (sum, item) => sum + item.price * item.quantity,
+      (sum, item) => sum + item.productPrice * item.productPrice,
       0
     ):""
     if (deliveryOption === "home" && total >= 500) {
@@ -281,17 +288,17 @@ if(!response){
                   transition={{ type: "spring", stiffness: 100 }}
                 >
                   <img
-                    src={item.image}
-                    alt={item.name}
+                    src={item.productImg}
+                    alt={item.productName}
                     style={{ maxWidth: "100%", borderRadius: "10px" }}
                   />
-                  <h5 className="fw-bold mt-3">{item.name}</h5>
+                  <h5 className="fw-bold mt-3">{item.productName}</h5>
                   <p>{item.description}</p>
                   <p className="text-primary fw-bold">
-                  किंमत: ₹{item.price} x {item.quantity} {item.unit}
+                  किंमत: ₹ {item.productPrice} x {item.quantity} {item.productUnit}
                   </p>
                   <p className="text-success fw-bold">
-                  उपएकूण: ₹{item.price * item.quantity}
+                  उपएकूण: ₹ {item.productPrice * item.quantity}
                   </p>
                 </motion.div>
               </div>
@@ -304,7 +311,7 @@ if(!response){
           <h5 className="fw-bold">एकूण किंमत</h5>
           <p>
               
-              <strong>  ₹ {total}</strong> 
+              <strong className=" bg-light text-danger shadow-sm rounded">  ₹ {total}</strong> 
               {deliveryOption==="home" ?  <span> (₹20 घरपोच वितरण शुल्क जोडले गेले
 
 
@@ -315,6 +322,7 @@ if(!response){
 
 )  </span>:""}
             </p>
+            <hr></hr>
 
             <h5 className="fw-bold">वापरकर्ता तपशील</h5>
             <p>
@@ -332,7 +340,7 @@ if(!response){
 
           {/* Delivery Options */}
           <div className="mb-4 bg-light p-3 shadow-sm rounded">
-            <h5 className="fw-bold"></h5>
+            {/* <h5 className="fw-bold"></h5> */}
             <div className="form-check">
               <input 
               disabled={total<=1000}
@@ -349,11 +357,12 @@ if(!response){
             </div>
             <div className="form-check">
               <input
+                checked={!aboveT ? true :false}
                 type="radio"
                 className="form-check-input"
                 id="storePickup"
                 value="store"
-                checked={deliveryOption === "Store Pickup"}
+                // checked={deliveryOption === "Store Pickup"}
                 onChange={(e) => setDeliveryOption(e.target.value)}
               />
               <label className="form-check-label" htmlFor="storePickup">
@@ -395,7 +404,7 @@ if(!response){
                 <FaWallet size={24} /> Wallet
               </button>
               <button
-              selected
+              default
               
                 className={`btn ${
                   paymentMethod === "cod" ? "btn-secondary" : "btn-outline-secondary"

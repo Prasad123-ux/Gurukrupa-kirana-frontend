@@ -5,18 +5,20 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify'; 
 import Loader from "./Loader";
+import { useCallback } from "react";
 
 
 
 const MyCart = ({ navigateToOrder }) => {
   const token = localStorage.getItem("TOKEN")
   const [cartItems, setCartItems] = useState([]);  
-  const [itemQuantity,setItemQuantity]= useState(0)  
   const [selectedItems, setSelectedItems] = useState([]);
   const navigate=useNavigate() 
   const [loading,setLoading]= useState(true) 
-  const [error, setError]= useState()
+  const [error, setError]= useState() 
 
+const [quantity, setQuantity]= useState()
+ 
 
 
       const notifySuccess = (message) => toast.success(message);
@@ -24,6 +26,17 @@ const MyCart = ({ navigateToOrder }) => {
       const notifyInfo = (message) => toast.info(message);
       const notifyWarning = (message) => toast.warning(message);
   
+     
+       const deleteCart = (id) => {
+        const filteredItem= cartItems.filter((item)=> item._id!==id)
+        setCartItems(filteredItem)
+        
+       };
+      
+
+      // const deleteCart = useCallback((id) => {
+      //   setCartItems((prevItems) => Array.isArray(prevItems) ? prevItems.filter(item => item._id !== id) : []);
+      // }, []);
 
 useEffect(()=>{   
   // window.scrollTo(0,0)
@@ -31,7 +44,7 @@ useEffect(()=>{
 
   const handleMyCartData=async()=>{
     try{
-      const response= await fetch("https://gurukrupa-kirana-backend.onrender.com/api/user/getCartData", {
+      const response= await fetch("http://localhost:7000/api/user/getCartData", {
         method:"POST",
         headers:{"Content-type":"application/json"},
         body:JSON.stringify({token:token})
@@ -44,11 +57,14 @@ useEffect(()=>{
 
       }  
 
-      const data = await response.json()  
-      
-      setCartItems(data.data) 
-   
+      const data = await response.json()   
+      console.log(data.data)
 
+      
+      
+      
+      setCartItems(data.data || []) 
+   
 
 
     }catch(err){ 
@@ -62,7 +78,9 @@ useEffect(()=>{
     }
   } 
 
-handleMyCartData()
+handleMyCartData() 
+
+
 },[token])
 
 
@@ -70,7 +88,7 @@ handleMyCartData()
 const handleDeleteItem=async(id)=>{ 
   console.log(id)
   try{
-    const response= await fetch("https://gurukrupa-kirana-backend.onrender.com/api/user/deleteCartItem", {
+    const response= await fetch("http://localhost:7000/api/user/deleteCartItem", {
       method:"POST",
       headers:{"Content-type":"application/json"},
       body:JSON.stringify({id, token:token})
@@ -82,13 +100,13 @@ const handleDeleteItem=async(id)=>{
         
     }else{
       const data = await response.json()
-      notifySuccess(data.message)
-      notifyWarning("जर सर्व आयटम हटवले आहेत असे दिसत असेल, तर पेज रिफ्रेश करा.")
+      
+      notifyWarning("ठीक आहे, आम्ही लवकरच हटवू.")
        deleteCart(id)
     }
 
   }catch(err){ 
-    notifyError("हटवले नाही...! कृपया पुन्हा प्रयत्न करा.") 
+    // notifyError("हटवले नाही...! कृपया पुन्हा प्रयत्न करा.") 
 
 
   }
@@ -98,28 +116,28 @@ const handleDeleteItem=async(id)=>{
 
 
 
-const deleteCart = (id) => {
-  setCartItems((prevItems) => (Array.isArray(prevItems) ? prevItems.filter((item) => item._id === id) : []));
-};
 
 
 
 
- const handleSelectItem = (id) => {
+
+ const handleSelectItem = (id) => { 
+  console.log(id)
+  console.log(selectedItems)
 //   // Update the selectedItems state
    setSelectedItems((prev) => {
     
      const isSelected = prev.some((item) => item._id === id);
   
      if (isSelected) {
-      notifyInfo("आयटम निवड रद्द केली")
+      // notifyInfo("आयटम निवड रद्द केली")
      
-//       // Remove the item from selectedItems
-       return prev.filter((item) => item._id !== id);
+return prev.filter((item) => item._id !== id);
      } else {
-      notifyInfo("आयटम निवडले")
-//       // Find the item in cartItems and add it to selectedItems
-       const selectedItem = cartItems.products.find((item) => item._id === id);
+   
+
+       const selectedItem = cartItems.products.find((item) => item._id === id); 
+      //  notifyInfo("आयटम नि/वडले")
   if (selectedItem) {
          return [...prev, { ...selectedItem, selected: true }];
        }
@@ -130,11 +148,29 @@ const deleteCart = (id) => {
 
 
 
- 
+ useEffect(() => {
+  console.log("Cart updated:", cartItems);
+}, [cartItems]); //
 
-
-
+ const getQuantity = (e, id) => { 
+  console.log(quantity)
   
+  const finded = selectedItems.some((item) => item.productID === id);
+
+ 
+  if (finded) {
+    // Update selectedItems with the new quantity
+   const  selectedItem= selectedItems.map((item) =>
+      item.productID === id ? { ...item, quantity: e.target.value } : item
+    );
+
+  setSelectedItems(selectedItem)
+    calculateTotal();
+  }
+};  
+
+
+
 
   const handleBilling = () => {
     if (selectedItems.length === 0) { 
@@ -145,13 +181,9 @@ const deleteCart = (id) => {
       return;
     }
     navigate("/orderCompletion", { state: { selectedItems } });
-  };
+  }; 
 
-
-
-const calculateTotal = () =>
-    
-       selectedItems && selectedItems.length>=1 ? selectedItems.reduce((total, item) => total + item.price * item.quantity, 0):" 0" 
+ const calculateTotal = () =>selectedItems && selectedItems.length>=0 ? selectedItems.reduce((total, item) => total + item.productPrice * item.quantity, 0):"0" 
 
 
   
@@ -188,8 +220,9 @@ const calculateTotal = () =>
                   <div className="text-danger text-center">{error}</div>
                 ) :
         
-        cartItems.products && cartItems.products.length>=1 ?  cartItems.products.map((item, index) => ( 
+                cartItems?.products?.length >= 1 ? cartItems.products.map((item, index) => ( 
 
+          
 
           <motion.div
             key={item._id}
@@ -208,10 +241,10 @@ const calculateTotal = () =>
               }}
             >
                 <motion.img
-                src={item.image}
-                alt={item.name}
+                src={item.productImg}
+                alt={item.productName}
                 className="card-img-top" 
-                onClick={()=>{handleDetail(item.id)}}
+                onClick={()=>{handleDetail(item.productID)}}
                 style={{
                   height: "100px",
                   objectFit:"fill",
@@ -224,7 +257,7 @@ const calculateTotal = () =>
                     className="fw-bold text-dark mb-1"
                     whileHover={{ scale: 1.05, color: "#007bff" }}
                   >
-                    {item.name}/{item.category}
+                    {item.productName}/{item.productCategory}
                   </motion.h6>
                   <motion.div
                     onClick={() => handleSelectItem(item._id)}
@@ -248,10 +281,28 @@ const calculateTotal = () =>
                     whiteSpace: "nowrap",
                   }}
                 >
-                  {item.description}
+                
                 </p>
-                <p className="fw-bold text-primary mb-2">₹{item.price*item.quantity}</p>
-                <p className="fw-bold">{itemQuantity===0 ? item.quantity:itemQuantity } {item.unit}</p>
+                <p className="fw-bold text-primary mb-2">₹{item.productPrice} per {item.productUnit}</p>
+                {/* <p className="fw-bold">{itemQuantity===0 ? item.quantity:itemQuantity } {item.unit}</p> */}
+                <div className="d-flex align-items-center my-3">
+              <label htmlFor="quantity" className="me-2 fw-bold">
+              प्रमाण :
+              </label>
+              <input
+                type="number"
+                id="quantity"
+                // value={item.quantity}
+                  placeholder={item.quantity }
+                min="1" 
+                max="50" 
+                 value={quantity}
+                // onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value)))} 
+                onChange={(e)=>{getQuantity(e, item.productID)}}
+                className="form-control"
+                style={{ width: "80px" }}
+              />  
+            </div>
               
                 <motion.button
                   className="btn btn-danger btn-sm mt-3 w-100"
@@ -293,7 +344,7 @@ const calculateTotal = () =>
 
       </div>
 
-      { cartItems.products && cartItems.products.length>=1 ?  
+      { cartItems.products&& cartItems.products.length>=1 ?  
       <div
         className="p-3 shadow-sm bg-light rounded"
         style={{ position: "sticky", bottom: "0", zIndex: "1000" }}

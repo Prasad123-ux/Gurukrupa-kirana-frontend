@@ -36,7 +36,7 @@ const notifyError = (message) => toast.error(message);
 const handleGenerateOTP=async(e)=>{
   e.preventDefault() 
   try{
-    const response= await fetch("https://gurukrupa-kirana-backend.onrender.com/api/user/sendOTP", {
+    const response= await fetch("http://localhost:7000/api/user/sendOTP", {
       method:"POST",
       headers:{"Content-type":"application/json"},
       body:JSON.stringify({userInfo:userInfo})
@@ -74,7 +74,7 @@ const handleGenerateOTP=async(e)=>{
 
 
   try{ 
-  const response= await fetch("https://gurukrupa-kirana-backend.onrender.com/api/user/register", {
+  const response= await fetch("http://localhost:7000/api/user/register", {
     method:"POST",
     headers:{"Content-type":"application/json"},
     body: JSON.stringify({userInfo:userInfo})
@@ -164,7 +164,7 @@ const handleGenerateOTP=async(e)=>{
         transition={{ duration: 0.5, delay: 0.4 }}
       >
       { !tokenData || tokenData==="undefined"? (<button className="btn btn-success btn-lg px-5 mt-4 fw-bold shadow-lg " type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">  चला सुरुवात करूया! </button>)
-       : (<Link to="/home"> <button className="btn btn-success btn-lg px-5 mt-4 fw-bold shadow-lg " type="button">चला सुरुवात करूया!  </button></Link>)}
+       : (<Link to="/home"> <button className="btn btn-success btn-lg px-5 mt-4 fw-bold shadow-lg " type="button">चला सुरुवात करूया !  </button></Link>)}
       </motion.div>
 
 
