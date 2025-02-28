@@ -54,7 +54,7 @@ const [cart, setCart]= useState({})
   const notifyError = (message) => toast.error(message);
   const notifySuccess = (message) => toast.success(message);
 
-
+ 
 
 
   useEffect(() => {
