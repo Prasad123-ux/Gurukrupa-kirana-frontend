@@ -44,7 +44,7 @@ function CategoryWiseData() {
     window.scrollTo(0,0)
     const getProductData = async () => {
       try {
-        const response = await fetch("http://localhost:7000/api/user/categoryWiseData", {
+        const response = await fetch("https://gurukrupa-kirana-backend.onrender.com/api/user/categoryWiseData", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body:JSON.stringify({category})

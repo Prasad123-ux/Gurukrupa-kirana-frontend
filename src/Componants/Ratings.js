@@ -39,7 +39,7 @@ export default function Ratings () {
     }
 
     try {
-      const response = await fetch("http://localhost:7000/api/reportProduct", {
+      const response = await fetch("https://gurukrupa-kirana-backend.onrender.com/api/reportProduct", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ jobId, details }),

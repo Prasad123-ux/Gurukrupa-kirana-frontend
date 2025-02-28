@@ -112,7 +112,7 @@ useEffect(() => {
 
   const getProductDetail = async () => { 
     try {
-      const response = await fetch(`http://localhost:7000/api/user/getProductDetail/${id}`, {
+      const response = await fetch(`https://gurukrupa-kirana-backend.onrender.com/api/user/getProductDetail/${id}`, {
         method: "GET",
         headers: { "Content-Type": "application/json" },
       });
@@ -197,7 +197,7 @@ useEffect(() => {
     });
 
     try {
-        const response = await fetch(`http://localhost:7000/api/admin/updateProduct/${id}`, {
+        const response = await fetch(`https://gurukrupa-kirana-backend.onrender.com/api/admin/updateProduct/${id}`, {
             method: "PATCH",
             body: formDataToSend, // Do NOT set Content-Type explicitly
         });
@@ -236,7 +236,7 @@ const addCart =async (productName, productCategory, productPrice, productUnit, p
   };
 
   try{
-    const response= await fetch("http://localhost:7000/api/user/addToCart", { 
+    const response= await fetch("https://gurukrupa-kirana-backend.onrender.com/api/user/addToCart", { 
   
       method:"POST",
       headers:{"Content-type":"application/json"},
@@ -307,7 +307,7 @@ const handleCopy=(id)=>{
 const handleDeleteProduct=async()=>{  
   setLoading(true)
   try{
-    const response= await fetch(`http://localhost:7000/api/admin/deleteProduct/${id}`, {
+    const response= await fetch(`https://gurukrupa-kirana-backend.onrender.com/api/admin/deleteProduct/${id}`, {
       method:"DELETE"
     })
     if(!response.ok){

@@ -62,7 +62,7 @@ const [cart, setCart]= useState({})
     const getProductData = async () => {
     
       try {
-        const response = await fetch("http://localhost:7000/api/user/getProductData", {
+        const response = await fetch("https://gurukrupa-kirana-backend.onrender.com/api/user/getProductData", {
           method: "GET",
           headers: { "Content-Type": "application/json" },
         });
@@ -120,7 +120,7 @@ const [cart, setCart]= useState({})
     };
 
     try{
-      const response= await fetch("http://localhost:7000/api/user/addToCart", { 
+      const response= await fetch("https://gurukrupa-kirana-backend.onrender.com/api/user/addToCart", { 
     
         method:"POST",
         headers:{"Content-type":"application/json"},

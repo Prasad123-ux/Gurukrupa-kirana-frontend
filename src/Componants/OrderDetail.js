@@ -26,7 +26,7 @@ useEffect(()=>{
 
 const getAdminOrderDetail=async()=>{  
   try{
-const response =await  fetch(`http://localhost:7000/api/user/getOrderDetail/${innerID}`, {
+const response =await  fetch(`https://gurukrupa-kirana-backend.onrender.com/api/user/getOrderDetail/${innerID}`, {
     method:"GET", 
     headers: { "Content-Type": "application/json" },
     

@@ -44,7 +44,7 @@ const UserProfile = () => {
     window.scrollTo(0,0)
     const getUserData = async () => {
       try {
-        const response = await fetch("http://localhost:7000/api/user/getUserData", {
+        const response = await fetch("https://gurukrupa-kirana-backend.onrender.com/api/user/getUserData", {
           method: "POST",
           headers: { "Content-type": "application/json" },
           body: JSON.stringify({ token }),
@@ -100,7 +100,7 @@ const UserProfile = () => {
 
 
     try {
-      const response = await fetch("http://localhost:7000/api/user/updateProfileData", {
+      const response = await fetch("https://gurukrupa-kirana-backend.onrender.com/api/user/updateProfileData", {
         method: "PUT",
         headers: {
           Authorization: `Bearer ${token}`,
