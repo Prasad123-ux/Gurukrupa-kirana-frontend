@@ -44,7 +44,7 @@ const [quantity, setQuantity]= useState()
       // }, []);
 
 useEffect(()=>{   
-  // window.scrollTo(0,0)
+   window.scrollTo(0,0)
   
 
   const handleMyCartData=async()=>{  

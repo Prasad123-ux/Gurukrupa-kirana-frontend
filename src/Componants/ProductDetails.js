@@ -253,7 +253,7 @@ const addCart =async (productName, productCategory, productPrice, productUnit, p
     quantity
 
   };
-
+  notifySuccess("वस्तू कार्टमध्ये जोडली गेली.")
   try{
     const response= await fetch("https://gurukrupa-kirana-backend.onrender.com/api/user/addToCart", { 
   
@@ -266,8 +266,9 @@ const addCart =async (productName, productCategory, productPrice, productUnit, p
     throw new Error(`Request failed with status ${response.status}: ${errorText}`); 
     }else{
       const data = await response.json()
-      notifySuccess(data.message)
-    
+      
+
+
   }
   }catch(err){
     notifyError(err.message)

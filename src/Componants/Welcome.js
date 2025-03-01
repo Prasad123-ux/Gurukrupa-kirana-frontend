@@ -63,11 +63,11 @@ const handleGenerateOTP=async(e)=>{
 
 const validateInputs = (name, mobileNumber) => {
   if (!/^[a-zA-Z ]+$/.test(name)) {
-    alert("Invalid name! Use only letters and spaces.");
+    notifyError("अवैध नाव! फक्त अक्षरे आणि जागा वापरा.");
     return false;
   }
   if (!/^\d{10}$/.test(mobileNumber)) {
-    alert("Invalid mobile number! Must be exactly 10 digits.");
+    notifyError("अवैध मोबाईल क्रमांक! तो नेमका 10 अंकांचा असावा");
     return false;
   }
   return true;

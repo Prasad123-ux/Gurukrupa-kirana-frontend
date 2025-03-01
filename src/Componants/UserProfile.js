@@ -226,7 +226,7 @@ const UserProfile = () => {
           <div className="text-center">
             <motion.img
               src={profile.profileImage}
-              alt="Profile"
+              alt="तुमचा फोटो"
               className="profile-image"
               whileHover={{ scale: 1.2, rotate: 5 }}
               transition={{ duration: 0.4 }}

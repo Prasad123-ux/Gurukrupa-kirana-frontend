@@ -155,6 +155,7 @@ const dispatch= useDispatch()
 
     };
     console.log(typeof(updatedCartData.quantity))
+    notifySuccess("वस्तू कार्टमध्ये जोडली गेली.")
 
     try{
       const response= await fetch("https://gurukrupa-kirana-backend.onrender.com/api/user/addToCart", { 
@@ -169,7 +170,7 @@ const dispatch= useDispatch()
       }else{ 
         const data = await response.json()
          dispatch(setCartData([]))
-        notifySuccess(data.message)
+       
       
     }
     }catch(err){
