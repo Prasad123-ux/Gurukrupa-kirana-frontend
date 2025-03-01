@@ -6,16 +6,20 @@ import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify'; 
 import Loader from "./Loader";
 import { useCallback } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setCartData } from "./Redux/jobSlice";
 
 
 
 const MyCart = ({ navigateToOrder }) => {
   const token = localStorage.getItem("TOKEN")
-  const [cartItems, setCartItems] = useState([]);  
+  // const [cartItems, setCartItems] = useState([]);  
   const [selectedItems, setSelectedItems] = useState([]);
   const navigate=useNavigate() 
   const [loading,setLoading]= useState(true) 
-  const [error, setError]= useState() 
+  const [error, setError]= useState()  
+  const cartItems= useSelector((state)=>state.products.cartData) 
+  const dispatch= useDispatch()
 
 const [quantity, setQuantity]= useState()
  
@@ -27,11 +31,12 @@ const [quantity, setQuantity]= useState()
       const notifyWarning = (message) => toast.warning(message);
   
      
-       const deleteCart = (id) => {
-        const filteredItem= cartItems.filter((item)=> item._id!==id)
-        setCartItems(filteredItem)
+      //  const deleteCart = (id) => {
+      //   const filteredItem= cartItems.filter((item)=> item._id!==id) 
+      //   dispatch(setCartData(filteredItem))
+      //   // setCartItems(filteredItem)
         
-       };
+      //  };
       
 
       // const deleteCart = useCallback((id) => {
@@ -42,7 +47,14 @@ useEffect(()=>{
   // window.scrollTo(0,0)
   
 
-  const handleMyCartData=async()=>{
+  const handleMyCartData=async()=>{  
+    // console.log(cartData.length)  
+    console.log(cartItems.length)
+    if(cartItems.length===0){
+      console.log("cartData fetching from DB") 
+      console.log(cartItems)
+
+    
     try{
       const response= await fetch("https://gurukrupa-kirana-backend.onrender.com/api/user/getCartData", {
         method:"POST",
@@ -58,12 +70,11 @@ useEffect(()=>{
       }  
 
       const data = await response.json()   
-      console.log(data.data)
+      console.log(data.data) 
+      
 
-      
-      
-      
-      setCartItems(data.data || []) 
+      dispatch(setCartData(data.data[0] ||[]))
+      // setCartItems(data.data[0] || []) 
    
 
 
@@ -76,9 +87,20 @@ useEffect(()=>{
       setLoading(false)
 
     }
+
+  }else{
+      setLoading(false) 
+      console.log('WE ARE FINDING FROM REDUX')
+      // console.log(cartData)
+    dispatch(setCartData(cartItems)) 
+    console.log("this is cartItems")
+    console.log(cartItems)
+    console.log(cartItems.length)
+    }
   } 
 
 handleMyCartData() 
+
 
 
 },[token])
@@ -88,6 +110,7 @@ handleMyCartData()
 const handleDeleteItem=async(id)=>{ 
   console.log(id)
   try{
+    
     const response= await fetch("https://gurukrupa-kirana-backend.onrender.com/api/user/deleteCartItem", {
       method:"POST",
       headers:{"Content-type":"application/json"},
@@ -98,15 +121,20 @@ const handleDeleteItem=async(id)=>{
       
          throw new Error(`Request failed with status ${response.status}: ${errorText}`); 
         
-    }else{
-      const data = await response.json()
-      
-      notifyWarning("ठीक आहे, आम्ही लवकरच हटवू.")
-       deleteCart(id)
     }
+      const data = await response.json() 
+     
+       
+      console.log(cartItems)
+      // console.log(cartItems.filter((item)=>item._id!==id))
+      notifyWarning("ठीक आहे, आम्ही लवकरच हटवू.")
+      const filteredProduct=cartItems.products.filter((product)=>product._id!==id)
+      dispatch(setCartData({...cartItems,products:filteredProduct }))
+    
+    
 
   }catch(err){ 
-    // notifyError("हटवले नाही...! कृपया पुन्हा प्रयत्न करा.") 
+     notifyError("हटवले नाही...! कृपया पुन्हा प्रयत्न करा.", err.message) 
 
 
   }

@@ -13,6 +13,7 @@ import { FcLike } from "react-icons/fc";
 import { IoCopy } from "react-icons/io5"; 
 // import jwtDecode from "jwt-decode";
 import { jwtDecode } from "jwt-decode";
+import { useSelector } from "react-redux";
 
 
 
@@ -29,7 +30,8 @@ function ProductDetails() {
   const [cartLoading, setCartLoading]= useState(false) 
   const [like,setLike]= useState(false) 
   const [showValue,setShowValue]= useState(false)
-  const [cart, setCart]= useState({})  
+  const [cart, setCart]= useState({})   
+  const products= useSelector((state)=>state.products.productData)
   
 
 
@@ -110,7 +112,12 @@ useEffect(() => {
     
     
 
-  const getProductDetail = async () => { 
+  const getProductDetail = async () => {  
+
+
+     if ( products.length===0){
+
+    
     try {
       const response = await fetch(`https://gurukrupa-kirana-backend.onrender.com/api/user/getProductDetail/${id}`, {
         method: "GET",
@@ -135,16 +142,28 @@ useEffect(() => {
     finally{
       setLoading(false)
     }
+  }else{
+    setLoading(false)
+    const filteredID= products.filter((item)=>item._id===id) 
+    setProduct(filteredID[0])
+
+  }
   };  
 
 
   useEffect(() => { 
     window.scrollTo(0,0)
-
-    if (id) {
+   if (products.length===0 ){
+    if (id) {  
       getProductDetail(); 
       console.log(product)
     }
+  }else{ 
+    console.log(products)
+    setLoading(false)
+    const filteredID= products.filter((item)=>item._id===id) 
+    setProduct(filteredID[0])
+  }
   }, [id]); // Ensure id is a dependency 
 
 

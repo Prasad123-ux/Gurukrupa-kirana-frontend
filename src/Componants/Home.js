@@ -10,7 +10,10 @@ import 'react-toastify/dist/ReactToastify.css';
 import { Link } from "react-router-dom";
 import Loader from "./Loader";
 import { FiShare2 } from "react-icons/fi";
-import { FiPlus, FiMinus } from "react-icons/fi"
+import { FiPlus, FiMinus } from "react-icons/fi" 
+import {useSelector}  from "react-redux"
+import { useDispatch } from "react-redux";
+import { setAllProducts, setCartData } from "./Redux/jobSlice";
 
 
 const productCardVariants = {
@@ -24,14 +27,20 @@ const productCardVariants = {
 };
 
 function HomePage() {
-  const [products, setProducts] = useState([]);
+  // const [products, setProducts] = useState([]);
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null); 
   const navigate= useNavigate()
   const [itemValue, setItemValue]= useState(1)
   const [category, setCategory]= useState([])
   const token= localStorage.getItem("TOKEN")
-const [cart, setCart]= useState({})  
+const [cart, setCart]= useState({})   
+const [quantity, setQuantity]= useState(1) 
+const products= useSelector((state)=>state.products.productData) 
+const dispatch= useDispatch()
+
+// const [products, setProducts]= useState([])
 
   
 
@@ -57,40 +66,65 @@ const [cart, setCart]= useState({})
  
 
 
-  useEffect(() => {
-    window.scrollTo(0,0)
-    const getProductData = async () => {
-    
+
+
+  useEffect(() => { 
+    window.scrollTo(0,0);
+    // dispatch(setAllProducts(products))
+  
+   
+      
+  
+    const getProductData = async () => { 
+      if ( products.length ===0){ 
+        
+        
+      
       try {
         const response = await fetch("https://gurukrupa-kirana-backend.onrender.com/api/user/getProductData", {
           method: "GET",
           headers: { "Content-Type": "application/json" },
         });
-
+  
         if (!response.ok) {
           const errorText = await response.text();
           throw new Error(`Request failed with status ${response.status}: ${errorText}`);
         }
-
-        const data = await response.json(); 
-        // toast.success("data fetched successfully")
-        
-        console.log(data)  
-        setProducts(data.data || []);  
-        const uniqueCategories = new Set(data.data.map(item => item.productCategory));
-              setCategory([...uniqueCategories]); // Convert Set back to array
-        //  notifySuccess("Proceed with products") 
+  
+        const data = await response.json();
+        dispatch(setAllProducts(data.data)); // Save data in Redux store
+  
+        // Extract unique categories and update state
+        const uniqueCategories = [...new Set(data.data.map(item => item.productCategory))];
+        setCategory(uniqueCategories);
+  
+        // notifySuccess("Products loaded successfully!");
       } catch (err) {
-    
-        notifyError(err.message )
+        notifyError(err.message);
       } finally {
         setLoading(false);
-        // toast.error('Internal Server Error')
       }
-    };
+    }else{ 
+      console.log("data not fetching ")  
+      setLoading(false)
+      const uniqueCategories = [...new Set(products.map(item => item.productCategory))];
+        setCategory(uniqueCategories);
+      console.log(products)
+    dispatch(setAllProducts(products))
+    }
+  
+  }
+ 
+    getProductData(); 
+    
+  
+  
 
-    getProductData();
-  }, []); 
+  }, [products, dispatch]); // Dependencies ensure fetching only if products are empty
+  
+
+
+  
 
 
   const handleDetail=(id)=>{ 
@@ -108,6 +142,7 @@ const [cart, setCart]= useState({})
       ...prevCart,
       [productID]: (prevCart[productID] || 0) + 1,
     }));  
+    // let quantity = parseInt(product.quantity, 10);
 
     const updatedCartData = {
       productName,
@@ -116,8 +151,10 @@ const [cart, setCart]= useState({})
       productUnit,
       productImg,
       productID,
+      quantity: Number(quantity) || 1
 
     };
+    console.log(typeof(updatedCartData.quantity))
 
     try{
       const response= await fetch("https://gurukrupa-kirana-backend.onrender.com/api/user/addToCart", { 
@@ -129,8 +166,9 @@ const [cart, setCart]= useState({})
       if(!response.ok){
        const errorText = await response.text();
       throw new Error(`Request failed with status ${response.status}: ${errorText}`); 
-      }else{
+      }else{ 
         const data = await response.json()
+         dispatch(setCartData([]))
         notifySuccess(data.message)
       
     }
@@ -168,6 +206,7 @@ const [cart, setCart]= useState({})
   };
 
 
+  console.log(products)
 
   return (
     <div
@@ -280,7 +319,7 @@ const [cart, setCart]= useState({})
           <div className="text-danger text-center">{error}</div>
         ) : products.length > 0 ? (
           <div className="row g-3">
-            {products.map((product, i) => (
+            {   products.map((product, i) => (
               <motion.div
                 key={product._id}
                 className="col-6 col-md-4 col-lg-3"

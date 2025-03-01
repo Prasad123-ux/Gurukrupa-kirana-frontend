@@ -12,7 +12,7 @@ import Loader from "./Loader";
 // import { useToast } from "@chakra-ui/react"; 
 
 function WelcomePage() {  
-  const [userInfo, setUserInfo] = useState({name:"", mobile_number:"", otp:""})  
+  const [userInfo, setUserInfo] = useState({name:"", mobile_number:"", })  
   const [loading,setLoading]= useState(false)
 const [tokenData,setTokenData]= useState(null)   
 const navigate=useNavigate()
@@ -61,16 +61,25 @@ const handleGenerateOTP=async(e)=>{
 
 }
 
-
+const validateInputs = (name, mobileNumber) => {
+  if (!/^[a-zA-Z ]+$/.test(name)) {
+    alert("Invalid name! Use only letters and spaces.");
+    return false;
+  }
+  if (!/^\d{10}$/.test(mobileNumber)) {
+    alert("Invalid mobile number! Must be exactly 10 digits.");
+    return false;
+  }
+  return true;
+};
 
 
  const handleFormSubmit=async(e)=>{  
    setLoading(true)
   e.preventDefault()
-  // if (!userInfo.otp) {
-  //   alert("Please enter the OTP.");
-  //   return;
-  // }
+  if(validateInputs(userInfo.name, userInfo.mobile_number)){
+
+  
 
 
   try{ 
@@ -81,16 +90,19 @@ const handleGenerateOTP=async(e)=>{
   })
   if(!response.ok){
     setLoading(false)
+   
     const errorText = await response.text();
     // notifyError("failed to proceed, Please try again")
     throw new Error(`Request failed with status ${response.status}: ${errorText}`);
   }
   else{
-   
+    navigate("/home")
+    
+
   const data = await response.json() 
   localStorage.setItem("TOKEN", data.token)  
-  setLoading(false)
-  navigate("/home")
+  
+ 
   notifySuccess(data.message)
   }
 
@@ -99,6 +111,9 @@ const handleGenerateOTP=async(e)=>{
   }finally{
    
   }
+}else{
+  setLoading(false)
+}
  }
   return (
     <>

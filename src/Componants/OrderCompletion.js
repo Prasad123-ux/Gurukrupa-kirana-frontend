@@ -6,6 +6,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { useLocation } from "react-router-dom"; 
 import { ToastContainer, toast } from 'react-toastify';
 import Loader from "./Loader";
+import { useDispatch } from "react-redux";
+import { setOrdersData } from "./Redux/jobSlice";
 
 
 
@@ -28,6 +30,7 @@ const OrderCompletion = () => {
  
   const location = useLocation();
   const { selectedItems } = location.state || {}; 
+  const dispatch= useDispatch()
   // Mock user and cart data 
 
 
@@ -124,6 +127,7 @@ if(!response){
         const data =await response.json()
         console.log(data)
         setOrderPlaced(true);
+        dispatch(setOrdersData([]))
         notifySuccess("Order Placed Successfully")
         window.scrollTo(0,0)
         handleSubmit()

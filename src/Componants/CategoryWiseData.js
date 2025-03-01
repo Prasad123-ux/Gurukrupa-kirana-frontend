@@ -8,6 +8,7 @@ import { useNavigate, useParams } from "react-router-dom";
 
 import { ToastContainer, toast } from 'react-toastify';
 import Loader from "./Loader";
+import { useSelector } from "react-redux";
 
 
 
@@ -28,7 +29,8 @@ function CategoryWiseData() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null); 
-  const navigate= useNavigate() 
+  const navigate= useNavigate()  
+  const allData= useSelector((state)=>state.products.productData)
  
  const notifySuccess = (message) => toast.success(message);
   const notifyError = (message) => toast.error(message);
@@ -41,8 +43,15 @@ function CategoryWiseData() {
 
   useEffect(() => {
   
-    window.scrollTo(0,0)
+    window.scrollTo(0,0) 
+
+    if (allData.length===0){
+      
+    }
     const getProductData = async () => {
+      if (allData.length===0){
+
+
       try {
         const response = await fetch("https://gurukrupa-kirana-backend.onrender.com/api/user/categoryWiseData", {
           method: "POST",
@@ -65,6 +74,13 @@ function CategoryWiseData() {
       } finally {
         setLoading(false);
       }
+
+    }else{
+      setLoading(false)
+      const categoryData= allData.filter((item)=>item.productCategory===category) 
+      setProducts(categoryData)
+
+    }
     };
 
     getProductData();

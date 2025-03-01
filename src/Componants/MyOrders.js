@@ -7,15 +7,18 @@ import { ToastContainer, toast } from 'react-toastify';
 import Loader from "./Loader";  
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux"
+import { setOrdersData } from "./Redux/jobSlice";
 
 
 const MyOrders = () => {
-  const [info, setInfo] = useState([]);
+  // const [info, setInfo] = useState([]);
   const token = localStorage.getItem("TOKEN");  
   const [loading, setLoading]= useState(true) 
   const [error, setError]= useState()
   const navigate= useNavigate()
-
+  const info= useSelector((state)=>state.products.ordersData)
+ const dispatch= useDispatch()
        
         const notifyWarning = (message) => toast.warning(message);
 
@@ -25,7 +28,9 @@ const MyOrders = () => {
 
   useEffect(() => {
     window.scrollTo(0,0)
-    const getMyOrder = async () => {
+    const getMyOrder = async () => { 
+
+      if (info.length===0){
       try {
         const response = await fetch("https://gurukrupa-kirana-backend.onrender.com/api/user/getMyOrders", {
           method: "POST",
@@ -39,9 +44,10 @@ const MyOrders = () => {
           setError(errorText)
           throw new Error(`Request failed with status ${response.status}: ${errorText}`);
         } else {
-          const data = await response.json();
+          const data = await response.json(); 
           
-          setInfo(data.data); // Assuming data.data is the order object
+          dispatch(setOrdersData(data.data))
+          // setInfo(data.data); // Assuming data.data is the order object
         }
       } catch (err) {
         notifyWarning(err.message);
@@ -51,6 +57,11 @@ const MyOrders = () => {
       }finally{
         setLoading(false)
       }
+    }else{
+      setLoading(false)
+      dispatch(setOrdersData(info))
+
+    }
     };
   
     getMyOrder();
